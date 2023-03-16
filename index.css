@@ -1,6 +1,38 @@
+body {
+    background-color: lightslategrey;
+}
 #navbar {
-    position:fixed;
-    border: 2px solid black;
-    border-radius: 30%;
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
     background: linear-gradient(blue, green);
+}
+
+.nav-link {
+    color: white;
+    font-weight: bold;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 2rem;
+    padding: 10px;
+}
+
+#navbar a:hover{
+    color:aquamarine;
+}
+
+.nav-link:active {
+    background-color: white;
+}
+@media only screen and (max-width: 200px){
+    body {
+        background-color: aliceblue;
+    }
+    #navbar {
+        display: flex;
+    }
 }
