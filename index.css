@@ -1,216 +1,164 @@
-:root {
-    --background-color: white;
-    --text-color-1: black;
-    --text-color-2: blue;
-    --text-color-3: white;
+*{
+    margin:0;
+    padding:0;
 }
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: var(--background-color);
-    background-image: url(images/background2.jpg);
+body{
+    background: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+header{
+    background-color: #fff;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 100;
+    box-shadow: 0px 7px 5px rgba(0,0,0,0.1);
+}
+header .logo{
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 30px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+}
+header nav{
+    float: right;
+}
+.menu{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+}
+.menu li a{
+    display: block;
+    text-decoration: none;
+    color: #333;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 30px;
+    transition: all 0.9s ease;
+}
+.menu li a:hover{
+    background-color: #333;
+    color: #fff;
+}
+.menu li a.active{
+    background-color: #333;
+    color: #fff;
+}
+#menubtn{
+    display: none;
+    height: 10px;
+    line-height: 10px;
+    padding: 15px;
+    color: #333;
+    font-size: 35px;
+    cursor: pointer;
+    position: fixed;
+    top:10px;
+    right: 20px;
+}
+main{
+    margin-top: 60px;
+}
+.block-1{
+    background: url(./images/writingCode.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-}
-
-.navbar {
-    display: flex;
-    position: fixed;
-    background-color: var(--background-color);
-    justify-content: space-between;
-    top: 0px;
-    padding: 20px 20px 10px 20px;
-    width: 100%;
-    z-index: 3;
-
-}
-
-.logo {
-    border-radius: 50%;
-    background: transparent;
-}
-
-.navbar a {
-    color: var(--text-color-1);
-    margin-right: 90px;
-    text-decoration: none;
-    font-weight: bold;
-}
-.navbar a:hover {
-    color:var(--text-color-2);
-}
-
-.block-1 {
-    background:transparent;
-}
-
-.welcome {
-    display: flex;
-    top: 20px;
-    height: 65vh;
-    width: 60%;
-    align-items: center;
-    margin-inline: auto;
-    margin-top: 90px;
-    justify-content: center;
-    color: var(--text-color-3);
-    background-color: rgba(red, green, blue, alpha);
-    border-radius: 2% 2% 2% 2%;
-}
-
-.welcome-textbox {
-    left: 1px;
+    background-position: center;
+    height: 50vh;
+    display: block;
+    color: #fff;
+    margin: 0 auto;
     padding: 30px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 30%;
-    color:antiquewhite
 }
-.welcome-textbox h1 {
-    font-family: cursive, monospace;
+.walcome{
+    height: 50vh;
+    display: block;
+    color: #fff;
+    margin: 0 auto;
+    padding: 30px;
 }
-.welcome-textbox h1:nth-of-type(1) {
-    font-size: 60px;
- }
-.welcome-imagebox {
-    padding: 0px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 35%;
-
+.block-2{
+    background:white;
+    height: calc(50vh - 60px);
+    padding: 10px 30px;
 }
-.welcome img {
-    width: 200px;
-    border-radius: 35%;
-    background: linear-gradient(rgba(0, 0, 255, 30%), rgba(245,162,7,10%)), 
-                linear-gradient(to bottom right, blue, rgb(245, 162, 7));
-    background-origin: padding-box, border-box;
-    background-repeat: no-repeat; /* this is important */
-    border: 5px solid transparent;
-    clip-path: inset(0 round 5px);
-}
-
-.block-2 {
-    background-color: var(--background-color);
-}
-.business-card {
-    background-color:beige;
-    width: 50%;
-    height: 35vh;
+.skill-cards{
     display: flex;
-    position: relative;
-    top: -90px;
-    margin: auto;
-    justify-content: center;
-    justify-content: space-evenly;
-    border-radius: 2%;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
-
-#projects {
-    text-align: center;
+.card{
+    display:inline-block;
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 5px;
+    box-shadow: 9px 9px 9px rgba(0,0,0,0.1);
 }
-
-.project {
-    content: "";
-    display: inline-block;
-    vertical-align: bottom;
-    padding: 30px 6vw;
+.card img{
+    display: none;
 }
-.projects-box label {
+#projects{
+    background-color: rgba(0,0,0,0.5);
+    height: 50vh;
     display: block;
-    color: black;
+    color: #fff;
+    margin: 0 auto;
+    padding: 30px;
 }
 
-.projects-button {
-    width:160px;
-}
+@media (max-width: 991px){
+    #menubtn{
+        display: block
+    }
+    .menu{
+        display: none; /*closed by default*/
+        height: 100vh;
+        position: fixed;
+        top: 60px;
+        left:0;
+        right:0;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.8);
+        color:#fff
+    }
+    .menu li a{
+        color: lightgray;
+        height: 100px;
+        line-height: 100px;
+    }
+    .menu li a:hover{
+        padding: 20px;
+    }}
 
-#testimonials {
-    text-align: center;
-    padding-top: 30px;
-}
-#testimonials img {
-    border-radius: 30%;
-}
-
-#contact {
-    text-align: center;
-    align-items: center;
-    padding-top: 30px;
-    padding-bottom: 60px;
-}
-#email-form {
-    margin-inline: auto;
-    justify-content: center;
-    text-align: center;
-    display: block;
-    padding-bottom: 30px;
-}
-
-@media only screen and (max-width:1350px) {
-    
-    .navbar {
-        display: inline-flex;
-        position: absolute;
-        top: 0px;
+@media (max-width:620px){
+    .block-2{
+        height: auto;
     }
-    .nav-logo {
-        display: inline-flex;
+    .skill-cards{
+        display: block;
+        align-items: center;
     }
-
-    #welcome {
-        height: fit-content;
-        width: 100vw;
-        margin: auto;
-        font-size: normal;
-        padding-top: 30px;
-        border-radius: 0%;
-    }
-    #welcome h1 {
-        font-size: 20px;
-    }
-    .business-card {
-        width:100vw;
-        position: relative;
-        top: 0;
-        border-radius: 0%;
-    }
-
-}
-
-@media only screen and (max-width:700px) {
-    
-    body {
-        background-color: white;
-    }
-
-    .navbar {
-        display: inline-flex;
-        position: absolute;
-        top: 0px;
-    }
-    .nav-logo {
-        display: inline-flex;
-    }
-
-    #welcome {
-        height: fit-content;
-        width: 100vw;
-        margin: auto;
-        font-size: normal;
-        padding-top: 30px;
-        border-radius: 0%;
-    }
-    #welcome h1 {
-        font-size: 20px;
-    }
-    .business-card {
-        width:100vw;
-        position: relative;
-        top: 0;
-        border-radius: 0%;
-    }
-    
+    .card{
+        display: block;
+        width: 100%;
+    }}
+footer{
+    background-color: white;
+    height: 30px;
+    width: 100%;
+    position: fixed;
+    bottom:0;
+    left:0;
+    z-index: 100;
+    box-shadow: 0px -7px 5px rgba(0,0,0,0.2);
 }
