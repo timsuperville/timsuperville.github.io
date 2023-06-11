@@ -1,20 +1,29 @@
- var People = [
-	{
-		username: "shawn",
-		password: "password"
-	},
-	{
-		username: "michelle",
-		password: "password22"
-	}
-]
+// parse google sheet data//
+var people = [];
+var usersSpreadsheet = "https://docs.google.com/spreadsheets/d/1GpHl4VDCWP-8fvAi2W66jry6NzL1ZlxLufS_0BkSbMA/edit#gid=0"
+
+// parse google sheet data
+function init() {
+	Tabletop.init({
+		key: usersSpreadsheet,
+		callback: function(data, tabletop) {
+			console.log(data)
+			people = data;
+		},
+		simpleSheet: true
+	})
+}
+
+
+console.log(people)
+
 
 function getInfo() {
 	var username = document.getElementById('username').value
 	var password = document.getElementById('password').value
 
-	for(var i = 0; i < People.length; i++) {
-		if(username == People[i].username && password == People[i].password) {
+	for(var i = 0; i < people.length; i++) {
+		if(username == people[i].username && password == people[i].password) {
             alert("You are logged in as " + username)
             window.location.href = 'http://www.google.com';
 			return

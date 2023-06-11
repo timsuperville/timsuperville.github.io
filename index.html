@@ -34,17 +34,8 @@
                 </div>
             </div>
             <div>
-                            
-        <script>
-//Google Sheets API//
-      /* exported gapiLoaded */
-      /* exported gisLoaded */
-      /* exported handleAuthClick */
-      /* exported handleSignoutClick */
 
-            
-            
-            
+
 //Google Sheets API//
         <p>Sheets API Quickstart</p>
 
@@ -166,7 +157,7 @@
         try {
           // Fetch first 10 files
           response = await gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+            spreadsheetId: '1GpHl4VDCWP-8fvAi2W66jry6NzL1ZlxLufS_0BkSbMA',
             range: 'Class Data!A2:E',
           });
         } catch (err) {
@@ -221,57 +212,6 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="block-3">
-                <div id="projects">
-                    <h1>Recent Work</h1>
-                    <div class="projects-box">
-                        <div class="project 1">
-                            <img src="" alt="Project-1 picture">
-                            <label>Website Project</label>
-                        </div>
-                        <div class="project 2">
-                            <img src="" alt="Project-2 picture">
-                            <label>Webpage Project</label>
-                        </div>
-                        <div class="project 3">
-                            <img src="" alt="Project-3 picture">
-                            <label for="project 3">Webpage Project</label>
-                        </div>
-                    </div>
-                    <button class="projects-button" type="button"
-                    onclick="window.location.href='portfolio.html';">
-                    <strong>See More</strong>
-                    </button>
-                </div>
-            </div>
-
-            <div class="block-4">
-                <div id="testimonials">
-                    <h1>Testimonials</h1>
-                    <div>
-                        <img src="./images/michelle.jpg" height="200px">
-                        <p>Tim is great an he knows what he is doing. I was so very impressed with his work.</p>
-                        <h4>Jane Doe</h4>
-                        <p>CEO, NoWhere Inc.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="block-5">
-                <hr width="50%">
-                <div id="contact">
-                    <h1>Get in touch</h1>
-                    <form 
-                    id="email-form"
-                    method="post" 
-                    action="https://script.google.com/macros/s/AKfycbzvjcFRMhWNcSML9JgYjb45SwfXrQHxjtF_gD4-7OCig0lgI95YzLSPpqeKyh1iDnlR/exec">
-                        <input type="email" name="Email" placeholder="Email" required autocomplete="on">
-                        <input type="text" name="Name" placeholder="Name" required autocomplete="on">
-                        <input type="submit" value="submit">
-                    </form>
                 </div>
             </div>
         </main>
