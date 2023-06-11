@@ -7,17 +7,17 @@ let gapiInited = false;
 let gisInited = false;
 async function initializeGapiClient() {
 	await gapi.client.init({
-	  apiKey: API_KEY,
-	  discoveryDocs: [DISCOVERY_DOC],
+	  	apiKey: API_KEY,
+		discoveryDocs: [DISCOVERY_DOC],
 	});
 	gapiInited = true;
 	maybeEnableButtons();
-  }
+}
 
 function gapiLoaded() {
 	gapi.load('client', initializeGapiClient);
-  }
-  function gisLoaded() {
+}
+function gisLoaded() {
 	tokenClient = google.accounts.oauth2.initTokenClient({
 	  client_id: CLIENT_ID,
 	  scope: SCOPES,
@@ -25,14 +25,13 @@ function gapiLoaded() {
 	});
 	gisInited = true;
 	maybeEnableButtons();
-  }
-
-  function maybeEnableButtons() {
+}
+function maybeEnableButtons() {
 	if (gapiInited && gisInited) {
 	  document.getElementById('authorize_button').style.visibility = 'visible';
 	}
-  }
-  function handleAuthClick() {
+}
+function handleAuthClick() {
 	tokenClient.callback = async (resp) => {
 	  if (resp.error !== undefined) {
 		throw (resp);
@@ -49,44 +48,44 @@ function gapiLoaded() {
 		// Skip display of account chooser and consent dialog for an existing session.
 		tokenClient.requestAccessToken({prompt: ''});
 	  }
-	}
-	function handleSignoutClick() {
-        const token = gapi.client.getToken();
-        if (token !== null) {
-          google.accounts.oauth2.revoke(token.access_token);
-          gapi.client.setToken('');
-          document.getElementById('content').innerText = '';
-          document.getElementById('authorize_button').innerText = 'Authorize';
-          document.getElementById('signout_button').style.visibility = 'hidden';
-        }
-      }
-	  async function listMajors() {
-        let response;
-        try {
-          // Fetch first 10 files
-          response = await gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: '1GpHl4VDCWP-8fvAi2W66jry6NzL1ZlxLufS_0BkSbMA',
-            range: 'Class Data!A2:E',
-          });
-        } catch (err) {
-          document.getElementById('content').innerText = err.message;
-          return;
-        }
-        const range = response.result;
-        if (!range || !range.values || range.values.length == 0) {
-          document.getElementById('content').innerText = 'No values found.';
-          return;
-        }
-        // Flatten to string to display
-        const output = range.values.reduce(
-            (str, row) => `${str}${row[0]}, ${row[4]}\n`,
-            'Name, Major:\n');
-        document.getElementById('content').innerText = output;
-      }
+}
+function handleSignoutClick() {
+    const token = gapi.client.getToken();
+    if (token !== null) {
+    	google.accounts.oauth2.revoke(token.access_token);
+      	gapi.client.setToken('');
+      	document.getElementById('content').innerText = '';
+      	document.getElementById('authorize_button').innerText = 'Authorize';
+      	document.getElementById('signout_button').style.visibility = 'hidden';
+    }
+}
+async function listMajors() {
+	let response;
+  	try {
+    // Fetch first 10 files
+    response = await gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: '1GpHl4VDCWP-8fvAi2W66jry6NzL1ZlxLufS_0BkSbMA',
+      range: 'Class Data!A1:D',
+    });
+  } catch (err) {
+    document.getElementById('content').innerText = err.message;
+    return;
+  }
+  const range = response.result;
+  if (!range || !range.values || range.values.length == 0) {
+    document.getElementById('content').innerText = 'No values found.';
+    return;
+  }
+  // Flatten to string to display
+  const output = range.values.reduce(
+      (str, row) => `${str}${row[0]}, ${row[4]}\n`,
+      'Name, Major:\n');
+  document.getElementById('content').innerText = output;
+}
 
 
 
-console.log(people)
+console.log(tokenClient)
 
 
 function getInfo() {
