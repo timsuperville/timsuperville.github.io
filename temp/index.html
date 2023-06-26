@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tim Superville</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Tim Superville's Portfolio">
+        <meta name="keywords" content="Tim Superville, Portfolio, Web Design, Web Development, Web Advisor">
+        <meta name="author" content="Tim Superville">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://kit.fontawesome.com/7527646f2a.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="index.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">
+            </div>
+            <nav class="navbar">
+                <ul class="menu" id="menu">
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="./contact.html">Contact</a></li>
+                </ul>
+                <i class="fa-solid fa-bars" onclick="showHideMenu()" id="menubtn"></i>
+        </header>
+        <main>
+            <div class="block-1">
+                <div id="welcome" class="welcome">
+                    <span class="welcome-textbox">
+                        <h1 id="greeting">Hi,</h1>
+                        <h1>I'm Tim</h1>
+                        <h1>A Web Developer</h1>
+                        <p>Thanks for stopping by. I hope I can help with the growth of your business by helping to establish or increase your online presence.</p>
+                    </span>
+                </div>
+            </div>
+<div>
+  <p>Sheets API Quickstart</p>
+  <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+  <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+  <pre id="content" style="white-space: pre-wrap;"></pre>
+</div>
+            <div class="block-2">
+                <div id="about">
+                    <div class="skill-cards">
+                        <div class="card">
+                            <img class="design-img" src="" alt="Design-image">
+                            <h1>Design</h1>
+                            <h3>Things I design</h3>
+                            <ul>
+                                <li>Web Pages</li>
+                                <li>Business Cards</li>
+                                <li>Logos</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <img class="developer-img" src="" alt="Developer-image">
+                            <h1>Developer</h1>
+                            <h3>Languages</h3>
+                            <ul>
+                                <li>HTML</li>
+                                <li>CSS</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <img class="advisor-img" src="" alt="Advisor-image">
+                            <h1>Advisor</h1>
+                            <h3>Background</h3>
+                            <ul>
+                                <li>online marketing</li>
+                                <li>using web for growth</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <h6>Designed by Tim Superville</h6>
+        </footer>
+        <script src="main.js">
+        </script>
+        <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+        <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+        <script type="text/javascript">
+          document.getElementById('authorize_button').style.visibility = 'hidden';
+          document.getElementById('signout_button').style.visibility = 'hidden';
+        </script>
+    </body>
+</html>
