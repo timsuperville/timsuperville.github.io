@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './styles.css'
+import { initAnalytics, isOptedOut } from './analytics'
 
 // Initialize Google Analytics (GA4) if VITE_GA_ID is provided at build time
 function initGA() {
@@ -18,7 +19,9 @@ function initGA() {
   document.head.appendChild(script2)
 }
 
+// Initialize analytics (GA/Plausible) if not opted out. GA will still be initialized by initGA when VITE_GA_ID exists.
 initGA()
+if (!isOptedOut()) initAnalytics()
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

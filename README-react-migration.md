@@ -29,3 +29,14 @@ VITE_GA_ID=G-XXXXXXXXXX
 ```
 
 The app will automatically inject gtag when `VITE_GA_ID` is set at build time.
+
+Analytics options
+
+- The project supports Google Analytics (GA4) and Plausible. Set the following in your `.env` or CI secrets:
+
+```
+VITE_GA_ID=G-XXXXXXXXXX
+VITE_PLAUSIBLE_DOMAIN=yourdomain.com
+```
+
+Users can opt out of analytics via the footer toggle. The app stores the preference in `localStorage`.

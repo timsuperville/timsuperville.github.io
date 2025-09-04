@@ -143,7 +143,11 @@ function Contact(){
   )
 }
 
+import { isOptedOut, optIn, optOut } from './analytics'
+
 function Footer(){
+  const [optedOut, setOptedOut] = React.useState(isOptedOut())
+
   return (
     <footer className="site-footer">
       <div className="container">
@@ -151,6 +155,14 @@ function Footer(){
         <nav className="footer-nav">
           <a href="#contact">Contact</a>
         </nav>
+        <div style={{marginTop:12}}>
+          <span style={{marginRight:8}}>Analytics:</span>
+          {optedOut ? (
+            <button className="btn" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
+          ) : (
+            <button className="btn" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
+          )}
+        </div>
       </div>
     </footer>
   )
