@@ -149,7 +149,7 @@ function Footer(){
       <div className="container">
         <p>© 2025 Tim Superville</p>
         <nav className="footer-nav">
-          <a href="/contact.html">Contact</a>
+          <a href="#contact">Contact</a>
         </nav>
       </div>
     </footer>
