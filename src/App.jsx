@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 function Header(){
   return (
@@ -10,7 +10,7 @@ function Header(){
           <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#about">About</a>
-          <a href="/contact.html">Contact</a>
+          <a href="#contact">Contact</a>
         </nav>
       </div>
     </header>
@@ -99,6 +99,50 @@ function About(){
   )
 }
 
+function Contact(){
+  // Formspree endpoint placeholder - replace with your endpoint
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/your-form-id'
+
+  return (
+    <section id="contact" className="section alt">
+      <div className="container">
+        <h2>Contact</h2>
+        <form action={FORMSPREE_ENDPOINT} method="POST" className="contact-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="first_name">First Name *</label>
+              <input id="first_name" name="first_name" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="last_name">Last Name *</label>
+              <input id="last_name" name="last_name" required />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email *</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="project_type">Project Type</label>
+            <select id="project_type" name="project_type">
+              <option value="">Select</option>
+              <option value="web-app">Web Application</option>
+              <option value="website">Business Website</option>
+              <option value="ecommerce">E-commerce</option>
+              <option value="consultation">Consultation</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="message">Project Details *</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+          <button type="submit" className="btn primary">Send Message</button>
+        </form>
+      </div>
+    </section>
+  )
+}
+
 function Footer(){
   return (
     <footer className="site-footer">
@@ -113,14 +157,27 @@ function Footer(){
 }
 
 export default function App(){
+  const [route, setRoute] = useState(window.location.hash || '#home')
+
+  useEffect(() => {
+    const onHash = () => setRoute(window.location.hash || '#home')
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
   return (
     <div>
       <Header />
       <main>
-        <Hero />
-        <Services />
-        <Portfolio />
-        <About />
+        {route === '#home' && (
+          <>
+            <Hero />
+            <Services />
+            <Portfolio />
+            <About />
+          </>
+        )}
+        {route === '#contact' && <Contact />}
       </main>
       <Footer />
     </div>
