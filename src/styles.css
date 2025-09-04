@@ -1,32 +1,64 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root{
+	--primary: #007bff;
+	--muted: #666;
+	--bg: #f8f9fa;
+	--container: 1100px;
+}
+*{box-sizing:border-box}
+body{font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; color:#222; background:var(--bg);}
+.container{max-width:var(--container); margin:0 auto; padding:0 20px}
+.site-header{background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.06); position:sticky; top:0; z-index:30}
+.nav-grid{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+.logo{font-weight:700}
+nav a{margin-left:18px; color:#333; text-decoration:none}
+.hero{background:url('/images/writingCode.jpg') center/cover no-repeat; color:#fff; padding:120px 0; text-align:center}
+.hero h1{font-size:2.25rem; margin:0 0 12px}
+.hero p{margin:0 0 20px; color:rgba(255,255,255,0.9)}
+.btn{display:inline-block; padding:12px 20px; border-radius:6px; text-decoration:none}
+.btn.primary{background:var(--primary); color:#fff}
+.section{padding:80px 0}
+.section.alt{background:#fff}
+.grid-3{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px}
+.grid-2{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px}
+.card{background:#fff; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+.portfolio-item img{width:100%; height:200px; object-fit:cover; border-radius:6px}
+.about-grid{display:grid; grid-template-columns:1fr 320px; gap:40px; align-items:center}
+.profile{width:100%; border-radius:8px}
+.site-footer{background:#fff; padding:24px 0; border-top:1px solid #eee; text-align:center}
+.contact-form{max-width:800px; margin:0 auto}
+.form-row{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block; margin-bottom:8px; font-weight:600}
+.form-group input,.form-group select,.form-group textarea{width:100%; padding:12px 14px; border:1px solid #e3e6ea; border-radius:6px}
+.contact-form button{margin-top:8px}
+@media (max-width:800px){.about-grid{grid-template-columns:1fr}.nav-grid{padding:10px}.hero{padding:80px 0}}
 
-/* Small component classes to mirror previous layout using Tailwind */
-.site-header { @apply bg-white shadow sticky top-0 z-30 }
-.nav-grid { @apply flex items-center justify-between py-3 }
-.logo { @apply font-bold flex items-center gap-3 }
-.logo-mark { @apply rounded-lg }
-.hero { @apply text-white py-28 text-center bg-center bg-cover }
-.hero { background-image: url('/images/writingCode.jpg') }
-.hero h1 { @apply text-4xl md:text-5xl font-extrabold }
-.hero p { @apply text-lg opacity-90 }
-.btn { @apply inline-block px-5 py-3 rounded-lg }
-.btn.primary { @apply bg-sky-600 text-white }
-.section { @apply py-20 }
-.section.alt { @apply bg-white }
-.card { @apply bg-white p-5 rounded-lg shadow-lg }
-.portfolio-item img { @apply w-full h-48 object-cover rounded-md }
-.about-grid { @apply grid grid-cols-1 md:grid-cols-[1fr_320px] gap-10 items-center }
-.contact-form { @apply max-w-3xl mx-auto }
-.form-row { @apply grid grid-cols-1 md:grid-cols-2 gap-5 }
-.form-group label { @apply block mb-2 font-semibold }
-.form-group input, .form-group select, .form-group textarea { @apply w-full p-3 border rounded-md border-gray-200 }
-.cookie-banner { @apply fixed left-0 right-0 bottom-0 bg-slate-900 text-white p-4 z-50 }
-.cookie-banner .btn { @apply bg-transparent text-white border border-white }
-.cookie-banner .btn.primary { @apply bg-sky-600 border-sky-600 }
-.toast { @apply fixed right-5 bottom-5 text-white p-3 rounded-lg shadow-lg opacity-0 translate-y-3 transition-all }
-.toast.show { @apply opacity-100 translate-y-0 }
-.toast.success { @apply bg-emerald-600 }
-.form-status .success { @apply text-emerald-600 font-semibold }
-.form-status .error { @apply text-rose-600 font-semibold }
+/* Skip link */
+.skip-link{position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden}
+.skip-link:focus{position:static; width:auto; height:auto; left:0; background:#000; color:#fff; padding:8px 12px; z-index:9999}
+
+/* Cookie banner */
+.cookie-banner{position:fixed; left:0; right:0; bottom:0; background:#111; color:#fff; padding:14px 0; z-index:9998}
+.cookie-banner p{color:#ddd}
+.cookie-banner .btn{background:transparent; color:#fff; border:1px solid #fff}
+.cookie-banner .btn.primary{background:var(--primary); border-color:var(--primary)}
+
+/* Toast notification */
+.toast {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	background: #0f172a;
+	color: #fff;
+	padding: 12px 16px;
+	border-radius: 8px;
+	box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+	z-index: 10000;
+	opacity: 0;
+	transform: translateY(12px);
+	transition: opacity 220ms ease, transform 220ms ease;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background: linear-gradient(90deg,#059669,#10b981); }
+.form-status .success { color: #059669; font-weight:600 }
+.form-status .error { color: #dc2626; font-weight:600 }
