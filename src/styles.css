@@ -36,3 +36,9 @@ nav a{margin-left:18px; color:#333; text-decoration:none}
 /* Skip link */
 .skip-link{position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden}
 .skip-link:focus{position:static; width:auto; height:auto; left:0; background:#000; color:#fff; padding:8px 12px; z-index:9999}
+
+/* Cookie banner */
+.cookie-banner{position:fixed; left:0; right:0; bottom:0; background:#111; color:#fff; padding:14px 0; z-index:9998}
+.cookie-banner p{color:#ddd}
+.cookie-banner .btn{background:transparent; color:#fff; border:1px solid #fff}
+.cookie-banner .btn.primary{background:var(--primary); border-color:var(--primary)}

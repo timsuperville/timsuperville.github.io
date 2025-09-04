@@ -2,7 +2,8 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './styles.css'
-import { initAnalytics, isOptedOut } from './analytics'
+import { initAnalytics, hasConsent } from './analytics'
+import CookieBanner from './CookieBanner'
 
 // Initialize Google Analytics (GA4) if VITE_GA_ID is provided at build time
 function initGA() {
@@ -20,13 +21,16 @@ function initGA() {
 }
 
 // Initialize analytics (GA/Plausible) if not opted out. GA will still be initialized by initGA when VITE_GA_ID exists.
+// Initialize GA snippet early (if VITE_GA_ID exists) but only fully init analytics after consent
 initGA()
-if (!isOptedOut()) initAnalytics()
+
+if (hasConsent()) initAnalytics()
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <main id="main-content">
       <App />
+      <CookieBanner />
     </main>
   </React.StrictMode>
 )
