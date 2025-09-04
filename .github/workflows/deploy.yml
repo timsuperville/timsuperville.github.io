@@ -4,6 +4,11 @@ on:
   push:
     branches: [ main ]
 
+# Ensure the workflow has permission to push content and manage Pages
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
