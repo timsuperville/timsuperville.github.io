@@ -4,7 +4,21 @@ function Header(){
   return (
     <header className="site-header">
       <div className="container nav-grid">
-        <div className="logo">TS Code <span className="code">{`</>`}</span></div>
+        <a href="#home" className="logo" aria-label="Home — Tim Superville" title="Home — Tim Superville">
+          <svg className="logo-mark" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stopColor="#4f46e5" />
+                <stop offset="1" stopColor="#06b6d4" />
+              </linearGradient>
+            </defs>
+            <rect width="36" height="36" rx="6" fill="url(#g1)" />
+            <g fill="#fff" fontFamily="sans-serif" fontWeight="700" fontSize="14" textAnchor="middle">
+              <text x="18" y="22">TS</text>
+            </g>
+          </svg>
+          <span className="brand">Tim Superville</span>
+        </a>
         <nav>
           <a href="#home">Home</a>
           <a href="#services">Services</a>
