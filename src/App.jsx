@@ -122,10 +122,12 @@ function Contact(){
   const [lastName, setLastName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [projectType, setProjectType] = React.useState('')
+  const [website, setWebsite] = React.useState('') // honeypot (bots often fill this)
   const [message, setMessage] = React.useState('')
   const [submitting, setSubmitting] = React.useState(false)
   const [status, setStatus] = React.useState(null) // 'success' | 'error' | null
   const [errorMessage, setErrorMessage] = React.useState('')
+  const [startTime] = React.useState(() => Date.now())
 
   const validate = () => {
     if (!firstName.trim() || !lastName.trim()) return 'Please provide your name.'
@@ -143,6 +145,20 @@ function Contact(){
 
     const v = validate()
     if (v) { setErrorMessage(v); setStatus('error'); return }
+
+    // Honeypot check: if the hidden website field is filled, treat as spam and silently succeed
+    if (website && website.trim().length > 0) {
+      setStatus('success')
+      setSubmitting(false)
+      return
+    }
+
+    // Timing check: if submitted too quickly (less than 2s), likely a bot
+    if (Date.now() - startTime < 2000) {
+      setStatus('success')
+      setSubmitting(false)
+      return
+    }
 
     setSubmitting(true)
     try {
@@ -211,6 +227,11 @@ function Contact(){
               <option value="ecommerce">E-commerce</option>
               <option value="consultation">Consultation</option>
             </select>
+          </div>
+          {/* Honeypot field (hidden) */}
+          <div style={{display:'none'}} aria-hidden="true">
+            <label htmlFor="website">Website</label>
+            <input id="website" name="website" value={website} onChange={e=>setWebsite(e.target.value)} />
           </div>
           <div className="form-group">
             <label htmlFor="message">Project Details *</label>
