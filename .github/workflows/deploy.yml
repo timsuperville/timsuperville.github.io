@@ -21,7 +21,10 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies (including dev)
-        run: npm ci --include=dev
+        run: |
+          npm ci --include=dev
+          # Defensive: ensure Tailwind/PostCSS are present (some runners may skip optional dev installs)
+          npm install --no-audit --no-fund tailwindcss@^3 postcss@^8 autoprefixer@^10 --save-dev
       - name: Build
         run: npm run build
         env:
