@@ -114,7 +114,7 @@ function About(){
   )
 }
 
-function Contact(){
+function Contact(props){
   // Formspree endpoint placeholder - replace with your endpoint
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/your-form-id'
 
@@ -183,7 +183,11 @@ function Contact(){
         setProjectType('')
         setMessage('')
         try { trackEvent('contact_submit', { result: 'success' }) } catch(e){}
-      } else {
+        if (props && typeof props.setToast === 'function'){
+          props.setToast({ type: 'success', message: 'Message sent — thanks!' })
+          setTimeout(() => props.setToast(null), 5000)
+        }
+  } else {
         const data = await res.json().catch(()=>({}))
         const msg = data?.error || 'Submission failed. Please try again later.'
         setErrorMessage(msg)
@@ -277,6 +281,7 @@ function Footer(){
 
 export default function App(){
   const [route, setRoute] = useState(window.location.hash || '#home')
+  const [toast, setToast] = useState(null)
 
   useEffect(() => {
     const onHash = () => setRoute(window.location.hash || '#home')
@@ -296,9 +301,12 @@ export default function App(){
             <About />
           </>
         )}
-        {route === '#contact' && <Contact />}
+  {route === '#contact' && <Contact setToast={setToast} />}
       </main>
       <Footer />
+      {toast && (
+        <div className={`toast ${toast.type} show`} role="status" aria-live="polite">{toast.message}</div>
+      )}
     </div>
   )
 }
