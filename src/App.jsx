@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { trackEvent } from './analytics'
 
 function Header(){
   return (
@@ -117,28 +118,93 @@ function Contact(){
   // Formspree endpoint placeholder - replace with your endpoint
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/your-form-id'
 
+  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [projectType, setProjectType] = React.useState('')
+  const [message, setMessage] = React.useState('')
+  const [submitting, setSubmitting] = React.useState(false)
+  const [status, setStatus] = React.useState(null) // 'success' | 'error' | null
+  const [errorMessage, setErrorMessage] = React.useState('')
+
+  const validate = () => {
+    if (!firstName.trim() || !lastName.trim()) return 'Please provide your name.'
+    if (!email.trim()) return 'Please provide an email address.'
+    // simple email check
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email.'
+    if (!message.trim() || message.trim().length < 10) return 'Please provide a short description (10+ characters).'
+    return ''
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus(null)
+    setErrorMessage('')
+
+    const v = validate()
+    if (v) { setErrorMessage(v); setStatus('error'); return }
+
+    setSubmitting(true)
+    try {
+      const formData = new FormData()
+      formData.append('first_name', firstName)
+      formData.append('last_name', lastName)
+      formData.append('email', email)
+      formData.append('project_type', projectType)
+      formData.append('message', message)
+
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+
+      if (res.ok) {
+        setStatus('success')
+        setFirstName('')
+        setLastName('')
+        setEmail('')
+        setProjectType('')
+        setMessage('')
+        try { trackEvent('contact_submit', { result: 'success' }) } catch(e){}
+      } else {
+        const data = await res.json().catch(()=>({}))
+        const msg = data?.error || 'Submission failed. Please try again later.'
+        setErrorMessage(msg)
+        setStatus('error')
+        try { trackEvent('contact_submit', { result: 'error' }) } catch(e){}
+      }
+    } catch (err) {
+      setErrorMessage('Could not send message — check your network and try again.')
+      setStatus('error')
+      try { trackEvent('contact_submit', { result: 'error' }) } catch(e){}
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <section id="contact" className="section alt">
       <div className="container">
         <h2>Contact</h2>
-        <form action={FORMSPREE_ENDPOINT} method="POST" className="contact-form">
+        <form onSubmit={handleSubmit} className="contact-form" noValidate>
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="first_name">First Name *</label>
-              <input id="first_name" name="first_name" required />
+              <input id="first_name" name="first_name" value={firstName} onChange={e=>setFirstName(e.target.value)} required />
             </div>
             <div className="form-group">
               <label htmlFor="last_name">Last Name *</label>
-              <input id="last_name" name="last_name" required />
+              <input id="last_name" name="last_name" value={lastName} onChange={e=>setLastName(e.target.value)} required />
             </div>
           </div>
           <div className="form-group">
             <label htmlFor="email">Email *</label>
-            <input id="email" name="email" type="email" required />
+            <input id="email" name="email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
           </div>
           <div className="form-group">
             <label htmlFor="project_type">Project Type</label>
-            <select id="project_type" name="project_type">
+            <select id="project_type" name="project_type" value={projectType} onChange={e=>setProjectType(e.target.value)}>
               <option value="">Select</option>
               <option value="web-app">Web Application</option>
               <option value="website">Business Website</option>
@@ -148,9 +214,15 @@ function Contact(){
           </div>
           <div className="form-group">
             <label htmlFor="message">Project Details *</label>
-            <textarea id="message" name="message" rows="6" required></textarea>
+            <textarea id="message" name="message" rows="6" value={message} onChange={e=>setMessage(e.target.value)} required></textarea>
           </div>
-          <button type="submit" className="btn primary">Send Message</button>
+
+          <div aria-live="polite" className="form-status">
+            {status === 'success' && <div className="success">Thanks — your message was sent. I usually reply within 1–2 business days.</div>}
+            {status === 'error' && errorMessage && <div className="error">{errorMessage}</div>}
+          </div>
+
+          <button type="submit" className="btn primary" disabled={submitting}>{submitting ? 'Sending…' : 'Send Message'}</button>
         </form>
       </div>
     </section>
