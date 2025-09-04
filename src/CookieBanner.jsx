@@ -1,5 +1,5 @@
 import React from 'react'
-import { hasConsent, optIn, optOut } from './analytics'
+import { hasConsent, optIn, optOut, initAnalytics } from './analytics'
 
 export default function CookieBanner(){
   const [visible, setVisible] = React.useState(!hasConsent())
@@ -16,7 +16,7 @@ export default function CookieBanner(){
           </div>
           <div>
             <button className="btn" onClick={() => { optOut(); setVisible(false); }}>Decline</button>
-            <button className="btn primary" style={{marginLeft:8}} onClick={() => { optIn(); window.location.reload(); }}>Accept</button>
+            <button className="btn primary" style={{marginLeft:8}} onClick={() => { optIn(); initAnalytics(); setVisible(false); }}>Accept</button>
           </div>
         </div>
       </div>

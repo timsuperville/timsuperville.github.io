@@ -19,7 +19,7 @@ function Header(){
           </svg>
           <span className="brand">Tim Superville</span>
         </a>
-        <nav>
+        <nav role="navigation" aria-label="Primary">
           <a href="#home">Home</a>
           <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
@@ -39,7 +39,7 @@ function Hero(){
         <p>I build modern, responsive web applications that help businesses grow.</p>
         <div className="cta">
           <a className="btn primary" href="#portfolio">View Work</a>
-          <a className="btn" href="/contact.html">Hire Me</a>
+          <a className="btn" href="#contact">Hire Me</a>
         </div>
       </div>
     </section>
@@ -101,8 +101,8 @@ function About(){
           <p>I'm a passionate web developer focused on building useful, beautiful digital products. I specialize in JavaScript, React, and backend APIs.</p>
           <p>Available for freelance projects, consultations, and long-term partnerships.</p>
           <div className="social">
-            <a href="#" title="GitHub">GitHub</a>
-            <a href="#" title="LinkedIn">LinkedIn</a>
+            <a href="https://github.com/timsuperville" title="GitHub" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/timsuperville" title="LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           </div>
         </div>
         <div>
