@@ -120,8 +120,6 @@ This portfolio website serves as a professional showcase for Tim Superville, a f
 
 ### Styling
 - **CSS3**: Modern styling with custom properties (CSS variables)
-- **TailwindCSS 3.x** (PostCSS): Utility-first CSS framework
-- **Autoprefixer**: Automatic vendor prefix handling
 - **CSS Grid & Flexbox**: Advanced layout capabilities
 - **CSS Animations**: Smooth transitions and micro-interactions
 
@@ -642,15 +640,14 @@ timsuperville.github.io/
 ├── .env.example            # Environment variables template
 ├── .gitignore              # Git ignore rules
 ├── favicon.svg             # Site favicon (SVG)
-├── index.html              # Root redirect to /docs
+├── index.html              # Root redirect to /docs (GitHub Pages)
+├── index-src.html          # Source HTML for Vite builds
 ├── package.json            # npm dependencies and scripts
 ├── package-lock.json       # Locked dependency versions
-├── postcss.config.cjs      # PostCSS configuration (Tailwind, Autoprefixer)
 ├── README.md               # This file - main documentation
 ├── README-react-migration.md # React migration notes
 ├── robots.txt              # Search engine crawler directives
 ├── sitemap.xml             # Search engine sitemap
-├── tailwind.config.cjs     # TailwindCSS configuration
 └── vite.config.js          # Vite build configuration
 
 Legacy files (can be removed after full React migration):
