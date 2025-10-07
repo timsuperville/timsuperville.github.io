@@ -45,6 +45,13 @@ export function initAnalytics(){
 }
 
 export function trackEvent(name, props = {}){
+  // DEV: capture events to window for local debugging
+  try {
+    if (import.meta.env.DEV) {
+      window.__analyticsCalls = window.__analyticsCalls || []
+      window.__analyticsCalls.push({ name, props, ts: Date.now() })
+    }
+  } catch(e){}
   // Plausible
   try {
     if (window.plausible) {

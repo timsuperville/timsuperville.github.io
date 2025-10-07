@@ -16,6 +16,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,8 +34,12 @@ jobs:
           npm install --no-audit --no-fund tailwindcss@^3 postcss@^8 autoprefixer@^10 --save-dev
       - name: Build
         run: npm run build
-        env:
-          VITE_GA_ID: ${{ secrets.GA_ID }}
+      - name: Smoke-check build output
+        run: |
+          if [ ! -f ./docs/index.html ]; then
+            echo "docs/index.html not found — build failed or output directory changed" >&2
+            exit 1
+          fi
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
