@@ -17,8 +17,31 @@
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://timsuperville.github.io/" />
         <meta property="og:image" content="/images/profile.jpg" />
-        <script type="module" src="/src/main.jsx"></script>
-        <link rel="stylesheet" crossorigin href="/src/styles.css">
+                <script>
+                    // If this site is served from GitHub Pages (your github.io domain),
+                    // redirect to the built `docs/` output so browsers load the
+                    // production JS/CSS assets (avoids trying to load /src/*.jsx files).
+                    try {
+                        var host = location.hostname || '';
+                        if (host.endsWith('.github.io') || host === 'timsuperville.github.io') {
+                            // relative redirect to docs folder
+                            if (!location.pathname.startsWith('/docs/')) {
+                                location.replace('./docs/' + location.hash);
+                            }
+                        } else {
+                            // non-github host (likely local dev) - load the dev entry
+                            var s = document.createElement('script');
+                            s.type = 'module';
+                            s.src = '/src/main.jsx';
+                            document.head.appendChild(s);
+
+                            var l = document.createElement('link');
+                            l.rel = 'stylesheet';
+                            l.href = '/src/styles.css';
+                            document.head.appendChild(l);
+                        }
+                    } catch (e) { /* silent fallback */ }
+                </script>
         <!-- Favicon: SVG preferred with PNG fallback -->
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="alternate icon" href="/images/logoblank.png" type="image/png">
