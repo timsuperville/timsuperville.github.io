@@ -8,8 +8,9 @@ export default defineConfig({
     outDir: 'docs'
   },
   server: {
-    port: 3000, // dev port
-    strictPort: true, // only allow this port
+    port: Number(process.env.PORT) || 3000,
+    // Allow Vite to choose an alternative port if the preferred port is in use
+    strictPort: false,
     host: true // allow access from outside
   }
 })
