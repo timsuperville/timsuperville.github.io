@@ -3,9 +3,9 @@ import { trackEvent } from './analytics'
 
 function Header(){
   return (
-    <header className="site-header">
-      <div className="container nav-grid">
-        <a href="#home" className="logo" aria-label="Home — Tim Superville" title="Home — Tim Superville">
+    <header className="bg-white shadow sticky top-0 z-30">
+      <div className="max-w-6xl mx-auto px-5 flex items-center justify-between py-3">
+        <a href="#home" className="flex items-center gap-3 font-bold text-lg" aria-label="Home — Tim Superville" title="Home — Tim Superville">
           <svg className="logo-mark" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
             <defs>
               <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
@@ -20,12 +20,12 @@ function Header(){
           </svg>
           <span className="brand">Tim Superville</span>
         </a>
-        <nav role="navigation" aria-label="Primary">
-          <a href="#home">Home</a>
-          <a href="#services">Services</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
+        <nav role="navigation" aria-label="Primary" className="space-x-6 hidden md:block">
+          <a href="#home" className="text-gray-700 hover:text-sky-600">Home</a>
+          <a href="#services" className="text-gray-700 hover:text-sky-600">Services</a>
+          <a href="#portfolio" className="text-gray-700 hover:text-sky-600">Portfolio</a>
+          <a href="#about" className="text-gray-700 hover:text-sky-600">About</a>
+          <a href="#contact" className="text-gray-700 hover:text-sky-600">Contact</a>
         </nav>
       </div>
     </header>
@@ -34,13 +34,13 @@ function Header(){
 
 function Hero(){
   return (
-    <section id="home" className="hero">
-      <div className="container hero-inner">
-        <h1>Hi, I'm Tim — Freelance Web Developer</h1>
-        <p>I build modern, responsive web applications that help businesses grow.</p>
-        <div className="cta">
-          <a className="btn primary" href="#portfolio">View Work</a>
-          <a className="btn" href="#contact">Hire Me</a>
+    <section id="home" className="relative text-white py-28 text-center bg-center bg-cover" style={{backgroundImage:"url('/images/writingCode.jpg')"}}>
+      <div className="max-w-4xl mx-auto px-5">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Hi, I'm Tim — Freelance Web Developer</h1>
+        <p className="text-lg mb-6 opacity-90">I build modern, responsive web applications that help businesses grow.</p>
+        <div className="flex justify-center gap-4">
+          <a className="px-5 py-3 rounded-lg bg-sky-600 text-white" href="#portfolio">View Work</a>
+          <a className="px-5 py-3 rounded-lg border border-white/30 text-white" href="#contact">Hire Me</a>
         </div>
       </div>
     </section>
@@ -49,21 +49,21 @@ function Hero(){
 
 function Services(){
   return (
-    <section id="services" className="section">
-      <div className="container">
-        <h2>Services</h2>
-        <div className="grid-3">
-          <div className="card">
-            <h3>Web Development</h3>
-            <p>Custom web apps with React, Node.js and modern stacks.</p>
+    <section id="services" className="py-20">
+      <div className="max-w-6xl mx-auto px-5">
+        <h2 className="text-2xl font-bold mb-6">Services</h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="font-semibold mb-2">Web Development</h3>
+            <p className="text-sm text-gray-600">Custom web apps with React, Node.js and modern stacks.</p>
           </div>
-          <div className="card">
-            <h3>Responsive Design</h3>
-            <p>Mobile-first designs that convert across devices.</p>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="font-semibold mb-2">Responsive Design</h3>
+            <p className="text-sm text-gray-600">Mobile-first designs that convert across devices.</p>
           </div>
-          <div className="card">
-            <h3>Performance</h3>
-            <p>Optimized for speed, SEO and accessibility.</p>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="font-semibold mb-2">Performance</h3>
+            <p className="text-sm text-gray-600">Optimized for speed, SEO and accessibility.</p>
           </div>
         </div>
       </div>
@@ -73,19 +73,23 @@ function Services(){
 
 function Portfolio(){
   return (
-    <section id="portfolio" className="section alt">
-      <div className="container">
-        <h2>Recent Projects</h2>
-        <div className="grid-2">
-          <article className="portfolio-item">
-            <img src="/images/writingCode.jpg" alt="E-commerce platform" />
-            <h3>E-commerce Platform</h3>
-            <p>Full-stack solution with payments and admin dashboard.</p>
+    <section id="portfolio" className="bg-white py-20">
+      <div className="max-w-6xl mx-auto px-5">
+        <h2 className="text-2xl font-bold mb-6">Recent Projects</h2>
+        <div className="grid gap-6 md:grid-cols-2">
+          <article className="rounded-lg overflow-hidden shadow">
+            <img src="/images/writingCode.jpg" alt="E-commerce platform" className="w-full h-48 object-cover" />
+            <div className="p-4">
+              <h3 className="font-semibold">E-commerce Platform</h3>
+              <p className="text-sm text-gray-600">Full-stack solution with payments and admin dashboard.</p>
+            </div>
           </article>
-          <article className="portfolio-item">
-            <img src="/images/background2.jpg" alt="Business site" />
-            <h3>Business Website</h3>
-            <p>Responsive marketing site with contact & SEO optimizations.</p>
+          <article className="rounded-lg overflow-hidden shadow">
+            <img src="/images/background2.jpg" alt="Business site" className="w-full h-48 object-cover" />
+            <div className="p-4">
+              <h3 className="font-semibold">Business Website</h3>
+              <p className="text-sm text-gray-600">Responsive marketing site with contact & SEO optimizations.</p>
+            </div>
           </article>
         </div>
       </div>
@@ -95,19 +99,19 @@ function Portfolio(){
 
 function About(){
   return (
-    <section id="about" className="section">
-      <div className="container about-grid">
+    <section id="about" className="py-20">
+      <div className="max-w-6xl mx-auto px-5 grid md:grid-cols-[1fr_320px] gap-10 items-center">
         <div>
-          <h2>About Me</h2>
-          <p>I'm a passionate web developer focused on building useful, beautiful digital products. I specialize in JavaScript, React, and backend APIs.</p>
-          <p>Available for freelance projects, consultations, and long-term partnerships.</p>
-          <div className="social">
-            <a href="https://github.com/timsuperville" title="GitHub" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/timsuperville" title="LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <h2 className="text-2xl font-bold mb-4">About Me</h2>
+          <p className="text-gray-700 mb-3">I'm a passionate web developer focused on building useful, beautiful digital products. I specialize in JavaScript, React, and backend APIs.</p>
+          <p className="text-gray-700 mb-4">Available for freelance projects, consultations, and long-term partnerships.</p>
+          <div className="flex gap-4">
+            <a href="https://github.com/timsuperville" title="GitHub" target="_blank" rel="noopener noreferrer" className="text-sky-600">GitHub</a>
+            <a href="https://www.linkedin.com/in/timsuperville" title="LinkedIn" target="_blank" rel="noopener noreferrer" className="text-sky-600">LinkedIn</a>
           </div>
         </div>
         <div>
-          <img className="profile" src="/images/profile.jpg" alt="Tim Superville" />
+          <img className="w-full rounded-lg" src="/images/profile.jpg" alt="Tim Superville" />
         </div>
       </div>
     </section>
@@ -204,27 +208,29 @@ function Contact(props){
   }
 
   return (
-    <section id="contact" className="section alt">
-      <div className="container">
-        <h2>Contact</h2>
-        <form onSubmit={handleSubmit} className="contact-form" noValidate>
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="first_name">First Name *</label>
-              <input id="first_name" name="first_name" value={firstName} onChange={e=>setFirstName(e.target.value)} required />
+    <section id="contact" className="py-12 bg-gray-50">
+      <div className="max-w-3xl mx-auto px-5">
+        <h2 className="text-2xl font-semibold mb-4">Contact</h2>
+        <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded shadow" noValidate>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="first_name" className="block text-sm text-gray-700 mb-1">First Name *</label>
+              <input id="first_name" name="first_name" value={firstName} onChange={e=>setFirstName(e.target.value)} required className="w-full border px-3 py-2 rounded" />
             </div>
-            <div className="form-group">
-              <label htmlFor="last_name">Last Name *</label>
-              <input id="last_name" name="last_name" value={lastName} onChange={e=>setLastName(e.target.value)} required />
+            <div>
+              <label htmlFor="last_name" className="block text-sm text-gray-700 mb-1">Last Name *</label>
+              <input id="last_name" name="last_name" value={lastName} onChange={e=>setLastName(e.target.value)} required className="w-full border px-3 py-2 rounded" />
             </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="email">Email *</label>
-            <input id="email" name="email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
+
+          <div>
+            <label htmlFor="email" className="block text-sm text-gray-700 mb-1">Email *</label>
+            <input id="email" name="email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required className="w-full border px-3 py-2 rounded" />
           </div>
-          <div className="form-group">
-            <label htmlFor="project_type">Project Type</label>
-            <select id="project_type" name="project_type" value={projectType} onChange={e=>setProjectType(e.target.value)}>
+
+          <div>
+            <label htmlFor="project_type" className="block text-sm text-gray-700 mb-1">Project Type</label>
+            <select id="project_type" name="project_type" value={projectType} onChange={e=>setProjectType(e.target.value)} className="w-full border px-3 py-2 rounded">
               <option value="">Select</option>
               <option value="web-app">Web Application</option>
               <option value="website">Business Website</option>
@@ -232,22 +238,26 @@ function Contact(props){
               <option value="consultation">Consultation</option>
             </select>
           </div>
+
           {/* Honeypot field (hidden) */}
           <div style={{display:'none'}} aria-hidden="true">
             <label htmlFor="website">Website</label>
             <input id="website" name="website" value={website} onChange={e=>setWebsite(e.target.value)} />
           </div>
-          <div className="form-group">
-            <label htmlFor="message">Project Details *</label>
-            <textarea id="message" name="message" rows="6" value={message} onChange={e=>setMessage(e.target.value)} required></textarea>
+
+          <div>
+            <label htmlFor="message" className="block text-sm text-gray-700 mb-1">Project Details *</label>
+            <textarea id="message" name="message" rows="6" value={message} onChange={e=>setMessage(e.target.value)} required className="w-full border px-3 py-2 rounded"></textarea>
           </div>
 
           <div aria-live="polite" className="form-status">
-            {status === 'success' && <div className="success">Thanks — your message was sent. I usually reply within 1–2 business days.</div>}
-            {status === 'error' && errorMessage && <div className="error">{errorMessage}</div>}
+            {status === 'success' && <div className="text-sm text-green-600">Thanks — your message was sent. I usually reply within 1–2 business days.</div>}
+            {status === 'error' && errorMessage && <div className="text-sm text-red-600">{errorMessage}</div>}
           </div>
 
-          <button type="submit" className="btn primary" disabled={submitting}>{submitting ? 'Sending…' : 'Send Message'}</button>
+          <div>
+            <button type="submit" className="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded" disabled={submitting}>{submitting ? 'Sending…' : 'Send Message'}</button>
+          </div>
         </form>
       </div>
     </section>
@@ -260,18 +270,18 @@ function Footer(){
   const [optedOut, setOptedOut] = React.useState(isOptedOut())
 
   return (
-    <footer className="site-footer">
-      <div className="container">
-        <p>© 2025 Tim Superville</p>
-        <nav className="footer-nav">
-          <a href="#contact">Contact</a>
+    <footer className="bg-white border-t py-6">
+      <div className="max-w-6xl mx-auto px-5 text-center">
+        <p className="text-sm text-gray-600">© 2025 Tim Superville</p>
+        <nav className="mt-2">
+          <a href="#contact" className="text-sky-600">Contact</a>
         </nav>
-        <div style={{marginTop:12}}>
-          <span style={{marginRight:8}}>Analytics:</span>
+        <div className="mt-3">
+          <span className="mr-2 text-sm text-gray-600">Analytics:</span>
           {optedOut ? (
-            <button className="btn" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
+            <button className="px-3 py-1 border rounded" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
           ) : (
-            <button className="btn" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
+            <button className="px-3 py-1 border rounded" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
           )}
         </div>
       </div>
@@ -291,6 +301,8 @@ export default function App(){
 
   return (
     <div>
+      {/* Skip link for keyboard users */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-white focus:border focus:px-3 focus:py-2">Skip to content</a>
       <Header />
       <main>
         {route === '#home' && (
