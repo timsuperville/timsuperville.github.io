@@ -7,16 +7,17 @@ export default function Footer() {
     return (
         <footer className="bg-white border-t py-6">
             <div className="max-w-6xl mx-auto px-5 text-center">
-                <p className="text-sm text-gray-600">© 2025 Tim Superville</p>
-                <nav className="mt-2">
-                    <a href="#contact" className="text-sky-600">Contact</a>
-                </nav>
-                <div className="mt-3">
-                    <span className="mr-2 text-sm text-gray-600">Analytics:</span>
+                <div className="flex justify-center gap-6 mb-4">
+                    <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-sky-600 transition-colors">GitHub</a>
+                    <a href="https://www.linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-sky-600 transition-colors">LinkedIn</a>
+                </div>
+                <p className="text-sm text-gray-400">© 2025 Tim Superville. All rights reserved.</p>
+                <div className="mt-4 flex justify-center items-center gap-2 text-xs text-gray-400">
+                    <span>Analytics:</span>
                     {optedOut ? (
-                        <button className="px-3 py-1 border rounded" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
+                        <button className="text-gray-500 underline hover:text-sky-600" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
                     ) : (
-                        <button className="px-3 py-1 border rounded" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
+                        <button className="text-gray-500 underline hover:text-sky-600" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
                     )}
                 </div>
             </div>

@@ -8,19 +8,7 @@ export default function Hero() {
         <section id="home" className="relative text-white py-28 text-center bg-center bg-cover hero-figure" style={{ backgroundImage: "url('/images/writingCode.jpg')" }}>
             <div className="max-w-4xl mx-auto px-5 relative">
                 {/* Decorative SVG accent */}
-                <motion.svg
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 0.4, y: 0 }}
-                    transition={{ duration: 1 }}
-                    className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-40" width="380" height="120" viewBox="0 0 600 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="gA" x1="0" x2="1" y1="0" y2="1">
-                            <stop offset="0" stopColor="#06b6d4" stopOpacity="0.8" />
-                            <stop offset="1" stopColor="#4f46e5" stopOpacity="0.6" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M0 120 C150 20, 450 220, 600 100 L600 0 L0 0 Z" fill="url(#gA)" />
-                </motion.svg>
+
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
