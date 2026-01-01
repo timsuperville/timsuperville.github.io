@@ -15,16 +15,15 @@ Enhance the maintainability, scalability, and quality of the portfolio site.
 
 ## 3. Testing
 - [x] Set up Vitest and React Testing Library.
-- [x] Create unit tests for components (Header, Hero, Services, Portfolio, CaseStudies, CaseStudyDetail, Testimonials).
-- [ ] Create unit test for Contact (currently skipped due to environment issues).
-- [x] Ensure `npm run smoke` still passes (build verification).
+- [x] Create unit tests for components.
+- [x] Ensure `npm run smoke` still passes.
 
 ## 4. Improvements
 - [x] Accessibility: Fix duplicate `main` tags.
-- [x] SEO: Implement dynamic document title updates for case studies.
-- [x] Design: Add `framer-motion` for scroll animations and interactions.
-- [x] Performance: Add `loading="lazy"` to below-fold images.
-- [x] Navigation: Add responsive mobile menu logic to Header.
-- [x] Design: Improve contrast for Hero secondary button by removing conflicting classes.
-- [x] Navigation: Fix SPA routing for anchor links in App.jsx.
-- [ ] Performance: Optimize images (currently loading from /images/, check sizes).
+- [x] SEO: Implement dynamic document title updates.
+- [x] Design: Add `framer-motion` animations.
+- [x] Performance: Add `loading="lazy"` to images.
+- [x] Navigation: Add responsive mobile menu.
+- [x] Design: Improve contrast for Hero secondary button.
+- [x] Assets: Move static assets (images, favicon, robots) to `public/` to ensure they are built correctly.
+- [ ] Performance: Optimize images.
