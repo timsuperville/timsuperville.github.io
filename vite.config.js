@@ -9,8 +9,12 @@ export default defineConfig({
   },
   server: {
     port: Number(process.env.PORT) || 3000,
-    // Allow Vite to choose an alternative port if the preferred port is in use
     strictPort: false,
-    host: true // allow access from outside
+    host: true
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './vitest.setup.js',
   }
 })

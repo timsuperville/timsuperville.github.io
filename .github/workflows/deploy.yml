@@ -32,6 +32,8 @@ jobs:
           npm ci --include=dev
           # Defensive: ensure Tailwind/PostCSS are present (some runners may skip optional dev installs)
           npm install --no-audit --no-fund tailwindcss@^3 postcss@^8 autoprefixer@^10 --save-dev
+      - name: Run Tests
+        run: npm test
       - name: Build
         run: npm run build
       - name: Smoke-check build output
