@@ -1,61 +1,103 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Menu, X, Terminal, Github, Linkedin } from 'lucide-react'
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [scrolled, setScrolled] = useState(false)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20)
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    const navLinks = [
+        { name: 'Home', href: '#home' },
+        { name: 'Services', href: '#services' },
+        { name: 'Portfolio', href: '#portfolio' },
+        { name: 'Case Studies', href: '#case-studies' },
+        { name: 'About', href: '#about' },
+        { name: 'Contact', href: '#contact' },
+    ]
 
     return (
-        <header className="bg-white shadow sticky top-0 z-30">
-            <div className="max-w-6xl mx-auto px-5 flex items-center justify-between py-3">
-                <a href="#home" className="flex items-center gap-3 font-bold text-lg" aria-label="Home — Tim Superville" title="Home — Tim Superville" onClick={() => setIsMenuOpen(false)}>
-                    <svg className="logo-mark" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-                        <defs>
-                            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-                                <stop offset="0" stopColor="#4f46e5" />
-                                <stop offset="1" stopColor="#06b6d4" />
-                            </linearGradient>
-                        </defs>
-                        <rect width="36" height="36" rx="6" fill="url(#g1)" />
-                        <g fill="#fff" fontFamily="sans-serif" fontWeight="700" fontSize="14" textAnchor="middle">
-                            <text x="18" y="22">TS</text>
-                        </g>
-                    </svg>
-                    <span className="brand">Tim Superville</span>
+        <header
+            className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'nav-glass py-4' : 'bg-transparent py-6'
+                }`}
+        >
+            <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+                <a href="#home" className="flex items-center gap-2 group" onClick={() => setIsMenuOpen(false)}>
+                    <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-secondary group-hover:scale-110 transition-transform duration-300">
+                        <Terminal className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="font-bold text-xl tracking-tight text-white group-hover:text-primary-glow transition-colors">
+                            Tim Superville
+                        </span>
+                        <span className="text-xs text-slate-400 font-medium tracking-wider uppercase">
+                            Full Stack Dev
+                        </span>
+                    </div>
                 </a>
 
                 {/* Desktop Nav */}
-                <nav role="navigation" aria-label="Primary" className="space-x-6 hidden md:block">
-                    <a href="#home" className="text-gray-700 hover:text-sky-600 transition-colors">Home</a>
-                    <a href="#services" className="text-gray-700 hover:text-sky-600 transition-colors">Services</a>
-                    <a href="#portfolio" className="text-gray-700 hover:text-sky-600 transition-colors">Portfolio</a>
-                    <a href="#about" className="text-gray-700 hover:text-sky-600 transition-colors">About</a>
-                    <a href="#contact" className="text-gray-700 hover:text-sky-600 transition-colors">Contact</a>
+                <nav className="hidden md:flex items-center space-x-8">
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.name}
+                            href={link.href}
+                            className="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group"
+                        >
+                            {link.name}
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-glow transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    ))}
+
+                    <div className="h-6 w-px bg-slate-700 mx-4"></div>
+
+                    <div className="flex items-center gap-4">
+                        <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                            <Github className="w-5 h-5" />
+                        </a>
+                        <a href="https://linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                            <Linkedin className="w-5 h-5" />
+                        </a>
+                    </div>
                 </nav>
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="md:hidden p-2 text-gray-700 hover:text-sky-600 focus:outline-none"
+                    className="md:hidden p-2 text-slate-300 hover:text-white"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    aria-expanded={isMenuOpen}
-                    aria-label="Toggle navigation menu"
+                    aria-label="Toggle menu"
                 >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        {isMenuOpen ? (
-                            <path d="M18 6L6 18M6 6l12 12" />
-                        ) : (
-                            <path d="M3 12h18M3 6h18M3 18h18" />
-                        )}
-                    </svg>
+                    {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
                 </button>
             </div>
 
             {/* Mobile Nav Overlay */}
             {isMenuOpen && (
-                <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-100 py-4 px-5 flex flex-col space-y-4">
-                    <a href="#home" className="text-gray-700 hover:text-sky-600 block py-2" onClick={() => setIsMenuOpen(false)}>Home</a>
-                    <a href="#services" className="text-gray-700 hover:text-sky-600 block py-2" onClick={() => setIsMenuOpen(false)}>Services</a>
-                    <a href="#portfolio" className="text-gray-700 hover:text-sky-600 block py-2" onClick={() => setIsMenuOpen(false)}>Portfolio</a>
-                    <a href="#about" className="text-gray-700 hover:text-sky-600 block py-2" onClick={() => setIsMenuOpen(false)}>About</a>
-                    <a href="#contact" className="text-gray-700 hover:text-sky-600 block py-2" onClick={() => setIsMenuOpen(false)}>Contact</a>
+                <div className="absolute top-full left-0 w-full bg-dark-950/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col space-y-4 md:hidden animate-in slide-in-from-top-4 duration-200">
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.name}
+                            href={link.href}
+                            className="text-lg font-medium text-slate-300 hover:text-primary-glow py-2 border-b border-white/5"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            {link.name}
+                        </a>
+                    ))}
+                    <div className="flex gap-6 pt-4">
+                        <a href="https://github.com/timsuperville" className="text-slate-400 hover:text-white">
+                            <Github className="w-6 h-6" />
+                        </a>
+                        <a href="https://linkedin.com/in/timsuperville" className="text-slate-400 hover:text-white">
+                            <Linkedin className="w-6 h-6" />
+                        </a>
+                    </div>
                 </div>
             )}
         </header>

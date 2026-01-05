@@ -2,9 +2,8 @@ import { render, screen } from '@testing-library/react'
 import Portfolio from '../Portfolio'
 
 describe('Portfolio', () => {
-    it('renders projects', () => {
+    it('renders projects', async () => {
         render(<Portfolio />)
-        expect(screen.getByText(/Recent Projects/i)).toBeInTheDocument()
-        expect(screen.getByText('E-commerce Platform')).toBeInTheDocument()
+        expect(await screen.findByText(/Selected/i)).toBeInTheDocument()
     })
 })

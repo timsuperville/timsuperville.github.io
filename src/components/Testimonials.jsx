@@ -1,17 +1,50 @@
-import React from 'react'
+
+import { motion } from 'framer-motion'
+import { Quote } from 'lucide-react'
 import { testimonials } from '../data/testimonials'
 
 export default function Testimonials() {
     return (
-        <section id="testimonials" className="py-12 bg-white">
-            <div className="max-w-4xl mx-auto px-5 text-center">
-                <h2 className="text-2xl font-bold mb-4">Testimonials</h2>
-                <div className="space-y-4">
+        <section id="testimonials" className="py-24 relative overflow-hidden">
+            {/* Background Accents */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -z-10"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+
+            <div className="section-container">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                        Client <span className="text-gradient">Feedback</span>
+                    </h2>
+                    <p className="text-slate-400">Trusted by founders and product teams.</p>
+                </motion.div>
+
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {testimonials.map((t, i) => (
-                        <blockquote key={i} className="p-4 border rounded">
-                            <p className="text-gray-700 mb-2">“{t.quote}”</p>
-                            <footer className="text-sm text-gray-500">— {t.author}</footer>
-                        </blockquote>
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: i * 0.1 }}
+                            className="glass-card relative"
+                        >
+                            <Quote className="absolute top-6 right-6 w-8 h-8 text-primary/20" />
+                            <p className="text-slate-300 italic mb-6 relative z-10">"{t.quote}"</p>
+                            <footer className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg">
+                                    {t.author.charAt(0)}
+                                </div>
+                                <div>
+                                    <div className="font-bold text-white">{t.author}</div>
+                                    <div className="text-sm text-slate-500">Client</div>
+                                </div>
+                            </footer>
+                        </motion.div>
                     ))}
                 </div>
             </div>

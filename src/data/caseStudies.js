@@ -29,5 +29,20 @@ export const caseStudies = [
         ],
         results: 'Organic traffic increased 40% in three months; accessibility score improved to AA across pages.',
         detailTech: 'Tech: React, Tailwind, Lighthouse optimizations'
+    },
+    {
+        id: 'axis-integrity',
+        listTitle: 'Axis Integrity Services — Corporate Portfolio',
+        shortDescription: 'Asset integrity and corrosion management website featuring service listings and partner credentials.',
+        shortTech: 'Tech: React, Vite, Tailwind CSS',
+        detailTitle: 'Axis Integrity Services',
+        challenge: 'Need for a professional digital presence to showcase specialized engineering services and certifications.',
+        whatIDid: [
+            'Designed a professional, corporate user interface',
+            'Structured service offerings for clear navigation',
+            'Implemented mobile-responsive layout for field access'
+        ],
+        results: 'Established a verified digital footprint for client validation and partner showcasing.',
+        detailTech: 'Tech: React, Vite, Tailwind CSS, Netlify'
     }
 ]

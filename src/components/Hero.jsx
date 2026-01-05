@@ -1,49 +1,85 @@
-import React from 'react'
+
 import { motion } from 'framer-motion'
-import { trackEvent } from '../analytics'
+import { ArrowRight, Calendar, ChevronDown } from 'lucide-react'
 import { CONFIG } from '../config'
+import { trackEvent } from '../analytics'
 
 export default function Hero() {
     return (
-        <section id="home" className="relative text-white py-28 text-center bg-center bg-cover hero-figure" style={{ backgroundImage: "url('/images/writingCode.jpg')" }}>
-            <div className="max-w-4xl mx-auto px-5 relative">
-                {/* Decorative SVG accent */}
+        <section id="home" className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20">
+            {/* Dynamic Background */}
+            <div className="absolute inset-0 bg-dark-950">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow"></div>
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[120px] animate-pulse-slow delay-1000"></div>
+                <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+            </div>
+
+            <div className="section-container relative z-10 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/20 bg-primary/5 mb-8"
+                >
+                    <span className="w-2 h-2 rounded-full bg-primary-glow animate-pulse"></span>
+                    <span className="text-sm font-medium text-primary-glow tracking-wide">Available for new projects</span>
+                </motion.div>
 
                 <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-4xl md:text-5xl font-extrabold mb-4"
+                    className="text-5xl md:text-7xl font-bold mb-6 leading-tight font-serif"
                 >
-                    Hi, I&apos;m Tim — I build web apps that grow businesses
+                    Building <span className="text-gradient">digital experiences</span><br />
+                    that people love.
                 </motion.h1>
+
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 0.9, y: 0 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-lg mb-6 opacity-90"
+                    className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
                 >
-                    I help small teams and businesses launch fast, accessible, and maintainable web apps using React and modern tooling.
+                    I help forward-thinking companies design and build high-performance web applications. fast, accessible, and scalable.
                 </motion.p>
+
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6 }}
-                    className="flex justify-center gap-4"
+                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <a className="px-5 py-3 rounded-lg bg-sky-600 text-white hover:bg-sky-500 transition-colors" href="#portfolio">View Work</a>
-                    {/* Primary conversion CTA: book a consult. Replace with your scheduler URL if available. */}
                     <a
-                        className="px-5 py-3 rounded-lg bg-white text-sky-900 font-bold border border-sky-200 hover:bg-gray-50 transition-colors shadow-lg"
+                        href="#portfolio"
+                        className="btn-primary flex items-center gap-2 group w-full sm:w-auto justify-center"
+                    >
+                        View My Work
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <a
                         href={CONFIG.CALENDLY_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => { try { trackEvent('hero_book_consult_click') } catch (e) { } }}
+                        className="btn-outline flex items-center gap-2 group w-full sm:w-auto justify-center"
+                        onClick={() => { try { trackEvent('hero_book_consult_click') } catch { } }}
                     >
-                        Book a free 15‑min consult
+                        <Calendar className="w-4 h-4" />
+                        Book Consult
                     </a>
                 </motion.div>
             </div>
+
+            {/* Scroll Indicator */}
+            <motion.a
+                href="#services"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 hover:text-white transition-colors animate-bounce"
+            >
+                <ChevronDown className="w-8 h-8" />
+            </motion.a>
         </section>
     )
 }
