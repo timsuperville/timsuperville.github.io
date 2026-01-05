@@ -111,7 +111,7 @@ export default function Contact(props) {
                         Let&apos;s <span className="text-gradient">Work Together</span>
                     </h2>
                     <p className="text-slate-400 max-w-lg mx-auto mb-8">
-                        Have a project in mind? I'd love to hear about it. Send me a message or book a call.
+                        Have a project in mind? I&apos;d love to hear about it. Send me a message or book a call.
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-4 mb-12">

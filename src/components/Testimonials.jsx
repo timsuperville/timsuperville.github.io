@@ -34,7 +34,7 @@ export default function Testimonials() {
                             className="glass-card relative"
                         >
                             <Quote className="absolute top-6 right-6 w-8 h-8 text-primary/20" />
-                            <p className="text-slate-300 italic mb-6 relative z-10">"{t.quote}"</p>
+                            <p className="text-slate-300 italic mb-6 relative z-10">&quot;{t.quote}&quot;</p>
                             <footer className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg">
                                     {t.author.charAt(0)}
