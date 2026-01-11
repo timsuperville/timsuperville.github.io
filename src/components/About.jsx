@@ -30,7 +30,7 @@ export default function About() {
                         </div>
 
                         <div className="flex flex-wrap gap-3 mb-8">
-                            {['React', 'Next.js', 'Node.js', 'Tailwind', 'TypeScript', 'Node'].map((tech) => (
+                            {['React', 'Next.js', 'Node.js', 'Tailwind', 'TypeScript', 'PostgreSQL'].map((tech) => (
                                 <span key={tech} className="px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary-glow border border-primary/20">
                                     {tech}
                                 </span>

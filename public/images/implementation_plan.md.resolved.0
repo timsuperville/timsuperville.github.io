@@ -1,0 +1,69 @@
+# Implementation Plan - Portfolio Overhaul
+
+# Goal Description
+Rebuild the entire portfolio site to be "creative, attractive, and captivating". The current design is considered boring. The new design will prioritize visual excellence, premium aesthetics (glassmorphism, vibrant gradients, animations), and a dynamic user experience.
+
+## User Review Required
+> [!IMPORTANT]
+> This is a complete visual overhaul. The existing "boring" styles will be replaced.
+
+## Proposed Changes
+
+### Design System (Global)
+-   **Theme**: Modern "Dark Premium" aesthetic. Deep background colors (slate/zinc/black) with vibrant accents (cyan/purple/blue) and glassmorphism effects.
+-   **Typography**: Use `Inter` and `Outfit` via Google Fonts.
+-   **Animations**: `framer-motion` for scroll reveals, hero entrance, and hover interactions.
+
+### Configuration
+#### [MODIFY] [tailwind.config.cjs](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/tailwind.config.cjs)
+-   Add custom color palette (`primary`, `secondary`, `accent`, `dark`).
+-   Add custom font families.
+-   Add custom animations/keyframes if needed.
+
+#### [MODIFY] [src/styles.css](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/styles.css)
+-   Import Google Fonts.
+-   Add global styles for smooth scrolling, selection colors, and base typography.
+
+### Components
+#### [MODIFY] [src/components/Header.jsx](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/components/Header.jsx)
+-   Implement sticky glassmorphism header.
+-   Mobile-responsive hamburger menu with smooth slide-in.
+
+#### [MODIFY] [src/components/Hero.jsx](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/components/Hero.jsx)
+-   Create a "Wow" factor entrance.
+-   Dynamic background (gradient mesh or animated shapes).
+-   Strong CTA with hover effects.
+
+#### [MODIFY] [src/components/Services.jsx](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/components/Services.jsx)
+-   Use grid layout with glass cards.
+-   Hover effects to "lift" cards and glow.
+
+#### [MODIFY] [src/components/Portfolio.jsx](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/components/Portfolio.jsx)
+-   Masonry or clean grid layout for projects.
+-   Image hover reveal details.
+
+#### [MODIFY] [src/components/Testimonials.jsx](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/components/Testimonials.jsx)
+-   Visually distinct cards or slider.
+
+#### [MODIFY] [src/components/Contact.jsx](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/components/Contact.jsx)
+-   Minimalist, clean form.
+-   Social links integration.
+
+#### [MODIFY] [src/components/Footer.jsx](file:///c:/Users/Shawn/Documents/GitHub/timsuperville.github.io/src/components/Footer.jsx)
+-   Simple, elegant footer.
+
+### Content & Data
+-   Ensure components consume data from `src/data/*.js`.
+-   Use `generate_image` for placeholders where needed (e.g., project mocks).
+
+## Verification Plan
+
+### Automated Tests
+-   Run `npm run build` to ensure no build errors.
+-   Run `npm run lint` to enforce code quality.
+-   Run `npm test` (if applicable) to check basic component rendering.
+
+### Manual Verification
+-   **Visual Check**: Build the site locally and inspect every section for "wow" factor, spacing, and responsiveness.
+-   **Interaction Check**: Test all links, buttons, and form inputs.
+-   **Mobile Check**: Resize browser to mobile width to verify responsive menu and layout.

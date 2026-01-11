@@ -22,7 +22,19 @@ export default function CaseStudyDetail({ id }) {
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Home
                 </a>
 
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight font-serif">{study.detailTitle}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold mb-8 text-white leading-tight font-serif">{study.detailTitle}</h1>
+
+                {/* Hero Image */}
+                {study.image && (
+                    <div className="mb-12 rounded-2xl overflow-hidden border border-white/5 bg-dark-800 shadow-2xl relative aspect-video">
+                        <img
+                            src={study.image}
+                            alt={study.detailTitle}
+                            className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl"></div>
+                    </div>
+                )}
 
                 <div className="glass-card p-8 mb-12">
                     <div className="grid md:grid-cols-2 gap-8">

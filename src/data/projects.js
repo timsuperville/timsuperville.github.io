@@ -2,13 +2,19 @@ export const projects = [
     {
         title: 'E-commerce Platform',
         description: 'Full-stack solution with payments and admin dashboard.',
-        image: '/images/writingCode.jpg',
-        alt: 'E-commerce platform'
+        image: '/images/ecommerce_dashboard_1768123341838.png',
+        alt: 'Futuristic fintech dashboard interface'
     },
     {
         title: 'Business Website',
         description: 'Responsive marketing site with contact & SEO optimizations.',
-        image: '/images/background2.jpg',
-        alt: 'Business site'
+        image: '/images/marketing_site_1768123355082.png',
+        alt: 'Modern minimalist creative agency website'
+    },
+    {
+        title: 'Corporate Portfolio',
+        description: 'Asset integrity and engineering services showcase.',
+        image: '/images/engineering_portfolio_1768123368170.png',
+        alt: 'Industrial engineering technical dashboard'
     }
 ]

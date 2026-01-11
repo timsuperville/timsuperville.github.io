@@ -5,6 +5,7 @@ export const caseStudies = [
         shortDescription: 'Rebuilt checkout flow and improved speed, resulting in a 30% increase in conversions and 18% faster page loads.',
         shortTech: 'Tech: React, Node, Stripe, Serverless functions',
         detailTitle: 'E-commerce revamp',
+        image: '/images/ecommerce_dashboard_1768123341838.png',
         challenge: 'a slow, complicated checkout flow and high cart abandonment.',
         whatIDid: [
             'Rebuilt checkout to a single-step experience',
@@ -21,6 +22,7 @@ export const caseStudies = [
         shortDescription: 'Updated content and accessibility, improved structured data and technical SEO, increasing organic traffic by 40% in 3 months.',
         shortTech: 'Tech: React, Tailwind, Lighthouse optimizations',
         detailTitle: 'Marketing site rebuild',
+        image: '/images/marketing_site_1768123355082.png',
         challenge: 'outdated site with poor organic visibility and accessibility issues.',
         whatIDid: [
             'Rewrote content with SEO in mind and added structured data',
@@ -36,6 +38,7 @@ export const caseStudies = [
         shortDescription: 'Asset integrity and corrosion management website featuring service listings and partner credentials.',
         shortTech: 'Tech: React, Vite, Tailwind CSS',
         detailTitle: 'Axis Integrity Services',
+        image: '/images/engineering_portfolio_1768123368170.png',
         challenge: 'Need for a professional digital presence to showcase specialized engineering services and certifications.',
         whatIDid: [
             'Designed a professional, corporate user interface',

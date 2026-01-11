@@ -15,7 +15,7 @@ export default function Footer() {
                     <a href="https://www.linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn">
                         <Linkedin className="w-5 h-5" />
                     </a>
-                    <a href="mailto:hello@timsuperville.com" className="text-slate-400 hover:text-white transition-colors" aria-label="Email">
+                    <a href="mailto:hello@tsuperville.com" className="text-slate-400 hover:text-white transition-colors" aria-label="Email">
                         <Mail className="w-5 h-5" />
                     </a>
                 </div>
