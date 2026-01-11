@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Github, Linkedin } from 'lucide-react'
+import { Github, Linkedin, Mail } from 'lucide-react'
 import { isOptedOut, optIn, optOut } from '../analytics'
 
 export default function Footer() {
