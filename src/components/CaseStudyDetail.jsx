@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { ArrowLeft, CheckCircle2, Cpu, Flag, TrendingUp } from 'lucide-react'
 import { caseStudies } from '../data/caseStudies'
+import NotFound from './NotFound'
 
 export default function CaseStudyDetail({ id }) {
     const study = caseStudies.find(s => s.id === id)
@@ -13,7 +14,7 @@ export default function CaseStudyDetail({ id }) {
         }
     }, [study])
 
-    if (!study) return null
+    if (!study) return <NotFound />
 
     return (
         <section className="py-32 min-h-screen bg-dark-950">
