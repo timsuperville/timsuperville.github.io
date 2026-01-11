@@ -20,17 +20,20 @@ export default function Footer() {
                     </a>
                 </div>
 
-                <p className="text-slate-500 mb-4">
-                    © {new Date().getFullYear()} Tim Superville. Built with React & Tailwind.
-                </p>
-
-                <div className="flex justify-center items-center gap-2 text-xs text-slate-600">
-                    <span>Analytics:</span>
-                    {optedOut ? (
-                        <button className="underline hover:text-slate-400 transition-colors" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
-                    ) : (
-                        <button className="underline hover:text-slate-400 transition-colors" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
-                    )}
+                <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-sm text-slate-500">
+                    <p>&copy; {new Date().getFullYear()} Tim Superville. All rights reserved.</p>
+                    <div className="flex gap-6 mt-4 md:mt-0">
+                        <a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+                        <div className="flex items-center gap-2 text-xs text-slate-600">
+                            <span>Analytics:</span>
+                            {optedOut ? (
+                                <button className="underline hover:text-slate-400 transition-colors" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
+                            ) : (
+                                <button className="underline hover:text-slate-400 transition-colors" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>

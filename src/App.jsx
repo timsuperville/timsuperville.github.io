@@ -12,6 +12,7 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 import Resume from './components/Resume'
+import PrivacyPolicy from './components/PrivacyPolicy'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
 import CookieBanner from './CookieBanner'
@@ -108,7 +109,19 @@ export default function App() {
               </motion.div>
             )}
 
-            {showNotFound && route !== '#resume' && (
+            {route === '#privacy' && (
+              <motion.div
+                key="privacy"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <PrivacyPolicy />
+              </motion.div>
+            )}
+
+            {showNotFound && route !== '#resume' && route !== '#privacy' && (
               <motion.div
                 key="404"
                 initial={{ opacity: 0 }}
