@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
+import CookieBanner from './CookieBanner'
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash || '#home')
@@ -110,6 +111,7 @@ export default function App() {
 
       {!showNotFound && <Footer />}
 
+      <CookieBanner />
       <BackToTop />
 
       {toast && (

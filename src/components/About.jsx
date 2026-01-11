@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion'
-import { Github, Linkedin } from 'lucide-react'
+import { Github, Linkedin, FileText } from 'lucide-react'
 
 export default function About() {
     return (
@@ -38,6 +38,9 @@ export default function About() {
                         </div>
 
                         <div className="flex gap-4">
+                            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary flex items-center gap-2 px-6 py-2 text-sm shadow-none hover:shadow-lg hover:shadow-primary/20">
+                                <FileText className="w-4 h-4" /> Download Resume
+                            </a>
                             <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="btn-outline flex items-center gap-2 px-6 py-2 text-sm">
                                 <Github className="w-4 h-4" /> GitHub
                             </a>
