@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Services from './components/Services'
@@ -49,25 +50,62 @@ export default function App() {
       {!showNotFound && <Header />}
 
       <main id="main-content">
-        {(!route || route === '#home' || route === '#services' || route === '#portfolio'
-          || route === '#case-studies' || route === '#about') && (
-            <>
-              <Hero />
-              <Services />
-              <Portfolio />
-              <CaseStudies />
-              <Testimonials />
-              <About />
-            </>
-          )}
+        <React.Suspense fallback={<div className="h-screen w-full flex items-center justify-center text-slate-500">Loading...</div>}>
+          <AnimatePresence mode="wait">
+            {(!route || route === '#home' || route === '#services' || route === '#portfolio'
+              || route === '#case-studies' || route === '#about') && (
+                <motion.div
+                  key="home"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Hero />
+                  <Services />
+                  <Portfolio />
+                  <CaseStudies />
+                  <Testimonials />
+                  <About />
+                </motion.div>
+              )}
 
-        {route === '#contact' && <Contact setToast={setToast} />}
+            {route === '#contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Contact setToast={setToast} />
+              </motion.div>
+            )}
 
-        {isCaseStudy && (
-          <CaseStudyDetail id={route.replace('#case/', '')} />
-        )}
+            {isCaseStudy && (
+              <motion.div
+                key="case-study"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CaseStudyDetail id={route.replace('#case/', '')} />
+              </motion.div>
+            )}
 
-        {showNotFound && <NotFound />}
+            {showNotFound && (
+              <motion.div
+                key="404"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <NotFound />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </React.Suspense>
       </main>
 
       {!showNotFound && <Footer />}
