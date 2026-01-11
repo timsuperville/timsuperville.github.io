@@ -3,6 +3,11 @@ import { motion } from 'framer-motion'
 import { Github, Linkedin, FileText } from 'lucide-react'
 
 export default function About() {
+    const techStack = [
+        'React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL',
+        'Tailwind', 'GraphQL', 'AWS', 'Framer Motion', 'Docker', 'Figma'
+    ]
+
     return (
         <section id="about" className="py-24 relative overflow-hidden bg-dark-900/30">
             <div className="section-container">
@@ -29,12 +34,16 @@ export default function About() {
                             </p>
                         </div>
 
-                        <div className="flex flex-wrap gap-3 mb-8">
-                            {['React', 'Next.js', 'Node.js', 'Tailwind', 'TypeScript', 'PostgreSQL'].map((tech) => (
-                                <span key={tech} className="px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary-glow border border-primary/20">
-                                    {tech}
-                                </span>
-                            ))}
+                        <div className="relative overflow-hidden w-full max-w-xl mb-8 -mx-4 md:mx-0 mask-gradient">
+                            <div className="flex gap-4 animate-marquee whitespace-nowrap">
+                                {[...techStack, ...techStack].map((tech, i) => (
+                                    <span key={i} className="px-4 py-2 rounded-full text-sm font-medium bg-white/5 text-slate-300 border border-white/10 backdrop-blur-sm">
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                            <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-dark-900 to-transparent z-10"></div>
+                            <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-dark-900 to-transparent z-10"></div>
                         </div>
 
                         <div className="flex gap-4">

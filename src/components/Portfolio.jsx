@@ -1,11 +1,16 @@
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { projects } from '../data/projects'
 import Skeleton from './Skeleton'
 
 export default function Portfolio() {
+    const [filter, setFilter] = useState('All')
+    const categories = ['All', 'Full Stack', 'Frontend', 'Design']
+
+    const filteredProjects = projects.filter(p => filter === 'All' || p.category === filter)
+
     return (
         <section id="portfolio" className="py-24 bg-dark-900/50">
             <div className="section-container">
@@ -20,35 +25,53 @@ export default function Portfolio() {
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">
                             Recent <span className="text-gradient">Work</span>
                         </h2>
-                        <p className="text-slate-400 max-w-lg">
+                        <p className="text-slate-400 max-w-lg mb-6">
                             A selection of projects that showcase my passion for building high-quality web experiences.
                         </p>
+
+                        {/* Filter Buttons */}
+                        <div className="flex flex-wrap gap-2">
+                            {categories.map(cat => (
+                                <button
+                                    key={cat}
+                                    onClick={() => setFilter(cat)}
+                                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 border
+                                        ${filter === cat
+                                            ? 'bg-primary/20 border-primary text-white shadow-[0_0_15px_rgba(56,189,248,0.3)]'
+                                            : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'}`}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                    {/* Optional View All Button */}
-                    <a href="#portfolio" className="text-primary-glow hover:text-white transition-colors flex items-center gap-2 font-medium">
-                        View all projects <ExternalLink className="w-4 h-4" />
-                    </a>
                 </motion.div>
 
-                <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
-                    {projects.map((p, i) => (
-                        <PortfolioItem key={i} project={p} index={i} />
-                    ))}
-                </div>
+                <motion.div
+                    layout
+                    className="grid gap-8 md:grid-cols-2 lg:gap-12"
+                >
+                    <AnimatePresence mode='popLayout'>
+                        {filteredProjects.map((p) => (
+                            <PortfolioItem key={p.id} project={p} />
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
             </div>
         </section>
     )
 }
 
-function PortfolioItem({ project, index }) {
+function PortfolioItem({ project }) {
     const [isLoaded, setIsLoaded] = useState(false)
 
     return (
         <motion.article
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
             className="group relative rounded-2xl overflow-hidden bg-dark-800 border border-white/5"
         >
             {/* Image Container */}
