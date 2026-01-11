@@ -8,6 +8,7 @@ export default function CaseStudyDetail({ id }) {
     useEffect(() => {
         if (study) {
             document.title = `${study.detailTitle} — Tim Superville`
+            document.querySelector('meta[name="description"]')?.setAttribute('content', `Case Study: ${study.detailTitle}. ${study.challenge.substring(0, 120)}...`)
             window.scrollTo(0, 0)
         }
     }, [study])
