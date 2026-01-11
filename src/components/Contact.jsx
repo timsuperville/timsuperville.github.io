@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Mail, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import confetti from 'canvas-confetti'
 import { trackEvent } from '../analytics'
 import { CONFIG } from '../config'
 
@@ -71,6 +72,14 @@ export default function Contact(props) {
                 setProjectType('')
                 setBudgetRange('')
                 setMessage('')
+
+                // Fire confetti!
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                })
+
                 try { trackEvent('contact_submit', { result: 'success' }) } catch { }
                 if (props && typeof props.setToast === 'function') {
                     props.setToast({ type: 'success', message: 'Message sent — thanks!' })
