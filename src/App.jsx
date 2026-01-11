@@ -11,6 +11,7 @@ import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
+import Resume from './components/Resume'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
 import CookieBanner from './CookieBanner'
@@ -95,7 +96,19 @@ export default function App() {
               </motion.div>
             )}
 
-            {showNotFound && (
+            {route === '#resume' && (
+              <motion.div
+                key="resume"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Resume />
+              </motion.div>
+            )}
+
+            {showNotFound && route !== '#resume' && (
               <motion.div
                 key="404"
                 initial={{ opacity: 0 }}
