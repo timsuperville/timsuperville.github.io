@@ -1,4 +1,4 @@
-
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Calendar, ChevronDown } from 'lucide-react'
 import { CONFIG } from '../config'
@@ -31,7 +31,7 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-5xl md:text-7xl font-bold mb-6 leading-tight font-serif"
                 >
-                    Building <span className="text-gradient">digital experiences</span><br />
+                    Building <Typewriter text={["digital experiences", "scalable applications", "engaging interfaces"]} /> <br />
                     that people love.
                 </motion.h1>
 
@@ -81,5 +81,37 @@ export default function Hero() {
                 <ChevronDown className="w-8 h-8" />
             </motion.a>
         </section>
+    )
+}
+
+function Typewriter({ text }) {
+    const [index, setIndex] = React.useState(0)
+    const [subIndex, setSubIndex] = React.useState(0)
+    const [reverse, setReverse] = React.useState(false)
+
+    React.useEffect(() => {
+        if (subIndex === text[index].length + 1 && !reverse) {
+            setTimeout(() => setReverse(true), 1000)
+            return
+        }
+
+        if (subIndex === 0 && reverse) {
+            setReverse(false)
+            setIndex((prev) => (prev + 1) % text.length)
+            return
+        }
+
+        const timeout = setTimeout(() => {
+            setSubIndex((prev) => prev + (reverse ? -1 : 1))
+        }, Math.max(reverse ? 75 : subIndex === text[index].length ? 1000 : 150, parseInt(Math.random() * 350)))
+
+        return () => clearTimeout(timeout)
+    }, [subIndex, index, reverse, text])
+
+    return (
+        <span className="text-gradient min-w-[300px] inline-block">
+            {text[index].substring(0, subIndex)}
+            <span className="animate-pulse">|</span>
+        </span>
     )
 }
