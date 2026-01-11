@@ -49,6 +49,7 @@ export default function Header() {
                             key={link.name}
                             href={link.href}
                             className="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group"
+                            aria-label={`Navigate to ${link.name}`}
                         >
                             {link.name}
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-glow transition-all duration-300 group-hover:w-full"></span>
@@ -58,10 +59,10 @@ export default function Header() {
                     <div className="h-6 w-px bg-slate-700 mx-4"></div>
 
                     <div className="flex items-center gap-4">
-                        <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                        <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" aria-label="GitHub Profile">
                             <Github className="w-5 h-5" />
                         </a>
-                        <a href="https://linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                        <a href="https://linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn Profile">
                             <Linkedin className="w-5 h-5" />
                         </a>
                     </div>

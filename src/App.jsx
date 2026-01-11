@@ -10,6 +10,8 @@ import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
+import ScrollProgress from './components/ScrollProgress'
+import BackToTop from './components/BackToTop'
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash || '#home')
@@ -40,6 +42,7 @@ export default function App() {
 
   return (
     <div>
+      <ScrollProgress />
       {/* Skip link for keyboard users */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-white focus:border focus:px-3 focus:py-2">Skip to content</a>
 
@@ -68,6 +71,8 @@ export default function App() {
       </main>
 
       {!showNotFound && <Footer />}
+
+      <BackToTop />
 
       {toast && (
         <div className={`toast ${toast.type} show`} role="status" aria-live="polite">{toast.message}</div>

@@ -9,11 +9,14 @@ export default function Footer() {
         <footer className="bg-dark-950 border-t border-white/5 py-12">
             <div className="max-w-7xl mx-auto px-6 text-center">
                 <div className="flex justify-center gap-6 mb-8">
-                    <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all hover:scale-110">
+                    <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" aria-label="GitHub">
                         <Github className="w-5 h-5" />
                     </a>
-                    <a href="https://www.linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all hover:scale-110">
+                    <a href="https://www.linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn">
                         <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a href="mailto:hello@timsuperville.com" className="text-slate-400 hover:text-white transition-colors" aria-label="Email">
+                        <Mail className="w-5 h-5" />
                     </a>
                 </div>
 
