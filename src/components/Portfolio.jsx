@@ -69,9 +69,9 @@ function PortfolioItem({ project, index }) {
                 <h3 className="text-2xl font-bold text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{project.title}</h3>
                 <p className="text-slate-300 mb-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{project.description}</p>
                 <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">
-                    <span className="inline-flex items-center gap-2 text-primary-glow font-medium">
+                    <a href={`#case/${project.id}`} className="inline-flex items-center gap-2 text-primary-glow font-medium hover:text-white transition-colors">
                         View Case Study <ExternalLink className="w-4 h-4" />
-                    </span>
+                    </a>
                 </div>
             </div>
         </motion.article>
