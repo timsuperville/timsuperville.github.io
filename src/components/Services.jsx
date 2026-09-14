@@ -1,20 +1,28 @@
-
+import React from 'react'
 import { motion } from 'framer-motion'
-import { Globe, Smartphone, Zap, Code2, Layout, Rocket } from 'lucide-react'
+import { Code2, Layout, Rocket, CreditCard, CheckCircle2, ArrowRight } from 'lucide-react'
 import { services } from '../data/services'
 
-const getIcon = (title) => {
-    const t = title.toLowerCase()
-    if (t.includes('web') || t.includes('dev')) return <Code2 className="w-8 h-8 text-primary" />
-    if (t.includes('responsive') || t.includes('design')) return <Layout className="w-8 h-8 text-secondary" />
-    if (t.includes('performance') || t.includes('seo')) return <Rocket className="w-8 h-8 text-accent" />
-    return <Zap className="w-8 h-8 text-primary" />
+const getIcon = (id) => {
+    switch (id) {
+        case 'fullstack':
+            return <Code2 className="w-6 h-6 text-primary-glow" />
+        case 'design-systems':
+            return <Layout className="w-6 h-6 text-secondary-glow" />
+        case 'performance':
+            return <Rocket className="w-6 h-6 text-accent-glow" />
+        case 'cloud-payments':
+            return <CreditCard className="w-6 h-6 text-primary-glow" />
+        default:
+            return <Code2 className="w-6 h-6 text-primary-glow" />
+    }
 }
 
 export default function Services() {
     return (
-        <section id="services" className="py-24 relative">
-            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+        <section id="services" className="py-24 relative overflow-hidden bg-dark-950">
+            {/* Ambient Lighting */}
+            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[140px] -translate-y-1/2 pointer-events-none"></div>
 
             <div className="section-container relative z-10">
                 <motion.div
@@ -24,29 +32,72 @@ export default function Services() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        Expertise & <span className="text-gradient">Services</span>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary-glow text-xs font-mono uppercase tracking-wider mb-4">
+                        <span>Core Capabilities</span>
+                    </div>
+                    <h2 className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight">
+                        Engineering <span className="text-gradient">Services & Solutions</span>
                     </h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">
-                        I combine technical depth with design sensibility to deliver complete digital products.
+                    <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
+                        Combining deep technical rigor with modern user ergonomics to ship scalable, resilient software products.
                     </p>
                 </motion.div>
 
-                <div className="grid gap-8 md:grid-cols-3">
+                <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
                     {services.map((s, i) => (
                         <motion.div
-                            key={i}
+                            key={s.id || i}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: i * 0.1 }}
-                            className="glass-card group"
+                            className="glass-card group flex flex-col justify-between"
                         >
-                            <div className="mb-6 p-4 rounded-xl bg-white/5 w-fit group-hover:scale-110 transition-transform duration-300 border border-white/10 group-hover:border-primary/30">
-                                {getIcon(s.title)}
+                            <div>
+                                <div className="flex items-start justify-between gap-4 mb-6">
+                                    <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 group-hover:scale-110 group-hover:border-primary/40 group-hover:shadow-glow-primary transition-all duration-300">
+                                        {getIcon(s.id)}
+                                    </div>
+                                    <span className="text-xs font-mono px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 text-slate-400">
+                                        {s.badge}
+                                    </span>
+                                </div>
+
+                                <h3 className="text-xl sm:text-2xl font-bold mb-3 text-white group-hover:text-primary-glow transition-colors">
+                                    {s.title}
+                                </h3>
+
+                                <p className="text-slate-400 leading-relaxed mb-6 text-sm sm:text-base">
+                                    {s.description}
+                                </p>
+
+                                <div className="space-y-2.5 mb-6">
+                                    {s.features.map((feat, idx) => (
+                                        <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-300">
+                                            <CheckCircle2 className="w-4 h-4 text-primary-glow shrink-0" />
+                                            <span>{feat}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <h3 className="text-xl font-bold mb-3 text-slate-100 group-hover:text-primary-glow transition-colors">{s.title}</h3>
-                            <p className="text-slate-400 leading-relaxed">{s.description}</p>
+
+                            <div className="pt-4 border-t border-white/5 flex flex-wrap items-center justify-between gap-3">
+                                <div className="flex flex-wrap gap-1.5">
+                                    {s.stack.map((st, idx) => (
+                                        <span key={idx} className="text-[11px] font-mono px-2 py-0.5 rounded bg-white/[0.03] border border-white/5 text-slate-400">
+                                            {st}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <a 
+                                    href="#estimator" 
+                                    className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-primary-glow group-hover:translate-x-1 transition-transform"
+                                >
+                                    <span>Scope module</span>
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                </a>
+                            </div>
                         </motion.div>
                     ))}
                 </div>

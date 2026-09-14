@@ -3,9 +3,31 @@
 @tailwind utilities;
 
 :root {
-  --bg-dark: #0f172a;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
+  --color-primary: 6 182 212;
+  --color-primary-glow: 34 211 238;
+  --color-secondary: 139 92 246;
+  --color-secondary-glow: 167 139 250;
+}
+
+[data-accent="violet"] {
+  --color-primary: 139 92 246;
+  --color-primary-glow: 167 139 250;
+  --color-secondary: 236 72 153;
+  --color-secondary-glow: 244 114 182;
+}
+
+[data-accent="emerald"] {
+  --color-primary: 16 185 129;
+  --color-primary-glow: 52 211 153;
+  --color-secondary: 6 182 212;
+  --color-secondary-glow: 34 211 238;
+}
+
+[data-accent="amber"] {
+  --color-primary: 245 158 11;
+  --color-primary-glow: 251 191 36;
+  --color-secondary: 239 68 68;
+  --color-secondary-glow: 248 113 113;
 }
 
 @layer base {
@@ -16,62 +38,87 @@
   }
   
   body {
-    @apply bg-dark-950 text-slate-100 font-sans overflow-x-hidden;
+    @apply bg-dark-950 text-slate-100 font-sans overflow-x-hidden selection:bg-primary-glow/30 selection:text-white;
+    background-image: 
+      radial-gradient(circle at 50% -20%, rgba(34, 211, 238, 0.08) 0%, transparent 60%),
+      radial-gradient(circle at 90% 40%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 10% 80%, rgba(34, 211, 238, 0.05) 0%, transparent 50%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight;
-  }
-
-  ::selection {
-    @apply bg-primary-glow/30 text-white;
+    @apply font-sans tracking-tight font-bold text-white;
   }
 }
 
 @layer components {
-  /* Glassmorphism Utilities */
+  /* Liquid Glass Utilities */
   .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl;
+    @apply backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] shadow-glass;
   }
   
   .glass-card {
-    @apply glass rounded-2xl p-6 transition-all duration-300 hover:bg-white/10 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-primary/10;
+    @apply glass rounded-2xl p-6 transition-all duration-300 
+           hover:bg-white/[0.06] hover:border-white/[0.16] hover:translate-y-[-4px] 
+           hover:shadow-glow-primary;
+  }
+
+  .glass-card-interactive {
+    @apply glass-card cursor-pointer active:scale-[0.99];
   }
 
   .nav-glass {
-    @apply bg-dark-950/80 backdrop-blur-md border-b border-white/5;
+    @apply bg-dark-950/75 backdrop-blur-xl border-b border-white/[0.08] shadow-lg shadow-black/20;
   }
 
   /* Text Gradients */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-glow to-secondary-glow;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-glow via-cyan-200 to-secondary-glow;
   }
 
   .text-gradient-sub {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-100 to-slate-400;
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400;
   }
 
   /* Buttons */
   .btn-primary {
-    @apply px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-semibold 
+    @apply relative inline-flex items-center justify-center px-6 py-3 rounded-xl 
+           bg-gradient-to-r from-primary to-secondary text-white font-semibold text-sm
            shadow-lg shadow-primary/25 transition-all duration-300 
-           hover:shadow-primary/50 hover:scale-105 active:scale-95;
+           hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]
+           focus:outline-none focus:ring-2 focus:ring-primary-glow/50;
   }
 
   .btn-outline {
-    @apply px-8 py-3 rounded-full border border-white/20 text-white font-semibold
-           backdrop-blur-sm transition-all duration-300
-           hover:bg-white/10 hover:border-white/40;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl 
+           border border-white/15 bg-white/[0.03] text-slate-200 font-semibold text-sm
+           backdrop-blur-md transition-all duration-300
+           hover:bg-white/[0.08] hover:border-white/30 hover:text-white hover:scale-[1.02] active:scale-[0.98]
+           focus:outline-none focus:ring-2 focus:ring-white/20;
+  }
+
+  .badge-pulse {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full 
+           bg-primary/10 border border-primary/25 text-primary-glow text-xs font-medium;
   }
   
   /* Layout utilities */
   .section-container {
-    @apply max-w-7xl mx-auto px-6 sm:px-12 py-20 lg:py-32;
+    @apply max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 py-20 lg:py-28;
+  }
+
+  /* Ambient Mesh Orb */
+  .mesh-orb {
+    @apply absolute rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse-slow;
   }
   
   /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -79,7 +126,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-800 rounded-full border-2 border-dark-950;
+    @apply bg-slate-800 rounded-full border border-dark-900;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -87,14 +134,36 @@
   }
 }
 
-/* Animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 1s ease-out;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+/* Print Styles for Resume */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #resume-content, #resume-content * {
+    visibility: visible;
+  }
+  #resume-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white !important;
+    color: black !important;
+    padding: 24px;
+    margin: 0;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  #resume-content h1, #resume-content h2, #resume-content h3, #resume-content h4 {
+    color: black !important;
+  }
+  #resume-content p, #resume-content li, #resume-content span, #resume-content div {
+    color: #222 !important;
+  }
+  #resume-content .text-primary-glow {
+    color: #0284c7 !important;
+  }
+  #resume-content .border-white\/10 {
+    border-color: #e2e8f0 !important;
+  }
 }

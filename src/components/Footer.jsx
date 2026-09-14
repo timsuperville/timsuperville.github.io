@@ -1,36 +1,114 @@
-import { useState } from 'react'
-import { Github, Linkedin, Mail } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Github, Linkedin, Mail, Clock } from 'lucide-react'
 import { isOptedOut, optIn, optOut } from '../analytics'
 
 export default function Footer() {
     const [optedOut, setOptedOut] = useState(isOptedOut())
+    const [timeString, setTimeString] = useState('')
+
+    useEffect(() => {
+        const updateTime = () => {
+            try {
+                const now = new Date()
+                const formatted = now.toLocaleTimeString('en-US', {
+                    timeZone: 'America/Los_Angeles',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                })
+                setTimeString(formatted)
+            } catch {
+                setTimeString('')
+            }
+        }
+        updateTime()
+        const interval = setInterval(updateTime, 30000)
+        return () => clearInterval(interval)
+    }, [])
 
     return (
-        <footer className="bg-dark-950 border-t border-white/5 py-12">
-            <div className="max-w-7xl mx-auto px-6 text-center">
-                <div className="flex justify-center gap-6 mb-8">
-                    <a href="https://github.com/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" aria-label="GitHub">
-                        <Github className="w-5 h-5" />
-                    </a>
-                    <a href="https://www.linkedin.com/in/timsuperville" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn">
-                        <Linkedin className="w-5 h-5" />
-                    </a>
-                    <a href="mailto:hello@tsuperville.com" className="text-slate-400 hover:text-white transition-colors" aria-label="Email">
-                        <Mail className="w-5 h-5" />
-                    </a>
+        <footer className="bg-dark-950 border-t border-white/10 py-14 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6 sm:px-10">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-white/10 items-center">
+                    {/* Brand & Mission */}
+                    <div className="md:col-span-6">
+                        <div className="font-bold text-xl text-white mb-2">Tim Superville</div>
+                        <p className="text-sm text-slate-400 max-w-sm leading-relaxed mb-4">
+                            Senior Full Stack Engineer building high-performance web applications, accessible interfaces, and resilient distributed services.
+                        </p>
+                        {timeString && (
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 text-xs font-mono text-slate-400">
+                                <Clock className="w-3.5 h-3.5 text-primary-glow" />
+                                <span>San Francisco, CA • {timeString} PT</span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Quick Nav Links */}
+                    <div className="md:col-span-6 flex flex-wrap md:justify-end items-center gap-6 text-xs font-mono text-slate-400">
+                        <a href="#services" className="hover:text-white transition-colors">Services</a>
+                        <a href="#portfolio" className="hover:text-white transition-colors">Work</a>
+                        <a href="#case-studies" className="hover:text-white transition-colors">Case Studies</a>
+                        <a href="#tech-stack" className="hover:text-white transition-colors">Tech Arsenal</a>
+                        <a href="#estimator" className="hover:text-white transition-colors">Estimator</a>
+                        <a href="#resume" className="hover:text-white transition-colors">Resume</a>
+                        <a href="#privacy" className="hover:text-white transition-colors">Privacy</a>
+                    </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-sm text-slate-500">
-                    <p>&copy; {new Date().getFullYear()} Tim Superville. All rights reserved.</p>
-                    <div className="flex gap-6 mt-4 md:mt-0">
-                        <a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
-                        <a href="#contact" className="hover:text-white transition-colors">Contact</a>
-                        <div className="flex items-center gap-2 text-xs text-slate-600">
-                            <span>Analytics:</span>
+                {/* Bottom Bar */}
+                <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-500">
+                    <div className="flex items-center gap-2">
+                        <span>&copy; {new Date().getFullYear()} Tim Superville. Crafted with React & Tailwind CSS.</span>
+                    </div>
+
+                    <div className="flex items-center gap-6">
+                        {/* Social Icons */}
+                        <div className="flex items-center gap-4">
+                            <a 
+                                href="https://github.com/timsuperville" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-slate-400 hover:text-white transition-colors"
+                                aria-label="GitHub Profile"
+                            >
+                                <Github className="w-4 h-4" />
+                            </a>
+                            <a 
+                                href="https://linkedin.com/in/timsuperville" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-slate-400 hover:text-white transition-colors"
+                                aria-label="LinkedIn Profile"
+                            >
+                                <Linkedin className="w-4 h-4" />
+                            </a>
+                            <a 
+                                href="mailto:hello@tsuperville.com" 
+                                className="text-slate-400 hover:text-white transition-colors"
+                                aria-label="Email Tim"
+                            >
+                                <Mail className="w-4 h-4" />
+                            </a>
+                        </div>
+
+                        {/* Analytics toggle */}
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-600 border-l border-white/10 pl-4">
+                            <span>Telemetry:</span>
                             {optedOut ? (
-                                <button className="underline hover:text-slate-400 transition-colors" onClick={() => { optIn(); setOptedOut(false) }}>Enable</button>
+                                <button 
+                                    className="text-primary-glow hover:underline" 
+                                    onClick={() => { optIn(); setOptedOut(false) }}
+                                >
+                                    Enable
+                                </button>
                             ) : (
-                                <button className="underline hover:text-slate-400 transition-colors" onClick={() => { optOut(); setOptedOut(true) }}>Disable</button>
+                                <button 
+                                    className="text-slate-400 hover:text-white hover:underline" 
+                                    onClick={() => { optOut(); setOptedOut(true) }}
+                                >
+                                    Disable
+                                </button>
                             )}
                         </div>
                     </div>

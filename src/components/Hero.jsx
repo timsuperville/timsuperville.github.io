@@ -1,72 +1,113 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Calendar, ChevronDown } from 'lucide-react'
+import { ArrowRight, Calendar, Calculator, ChevronDown } from 'lucide-react'
 import { CONFIG } from '../config'
 import { trackEvent } from '../analytics'
 
 export default function Hero() {
     return (
-        <section id="home" className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20">
-            {/* Dynamic Background */}
-            <div className="absolute inset-0 bg-dark-950">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow"></div>
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[120px] animate-pulse-slow delay-1000"></div>
-                <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+        <section id="home" className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
+            {/* Dynamic Mesh Aurora Background */}
+            <div className="absolute inset-0 bg-dark-950 pointer-events-none">
+                <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[140px] animate-pulse-slow"></div>
+                <div className="absolute bottom-10 left-1/4 w-[600px] h-[600px] bg-secondary/15 rounded-full blur-[140px] animate-pulse-slow delay-1000"></div>
+                <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-15 bg-center [mask-image:radial-gradient(ellipse_at_center,white_30%,transparent_75%)]"></div>
             </div>
 
-            <div className="section-container relative z-10 text-center">
+            <div className="section-container relative z-10 text-center flex flex-col items-center">
+                {/* Live Availability Badge */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/20 bg-primary/5 mb-8"
+                    transition={{ duration: 0.6 }}
+                    className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass border border-primary/30 bg-primary/5 mb-8 shadow-glow-primary"
                 >
-                    <span className="w-2 h-2 rounded-full bg-primary-glow animate-pulse"></span>
-                    <span className="text-sm font-medium text-primary-glow tracking-wide">Available for new projects</span>
+                    <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-xs sm:text-sm font-mono font-medium text-slate-200 tracking-wide">
+                        Available for Q3/Q4 2026 Engineering & Contracts
+                    </span>
                 </motion.div>
 
+                {/* Primary Headline */}
                 <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-5xl md:text-7xl font-bold mb-6 leading-tight font-serif"
+                    transition={{ duration: 0.7, delay: 0.15 }}
+                    className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-[1.1] sm:leading-[1.15]"
                 >
-                    Building <Typewriter text={["digital experiences", "scalable applications", "engaging interfaces"]} /> <br />
+                    Building <Typewriter text={["digital experiences", "scalable applications", "resilient systems"]} /> <br className="hidden sm:inline" />
                     that people love.
                 </motion.h1>
 
+                {/* Subtitle */}
                 <motion.p
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+                    transition={{ duration: 0.7, delay: 0.3 }}
+                    className="text-base sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-body"
                 >
-                    I help forward-thinking companies design and build high-performance web applications. fast, accessible, and scalable.
+                    Senior Full Stack Engineer architecting high-performance web applications, distributed APIs, and accessible interfaces engineered for speed, conversion, and scale.
                 </motion.p>
 
+                {/* CTA Actions */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                    transition={{ duration: 0.7, delay: 0.45 }}
+                    className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md sm:max-w-none mb-16"
                 >
                     <a
                         href="#portfolio"
-                        className="btn-primary flex items-center gap-2 group w-full sm:w-auto justify-center"
+                        className="btn-primary flex items-center justify-center gap-2 group w-full sm:w-auto"
                     >
-                        View My Work
+                        <span>Explore Selected Work</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <a
+                        href="#estimator"
+                        className="btn-outline flex items-center justify-center gap-2 group w-full sm:w-auto"
+                    >
+                        <Calculator className="w-4 h-4 text-secondary-glow" />
+                        <span>Estimate Your Project</span>
                     </a>
                     <a
                         href={CONFIG.CALENDLY_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-outline flex items-center gap-2 group w-full sm:w-auto justify-center"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/[0.04] transition-colors w-full sm:w-auto"
                         onClick={() => { try { trackEvent('hero_book_consult_click') } catch { } }}
                     >
-                        <Calendar className="w-4 h-4" />
-                        Book Consult
+                        <Calendar className="w-4 h-4 text-primary-glow" />
+                        <span>Book 15m Call</span>
                     </a>
+                </motion.div>
+
+                {/* Proof Metrics Band */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.6 }}
+                    className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 w-full max-w-3xl glass-card p-4 sm:p-6 border border-white/5"
+                >
+                    <div className="text-center">
+                        <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">6+</div>
+                        <div className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-mono">Years Experience</div>
+                    </div>
+                    <div className="text-center">
+                        <div className="text-2xl sm:text-3xl font-extrabold text-primary-glow font-mono">+30%</div>
+                        <div className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-mono">Conversion Uplift</div>
+                    </div>
+                    <div className="text-center">
+                        <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">100/100</div>
+                        <div className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-mono">Core Web Vitals</div>
+                    </div>
+                    <div className="text-center">
+                        <div className="text-2xl sm:text-3xl font-extrabold text-secondary-glow font-mono">100%</div>
+                        <div className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-mono">WCAG AA Accessible</div>
+                    </div>
                 </motion.div>
             </div>
 
@@ -75,43 +116,46 @@ export default function Hero() {
                 href="#services"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 hover:text-white transition-colors animate-bounce"
+                transition={{ delay: 1.2, duration: 0.8 }}
+                className="absolute bottom-6 left-1/2 -translate-x-1/2 text-slate-500 hover:text-white transition-colors animate-bounce p-2"
+                aria-label="Scroll down to services section"
             >
-                <ChevronDown className="w-8 h-8" />
+                <ChevronDown className="w-6 h-6" />
             </motion.a>
         </section>
     )
 }
 
 function Typewriter({ text }) {
-    const [index, setIndex] = React.useState(0)
-    const [subIndex, setSubIndex] = React.useState(0)
-    const [reverse, setReverse] = React.useState(false)
+    const [index, setIndex] = useState(0)
+    const [subIndex, setSubIndex] = useState(() => text[0].length)
+    const [reverse, setReverse] = useState(false)
 
-    React.useEffect(() => {
-        if (subIndex === text[index].length + 1 && !reverse) {
-            setTimeout(() => setReverse(true), 1000)
-            return
+    useEffect(() => {
+        if (subIndex === text[index].length && !reverse) {
+            const holdTimer = setTimeout(() => setReverse(true), 2400)
+            return () => clearTimeout(holdTimer)
         }
 
         if (subIndex === 0 && reverse) {
-            setReverse(false)
-            setIndex((prev) => (prev + 1) % text.length)
-            return
+            const resetTimer = setTimeout(() => {
+                setReverse(false)
+                setIndex((prev) => (prev + 1) % text.length)
+            }, 200)
+            return () => clearTimeout(resetTimer)
         }
 
         const timeout = setTimeout(() => {
             setSubIndex((prev) => prev + (reverse ? -1 : 1))
-        }, Math.max(reverse ? 75 : subIndex === text[index].length ? 1000 : 150, parseInt(Math.random() * 350)))
+        }, reverse ? 45 : 75)
 
         return () => clearTimeout(timeout)
     }, [subIndex, index, reverse, text])
 
     return (
-        <span className="text-gradient min-w-[300px] inline-block">
+        <span className="text-gradient inline-block min-w-[280px] sm:min-w-[340px]">
             {text[index].substring(0, subIndex)}
-            <span className="animate-pulse">|</span>
+            <span className="animate-pulse text-primary-glow">|</span>
         </span>
     )
 }

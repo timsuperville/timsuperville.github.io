@@ -1,20 +1,24 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { forwardRef } from 'react'
 
-const motion = new Proxy({}, {
-    get: (target, prop) => {
-        // eslint-disable-next-line react/display-name
-        return forwardRef(({ children, ...props }, ref) => {
-            // Strip framer-motion specific props to avoid React warnings
-            // eslint-disable-next-line no-unused-vars
-            const {
-                initial, animate, transition, whileInView, viewport, variants,
-                exit, custom, onAnimationStart, onAnimationComplete, onLayoutAnimationStart, onLayoutAnimationComplete,
-                ...validProps
-            } = props
+const motionKeys = new Set([
+  'initial', 'animate', 'transition', 'whileInView', 'whileHover', 'whileTap',
+  'viewport', 'variants', 'exit', 'custom', 'onAnimationStart', 'onAnimationComplete',
+  'onLayoutAnimationStart', 'onLayoutAnimationComplete', 'layout'
+])
 
-            return React.createElement(prop, { ...validProps, ref }, children)
-        })
-    }
+const motion = new Proxy({}, {
+  get: (_target, prop) => {
+    return forwardRef(function MotionComponent({ children, ...props }, ref) {
+      const validProps = {}
+      for (const [key, value] of Object.entries(props)) {
+        if (!motionKeys.has(key)) {
+          validProps[key] = value
+        }
+      }
+      return React.createElement(prop, { ...validProps, ref }, children)
+    })
+  }
 })
 
 export { motion }

@@ -1,19 +1,18 @@
-
 // Consent-based analytics helper
 export function hasConsent() {
-  try { return localStorage.getItem('analytics_consent') === '1' } catch (e) { return false }
+  try { return localStorage.getItem('analytics_consent') === '1' } catch { return false }
 }
 
 export function isOptedOut() {
-  try { return localStorage.getItem('analytics_consent') === '0' } catch (e) { return false }
+  try { return localStorage.getItem('analytics_consent') === '0' } catch { return false }
 }
 
 export function optIn() {
-  try { localStorage.setItem('analytics_consent', '1') } catch (e) { }
+  try { localStorage.setItem('analytics_consent', '1') } catch { }
 }
 
 export function optOut() {
-  try { localStorage.setItem('analytics_consent', '0') } catch (e) { }
+  try { localStorage.setItem('analytics_consent', '0') } catch { }
   const GA_ID = import.meta.env.VITE_GA_ID
   if (GA_ID) window[`ga-disable-${GA_ID}`] = true
 }
@@ -31,7 +30,7 @@ export function initAnalytics() {
     document.head.appendChild(script1)
 
     const script2 = document.createElement('script')
-    script2.innerHTML = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','${GA_ID}');`;
+    script2.innerHTML = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','${GA_ID}');`
     document.head.appendChild(script2)
   }
 
@@ -45,18 +44,17 @@ export function initAnalytics() {
 }
 
 export function trackEvent(name, props = {}) {
-
   // Plausible
   try {
     if (window.plausible) {
       window.plausible(name, { props })
     }
-  } catch (e) { }
+  } catch { }
 
   // GA (gtag)
   try {
     if (window.gtag) {
       window.gtag('event', name, props)
     }
-  } catch (e) { }
+  } catch { }
 }

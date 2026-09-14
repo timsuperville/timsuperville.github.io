@@ -6,6 +6,8 @@ import Services from './components/Services'
 import Portfolio from './components/Portfolio'
 import CaseStudies from './components/CaseStudies'
 import CaseStudyDetail from './components/CaseStudyDetail'
+import TechMatrix from './components/TechMatrix'
+import ProjectEstimator from './components/ProjectEstimator'
 import About from './components/About'
 import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
@@ -15,11 +17,39 @@ import Resume from './components/Resume'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
+import CommandPalette from './components/CommandPalette'
 import CookieBanner from './CookieBanner'
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash || '#home')
   const [toast, setToast] = useState(null)
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
+  const [estimateData, setEstimateData] = useState(null)
+  
+  const [currentAccent, setCurrentAccent] = useState(() => {
+    try {
+      return localStorage.getItem('portfolio_accent') || 'cyan'
+    } catch {
+      return 'cyan'
+    }
+  })
+
+  // Sync accent attribute with root document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-accent', currentAccent)
+    try {
+      localStorage.setItem('portfolio_accent', currentAccent)
+    } catch { }
+  }, [currentAccent])
+
+  const handleCycleAccent = () => {
+    const accents = ['cyan', 'violet', 'emerald', 'amber']
+    const nextIdx = (accents.indexOf(currentAccent) + 1) % accents.length
+    const next = accents[nextIdx]
+    setCurrentAccent(next)
+    setToast({ type: 'success', message: `Theme accent switched to ${next.toUpperCase()}!` })
+    setTimeout(() => setToast(null), 2500)
+  }
 
   useEffect(() => {
     const onHash = () => setRoute(window.location.hash || '#home')
@@ -28,69 +58,82 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    if (route === '#home' || route === '') {
-      document.title = 'Tim Superville — Portfolio'
-      document.querySelector('meta[name="description"]')?.setAttribute('content', 'Freelance web developer building modern, responsive web apps with React and JavaScript.')
+    if (!route || route === '#home' || route === '') {
+      document.title = 'Tim Superville | Full Stack Engineer & Digital Craftsman'
+      document.querySelector('meta[name="description"]')?.setAttribute(
+        'content', 
+        'Senior Full Stack Engineer building resilient web applications, accessible interfaces, and high-performance digital systems.'
+      )
     } else if (route === '#contact') {
-      document.title = 'Contact — Tim Superville'
-      document.querySelector('meta[name="description"]')?.setAttribute('content', 'Get in touch for your next web project. Available for freelance work and consultation.')
+      document.title = 'Contact & Inquiries — Tim Superville'
+      document.querySelector('meta[name="description"]')?.setAttribute(
+        'content', 
+        'Initiate a project consultation, scope custom engineering, or discuss long-term partnerships with Tim Superville.'
+      )
+    } else if (route === '#resume') {
+      document.title = 'Interactive Resume — Tim Superville'
+    } else if (route === '#privacy') {
+      document.title = 'Privacy Policy — Tim Superville'
     }
   }, [route])
 
-  // Simple route logic: check if it's one of our known main sections or a sub-route
+  // Route logic: identify main single-page navigation vs dedicated views
   const isMainPage = !route || route === '#home' || route === '#services' || route === '#portfolio'
-    || route === '#case-studies' || route === '#about' || route === '#contact'
+    || route === '#case-studies' || route === '#tech-stack' || route === '#estimator' 
+    || route === '#testimonials' || route === '#about' || route === '#contact'
+  
   const isCaseStudy = route.startsWith('#case/')
-
-  const showNotFound = !isMainPage && !isCaseStudy
+  const showNotFound = !isMainPage && !isCaseStudy && route !== '#resume' && route !== '#privacy'
 
   return (
-    <div>
+    <div className="min-h-screen bg-dark-950 text-slate-100 flex flex-col justify-between selection:bg-primary-glow/30 selection:text-white">
       <ScrollProgress />
-      {/* Skip link for keyboard users */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-white focus:border focus:px-3 focus:py-2">Skip to content</a>
 
-      {!showNotFound && <Header />}
+      {/* Skip link for keyboard accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-xl focus:font-mono focus:text-xs"
+      >
+        Skip to main content
+      </a>
 
-      <main id="main-content">
-        <React.Suspense fallback={<div className="h-screen w-full flex items-center justify-center text-slate-500">Loading...</div>}>
+      {!showNotFound && (
+        <Header 
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          currentAccent={currentAccent}
+          onCycleAccent={handleCycleAccent}
+        />
+      )}
+
+      <main id="main-content" className="flex-grow">
+        <React.Suspense fallback={<div className="h-screen w-full flex items-center justify-center text-slate-500 font-mono text-sm">Initializing system...</div>}>
           <AnimatePresence mode="wait">
-            {(!route || route === '#home' || route === '#services' || route === '#portfolio'
-              || route === '#case-studies' || route === '#about') && (
-                <motion.div
-                  key="home"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Hero />
-                  <Services />
-                  <Portfolio />
-                  <CaseStudies />
-                  <Testimonials />
-                  <About />
-                </motion.div>
-              )}
-
-            {route === '#contact' && (
+            {isMainPage && (
               <motion.div
-                key="contact"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                key="home-flow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
               >
-                <Contact setToast={setToast} />
+                <Hero />
+                <Services />
+                <Portfolio />
+                <CaseStudies />
+                <TechMatrix />
+                <ProjectEstimator onSelectEstimate={setEstimateData} />
+                <Testimonials />
+                <About />
+                <Contact setToast={setToast} estimateData={estimateData} />
               </motion.div>
             )}
 
             {isCaseStudy && (
               <motion.div
-                key="case-study"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
+                key="case-study-detail"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
               >
                 <CaseStudyDetail id={route.replace('#case/', '')} />
@@ -99,10 +142,10 @@ export default function App() {
 
             {route === '#resume' && (
               <motion.div
-                key="resume"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                key="resume-view"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
               >
                 <Resume />
@@ -111,22 +154,23 @@ export default function App() {
 
             {route === '#privacy' && (
               <motion.div
-                key="privacy"
+                key="privacy-view"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.25 }}
               >
                 <PrivacyPolicy />
               </motion.div>
             )}
 
-            {showNotFound && route !== '#resume' && route !== '#privacy' && (
+            {showNotFound && (
               <motion.div
-                key="404"
+                key="not-found-view"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
               >
                 <NotFound />
               </motion.div>
@@ -137,11 +181,29 @@ export default function App() {
 
       {!showNotFound && <Footer />}
 
+      {/* Global Command Palette */}
+      <CommandPalette 
+        isOpen={isCommandPaletteOpen}
+        setIsOpen={setIsCommandPaletteOpen}
+        currentAccent={currentAccent}
+        setCurrentAccent={setCurrentAccent}
+        setToast={setToast}
+      />
+
+      {/* Utilities */}
       <CookieBanner />
       <BackToTop />
 
+      {/* Global Toast Notification */}
       {toast && (
-        <div className={`toast ${toast.type} show`} role="status" aria-live="polite">{toast.message}</div>
+        <div 
+          className="fixed bottom-6 right-6 z-50 p-4 rounded-xl bg-dark-900 border border-primary/30 text-white shadow-2xl shadow-black/80 flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300 font-mono text-xs"
+          role="status" 
+          aria-live="polite"
+        >
+          <span className="w-2 h-2 rounded-full bg-primary-glow animate-pulse"></span>
+          <span>{toast.message}</span>
+        </div>
       )}
     </div>
   )
