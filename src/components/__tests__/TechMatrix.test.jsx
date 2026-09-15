@@ -4,7 +4,7 @@ import TechMatrix from '../TechMatrix'
 describe('TechMatrix', () => {
     it('renders technical skills and category filters', () => {
         render(<TechMatrix />)
-        expect(screen.getByText(/Depth & Scale/i)).toBeInTheDocument()
+        expect(screen.getByText(/Skills & Technologies/i)).toBeInTheDocument()
         expect(screen.getByText('Frontend Architecture')).toBeInTheDocument()
         expect(screen.getByText('Backend & APIs')).toBeInTheDocument()
     })

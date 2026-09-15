@@ -1,18 +1,18 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Code2, Layout, Rocket, CreditCard, CheckCircle2, ArrowRight } from 'lucide-react'
+import { Code2, Gauge, CreditCard, Activity, CheckCircle2, ArrowRight } from 'lucide-react'
 import { services } from '../data/services'
 
 const getIcon = (id) => {
     switch (id) {
         case 'fullstack':
             return <Code2 className="w-6 h-6 text-primary-glow" />
-        case 'design-systems':
-            return <Layout className="w-6 h-6 text-secondary-glow" />
-        case 'performance':
-            return <Rocket className="w-6 h-6 text-accent-glow" />
+        case 'performance-seo':
+            return <Gauge className="w-6 h-6 text-secondary-glow" />
         case 'cloud-payments':
-            return <CreditCard className="w-6 h-6 text-primary-glow" />
+            return <CreditCard className="w-6 h-6 text-emerald-400" />
+        case 'realtime-media':
+            return <Activity className="w-6 h-6 text-primary-glow" />
         default:
             return <Code2 className="w-6 h-6 text-primary-glow" />
     }
@@ -33,13 +33,13 @@ export default function Services() {
                     className="text-center mb-16"
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary-glow text-xs font-mono uppercase tracking-wider mb-4">
-                        <span>Core Capabilities</span>
+                        <span>Services & Solutions</span>
                     </div>
                     <h2 className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight">
-                        Engineering <span className="text-gradient">Services & Solutions</span>
+                        Web Development & <span className="text-gradient">Services</span>
                     </h2>
                     <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-                        Combining deep technical rigor with modern user ergonomics to ship scalable, resilient software products.
+                        Reliable, well-built web solutions designed to solve real business problems — built right the first time.
                     </p>
                 </motion.div>
 
@@ -94,7 +94,7 @@ export default function Services() {
                                     href="#estimator" 
                                     className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-primary-glow group-hover:translate-x-1 transition-transform"
                                 >
-                                    <span>Scope module</span>
+                                    <span>Estimate This Service</span>
                                     <ArrowRight className="w-3.5 h-3.5" />
                                 </a>
                             </div>

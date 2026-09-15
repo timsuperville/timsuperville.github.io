@@ -13,7 +13,7 @@ const skillData = [
     // Frontend
     { name: 'React 18 / 19', category: 'Frontend', level: 'Expert', years: '6+ yrs', desc: 'Hooks, Concurrent Mode, Suspense, Custom Context Architectures' },
     { name: 'TypeScript & ESNext', category: 'Frontend', level: 'Expert', years: '5+ yrs', desc: 'Strict mode, generics, type-safe API contracts, zero any' },
-    { name: 'Tailwind CSS & Systems', category: 'Frontend', level: 'Expert', years: '4+ yrs', desc: 'Custom tokens, Liquid Glass, responsive design, dark mode' },
+    { name: 'Tailwind CSS & Systems', category: 'Frontend', level: 'Expert', years: '4+ yrs', desc: 'Modern CSS, responsive layouts, design systems, dark mode' },
     { name: 'Next.js & Vite', category: 'Frontend', level: 'Advanced', years: '4+ yrs', desc: 'SSR, SSG, route handlers, dynamic bundling, ultra-fast HMR' },
     { name: 'Framer Motion', category: 'Frontend', level: 'Advanced', years: '3+ yrs', desc: 'Physics-based micro-interactions, layout transitions, gestures' },
     { name: 'HTML5 & ARIA (WCAG AA)', category: 'Frontend', level: 'Expert', years: '6+ yrs', desc: 'Semantic tree, screen-reader landmarks, keyboard navigation' },
@@ -67,13 +67,13 @@ export default function TechMatrix() {
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary-glow text-xs font-mono uppercase tracking-wider mb-4">
                         <Terminal className="w-3.5 h-3.5" />
-                        <span>Technical Arsenal & Proficiency</span>
+                        <span>Skills & Technologies</span>
                     </div>
                     <h2 className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight">
-                        Engineered for <span className="text-gradient">Depth & Scale</span>
+                        Built for <span className="text-gradient">Quality & Reliability</span>
                     </h2>
                     <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-                        A rigorous full-stack skillset honed across 6+ years of building production SaaS, headless commerce, and client platforms.
+                        A proven full-stack skillset honed across 6+ years of building websites, web applications, and reliable business tools.
                     </p>
                 </motion.div>
 

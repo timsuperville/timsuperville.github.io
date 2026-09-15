@@ -1,54 +1,54 @@
 export const services = [
     {
         id: 'fullstack',
-        title: 'Web Development',
-        badge: 'Full Stack & APIs',
-        description: 'End-to-end web application architecture from resilient backend API services to reactive, state-managed frontend interfaces.',
+        title: 'Full-Stack Web Development',
+        badge: 'React, TypeScript & Node',
+        description: 'End-to-end web applications built with clean architecture, dependable APIs, and responsive, user-friendly interfaces.',
         features: [
-            'Single Page & Multi-Tenant SaaS Apps',
-            'Robust REST & GraphQL API Integration',
-            'Secure Authentication & Role-Based Access',
-            'Real-Time WebSockets & Event-Driven Flows'
+            'Custom Web Applications & Client Portals',
+            'Robust REST & WebSocket API Architectures',
+            'Secure Authentication & Role-Based Access Control (RBAC)',
+            'Automated Testing with Vitest & React Testing Library'
         ],
-        stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind']
+        stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS']
     },
     {
-        id: 'design-systems',
-        title: 'Responsive Design',
-        badge: 'Frontend Polish',
-        description: 'Bespoke, high-touch user interfaces that delight users, respect ergonomics, and maintain strict accessibility compliance.',
+        id: 'performance-seo',
+        title: 'High-Performance Websites & SEO',
+        badge: 'Fast & Search Ready',
+        description: 'Fast, mobile-ready websites built to rank well on Google, load immediately on any device, and turn visitors into customers.',
         features: [
-            'Obsidian & Liquid Glass Aesthetics',
-            'Full WCAG 2.1 AA Accessibility Standards',
-            'Fluid Framer Motion Micro-Interactions',
-            'Responsive Layouts for Mobile, Tablet & Ultra-Wide'
+            'Sub-Second Mobile & Desktop Load Times',
+            'Structured Google Business & Service Search Markup',
+            '100/100 Core Web Vitals Performance Auditing',
+            'Reliable Hosting on Cloudflare Pages Edge CDN'
         ],
-        stack: ['Tailwind CSS', 'Framer Motion', 'Figma', 'Radix Primitives']
-    },
-    {
-        id: 'performance',
-        title: 'Performance & SEO Optimization',
-        badge: 'Speed & Conversion',
-        description: 'Deep audit and optimization of rendering pipelines, code-splitting, asset delivery, and technical search visibility.',
-        features: [
-            'Sub-Second Largest Contentful Paint (LCP)',
-            'JSON-LD Structured Data & Rich Snippets',
-            'Bundle Size Reduction & Lazy Loading',
-            '100/100 Core Web Vitals Benchmarking'
-        ],
-        stack: ['Lighthouse CI', 'Vite', 'Schema.org', 'WebP/AVIF']
+        stack: ['Vite', 'Tailwind CSS', 'Cloudflare Pages', 'Schema.org', 'Lighthouse CI']
     },
     {
         id: 'cloud-payments',
-        title: 'E-Commerce & Payment Pipelines',
-        badge: 'Revenue Engineering',
-        description: 'Mission-critical checkout flows, subscription management, and third-party API orchestrations that maximize conversion.',
+        title: 'Payments & Subscription Pipelines',
+        badge: 'Stripe & E-Commerce',
+        description: 'Secure online payment processing, seamless checkout flows, and automated invoicing that give your customers a smooth, trustworthy experience.',
         features: [
-            'Stripe Checkout & Billing Integration',
-            'Idempotent Webhooks & Retry Architecture',
-            'Automated Invoicing & Transactional Notifications',
-            'CI/CD Deployment & Automated Testing'
+            'Stripe Checkout & Customer Portal Integrations',
+            'Reliable Webhook Ingestion & Error Handling',
+            'Automated Invoicing & Transaction Receipts',
+            'Secure Payment Tokenization & PCI Compliance'
         ],
-        stack: ['Stripe API', 'Serverless Functions', 'GitHub Actions', 'Docker']
+        stack: ['Stripe API', 'Webhooks', 'Serverless Functions', 'Node.js']
+    },
+    {
+        id: 'realtime-media',
+        title: 'Real-Time Telemetry & Media Systems',
+        badge: 'WebSockets & Web Audio',
+        description: 'Interactive web tools, live dashboard updates, and real-time audio or data sync engineered for solid, uninterrupted reliability.',
+        features: [
+            'Low-Latency Bidirectional WebSocket Synchronization',
+            'Live Audio Waveform Rendering & Media Bus Controls',
+            'State Recovery & Offline-First Fallbacks',
+            'Hardware/Browser Event Telemetry & Status Monitoring'
+        ],
+        stack: ['WebSockets', 'Web Audio API', 'TypeScript', 'Framer Motion']
     }
 ]

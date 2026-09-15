@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Github, Linkedin, FileText, Sparkles } from 'lucide-react'
+import { Github, Linkedin, FileText, User } from 'lucide-react'
 
 export default function About() {
     const techStack = [
@@ -25,8 +25,8 @@ export default function About() {
                         className="lg:col-span-7"
                     >
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary-glow text-xs font-mono uppercase tracking-wider mb-4">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            <span>Background & Craft</span>
+                            <User className="w-3.5 h-3.5" />
+                            <span>About Me & Experience</span>
                         </div>
 
                         <h2 className="text-3xl sm:text-5xl font-bold mb-6 tracking-tight">
@@ -35,13 +35,13 @@ export default function About() {
 
                         <div className="space-y-4 text-slate-300 text-base sm:text-lg leading-relaxed mb-8">
                             <p>
-                                I&apos;m a Senior Full Stack Engineer focused on building resilient, accessible, and delightful digital products. With over six years in production environments, I bridge the gap between rigorous systems architecture and nuanced user experience.
+                                I&apos;m an independent web developer and full stack engineer based in Northern Alberta. I help local businesses, organizations, and growing teams build reliable websites, custom web applications, and smooth integrations without agency overhead.
                             </p>
                             <p>
-                                My engineering philosophy centers on three pillars: <strong className="text-white">Start with the user</strong>, maintain <strong className="text-white">strict type safety and automated testing</strong>, and ensure <strong className="text-white">sub-second performance</strong> across every breakpoint.
+                                When you work with me, you communicate directly with the person writing your code. No account manager layers, no outsourced handoffs, and no confusing technical buzzwords. I prioritize <strong className="text-white">direct communication</strong>, <strong className="text-white">honest timelines</strong>, and <strong className="text-white">reliable software</strong> that works every single day.
                             </p>
                             <p>
-                                Whether architecting headless checkout flows processing six-figure transaction volumes or structuring enterprise design systems, I bring craft, clarity, and momentum to every team I join.
+                                Whether you need a fresh website for your business, an online booking or customer ordering system, or clean integration with payment tools like Stripe, I build solutions tailored directly to your operational goals.
                             </p>
                         </div>
 
@@ -114,11 +114,11 @@ export default function About() {
                                 <span className="text-[11px] text-slate-500">tim.config.ts</span>
                             </div>
                             <div className="space-y-1 text-[11px] sm:text-xs">
-                                <div><span className="text-secondary-glow">export const</span> <span className="text-white font-bold">engineer</span> = &#123;</div>
+                                <div><span className="text-secondary-glow">export const</span> <span className="text-white font-bold">developer</span> = &#123;</div>
                                 <div className="pl-4"><span className="text-primary-glow">name</span>: <span className="text-amber-300">&quot;Tim Superville&quot;</span>,</div>
-                                <div className="pl-4"><span className="text-primary-glow">location</span>: <span className="text-amber-300">&quot;Remote / San Francisco, CA&quot;</span>,</div>
-                                <div className="pl-4"><span className="text-primary-glow">coreValues</span>: [<span className="text-amber-300">&quot;Zero-Debt&quot;</span>, <span className="text-amber-300">&quot;Accessibility&quot;</span>, <span className="text-amber-300">&quot;Speed&quot;</span>],</div>
-                                <div className="pl-4"><span className="text-primary-glow">status</span>: <span className="text-emerald-400">&quot;Ready for Contracts&quot;</span></div>
+                                <div className="pl-4"><span className="text-primary-glow">location</span>: <span className="text-amber-300">&quot;Northern Alberta, CA&quot;</span>,</div>
+                                <div className="pl-4"><span className="text-primary-glow">coreValues</span>: [<span className="text-amber-300">&quot;Reliability&quot;</span>, <span className="text-amber-300">&quot;Clear Communication&quot;</span>, <span className="text-amber-300">&quot;Performance&quot;</span>],</div>
+                                <div className="pl-4"><span className="text-primary-glow">status</span>: <span className="text-emerald-400">&quot;Available for Projects&quot;</span></div>
                                 <div>&#125;</div>
                             </div>
                         </div>

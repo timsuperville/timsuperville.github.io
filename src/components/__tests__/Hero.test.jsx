@@ -5,6 +5,6 @@ describe('Hero', () => {
     it('renders headline', () => {
         render(<Hero />)
         expect(screen.getByText(/Building/i)).toBeInTheDocument()
-        expect(screen.getByText(/Digital Experiences/i)).toBeInTheDocument()
+        expect(screen.getByText(/fast websites/i)).toBeInTheDocument()
     })
 })

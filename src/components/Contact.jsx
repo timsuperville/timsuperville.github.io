@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, Mail, Send, CheckCircle, AlertCircle, Copy, Check, Sparkles } from 'lucide-react'
+import { Calendar, Mail, Send, CheckCircle, AlertCircle, Copy, Check } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { trackEvent } from '../analytics'
 import { CONFIG } from '../config'
@@ -140,14 +140,14 @@ export default function Contact({ setToast, estimateData }) {
                     className="text-center mb-12"
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary-glow text-xs font-mono uppercase tracking-wider mb-4">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>Let&apos;s Build Together</span>
+                        <Mail className="w-3.5 h-3.5" />
+                        <span>Get in Touch</span>
                     </div>
                     <h2 className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight">
-                        Initiate a <span className="text-gradient">Conversation</span>
+                        Let&apos;s Talk About Your <span className="text-gradient">Project</span>
                     </h2>
                     <p className="text-slate-400 max-w-xl mx-auto text-base sm:text-lg mb-8">
-                        Ready to level up your product, scale your engineering velocity, or build a custom application? Send an inquiry or schedule a call.
+                        Have a question, need a website for your business, or want to discuss a custom web project? Reach out below and I will get back to you directly.
                     </p>
 
                     <div className="flex flex-wrap justify-center items-center gap-3 mb-10">
@@ -309,7 +309,7 @@ export default function Contact({ setToast, estimateData }) {
                         className="w-full btn-primary flex items-center justify-center gap-2 py-4 text-sm font-mono uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {submitting ? (
-                            <span>Transmitting Message...</span>
+                            <span>Sending Message...</span>
                         ) : (
                             <>
                                 <span>Send Project Inquiry</span> 

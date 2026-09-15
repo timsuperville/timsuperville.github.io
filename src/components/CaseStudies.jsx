@@ -19,13 +19,13 @@ export default function CaseStudies() {
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/25 text-secondary-glow text-xs font-mono uppercase tracking-wider mb-4">
                         <BookOpen className="w-3.5 h-3.5" />
-                        <span>Architecture & Impact</span>
+                        <span>Case Studies & Results</span>
                     </div>
                     <h2 className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight">
-                        Engineering <span className="text-gradient">Breakdowns</span>
+                        Project <span className="text-gradient">Case Studies</span>
                     </h2>
                     <p className="text-slate-400 text-base sm:text-lg">
-                        Deep architectural dives into technical challenges, decisions, and measurable outcomes.
+                        Real problems, how they were solved, and the measurable results achieved.
                     </p>
                 </motion.div>
 
@@ -69,7 +69,7 @@ export default function CaseStudies() {
                                         className="inline-flex items-center gap-2 text-sm font-mono font-semibold text-primary-glow hover:text-white transition-colors group-hover:gap-3"
                                         onClick={() => { try { trackEvent('case_open', { id: study.id }) } catch { } }}
                                     >
-                                        <span>Examine Technical Architecture</span>
+                                        <span>Read Case Study</span>
                                         <ArrowRight className="w-4 h-4" />
                                     </a>
                                 </div>

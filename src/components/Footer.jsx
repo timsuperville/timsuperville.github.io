@@ -11,7 +11,7 @@ export default function Footer() {
             try {
                 const now = new Date()
                 const formatted = now.toLocaleTimeString('en-US', {
-                    timeZone: 'America/Los_Angeles',
+                    timeZone: 'America/Edmonton',
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: true
@@ -34,12 +34,12 @@ export default function Footer() {
                     <div className="md:col-span-6">
                         <div className="font-bold text-xl text-white mb-2">Tim Superville</div>
                         <p className="text-sm text-slate-400 max-w-sm leading-relaxed mb-4">
-                            Senior Full Stack Engineer building high-performance web applications, accessible interfaces, and resilient distributed services.
+                            Freelance web developer and full stack engineer building clean, dependable websites and web applications.
                         </p>
                         {timeString && (
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 text-xs font-mono text-slate-400">
                                 <Clock className="w-3.5 h-3.5 text-primary-glow" />
-                                <span>San Francisco, CA • {timeString} PT</span>
+                                <span>Northern Alberta • {timeString} MT</span>
                             </div>
                         )}
                     </div>
@@ -49,8 +49,9 @@ export default function Footer() {
                         <a href="#services" className="hover:text-white transition-colors">Services</a>
                         <a href="#portfolio" className="hover:text-white transition-colors">Work</a>
                         <a href="#case-studies" className="hover:text-white transition-colors">Case Studies</a>
-                        <a href="#tech-stack" className="hover:text-white transition-colors">Tech Arsenal</a>
+                        <a href="#tech-stack" className="hover:text-white transition-colors">Skills & Tech</a>
                         <a href="#estimator" className="hover:text-white transition-colors">Estimator</a>
+                        <a href="#intake" className="hover:text-white transition-colors text-primary-glow">Client Intake</a>
                         <a href="#resume" className="hover:text-white transition-colors">Resume</a>
                         <a href="#privacy" className="hover:text-white transition-colors">Privacy</a>
                     </div>
@@ -59,7 +60,7 @@ export default function Footer() {
                 {/* Bottom Bar */}
                 <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-500">
                     <div className="flex items-center gap-2">
-                        <span>&copy; {new Date().getFullYear()} Tim Superville. Crafted with React & Tailwind CSS.</span>
+                        <span>&copy; {new Date().getFullYear()} Tim Superville. Built with React & Tailwind CSS.</span>
                     </div>
 
                     <div className="flex items-center gap-6">

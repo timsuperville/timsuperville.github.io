@@ -15,6 +15,7 @@ import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 import Resume from './components/Resume'
 import PrivacyPolicy from './components/PrivacyPolicy'
+import ClientIntake from './components/ClientIntake'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
 import CommandPalette from './components/CommandPalette'
@@ -59,31 +60,38 @@ export default function App() {
 
   useEffect(() => {
     if (!route || route === '#home' || route === '') {
-      document.title = 'Tim Superville | Full Stack Engineer & Digital Craftsman'
+      document.title = 'Tim Superville | Web Developer & Full Stack Engineer'
       document.querySelector('meta[name="description"]')?.setAttribute(
         'content', 
-        'Senior Full Stack Engineer building resilient web applications, accessible interfaces, and high-performance digital systems.'
+        'Freelance web developer and full stack engineer based in Northern Alberta. Building clean, fast, and dependable websites and web applications.'
       )
     } else if (route === '#contact') {
       document.title = 'Contact & Inquiries — Tim Superville'
       document.querySelector('meta[name="description"]')?.setAttribute(
         'content', 
-        'Initiate a project consultation, scope custom engineering, or discuss long-term partnerships with Tim Superville.'
+        'Get in touch with Tim Superville to discuss your website or web application project.'
       )
     } else if (route === '#resume') {
       document.title = 'Interactive Resume — Tim Superville'
     } else if (route === '#privacy') {
       document.title = 'Privacy Policy — Tim Superville'
+    } else if (route === '#intake' || route === '#client-intake' || route === '#start-project' || route === '#planner') {
+      document.title = 'Website Project Planner & Discovery — Tim Superville'
+      document.querySelector('meta[name="description"]')?.setAttribute(
+        'content', 
+        'Website project planner and discovery questionnaire. Share your goals, desired features, and timeline with Tim Superville.'
+      )
     }
   }, [route])
 
   // Route logic: identify main single-page navigation vs dedicated views
   const isMainPage = !route || route === '#home' || route === '#services' || route === '#portfolio'
     || route === '#case-studies' || route === '#tech-stack' || route === '#estimator' 
-    || route === '#testimonials' || route === '#about' || route === '#contact'
+    || route === '#testimonials' || route === '#principles' || route === '#about' || route === '#contact'
   
   const isCaseStudy = route.startsWith('#case/')
-  const showNotFound = !isMainPage && !isCaseStudy && route !== '#resume' && route !== '#privacy'
+  const isIntake = route === '#intake' || route === '#client-intake' || route === '#start-project' || route === '#planner'
+  const showNotFound = !isMainPage && !isCaseStudy && route !== '#resume' && route !== '#privacy' && !isIntake
 
   return (
     <div className="min-h-screen bg-dark-950 text-slate-100 flex flex-col justify-between selection:bg-primary-glow/30 selection:text-white">
@@ -161,6 +169,18 @@ export default function App() {
                 transition={{ duration: 0.25 }}
               >
                 <PrivacyPolicy />
+              </motion.div>
+            )}
+
+            {isIntake && (
+              <motion.div
+                key="intake-view"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ClientIntake setToast={setToast} />
               </motion.div>
             )}
 

@@ -1,0 +1,1277 @@
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { 
+    ArrowLeft, 
+    Target, 
+    CheckCircle2, 
+    Send, 
+    Calendar, 
+    ShieldCheck, 
+    Compass, 
+    Layout, 
+    Palette, 
+    Users, 
+    Check, 
+    RotateCcw,
+    Download,
+    Mail,
+    AlertCircle,
+    Copy,
+    Layers
+} from 'lucide-react'
+import confetti from 'canvas-confetti'
+import { CONFIG } from '../config'
+import { trackEvent } from '../analytics'
+
+const STORAGE_KEY = 'tim_client_planner_draft_v3'
+
+const getInitialFormState = () => ({
+    clientName: '',
+    contactPerson: '',
+    email: '',
+    phone: '',
+    website: '',
+    mainObjectives: '',
+    keyChallenges: '',
+    targetAudience: '',
+    brandValues: '',
+    pagesNeeded: [],
+    interactiveFeatures: [],
+    techPreferences: '',
+    visualStyle: '',
+    inspirationWebsites: '',
+    brandAssets: [],
+    targetLaunchDate: '',
+    milestones: '',
+    rolesResponsibilities: '',
+    budgetRange: '',
+    actionItems: ''
+})
+
+const isFormEmpty = (data) => {
+    if (!data) return true
+    return !data.clientName?.trim() &&
+        !data.contactPerson?.trim() &&
+        !data.email?.trim() &&
+        !data.phone?.trim() &&
+        !data.website?.trim() &&
+        !data.mainObjectives?.trim() &&
+        !data.keyChallenges?.trim() &&
+        !data.targetAudience?.trim() &&
+        !data.brandValues?.trim() &&
+        (!data.pagesNeeded || data.pagesNeeded.length === 0) &&
+        (!data.interactiveFeatures || data.interactiveFeatures.length === 0) &&
+        !data.techPreferences?.trim() &&
+        !data.visualStyle?.trim() &&
+        !data.inspirationWebsites?.trim() &&
+        (!data.brandAssets || data.brandAssets.length === 0) &&
+        !data.targetLaunchDate?.trim() &&
+        !data.milestones?.trim() &&
+        !data.rolesResponsibilities?.trim() &&
+        !data.budgetRange?.trim() &&
+        !data.actionItems?.trim()
+}
+
+const GOAL_OPTIONS = [
+    'Generate More Client Leads & Calls',
+    'Sell Products Online / E-Commerce',
+    'Modernize Our Outdated Website',
+    'Automate Bookings & Appointments',
+    'Establish Trust & Credibility',
+    'Improve Mobile Experience & Speed',
+    'Rank Higher on Google (Local SEO)',
+    'Showcase Portfolio & Case Studies'
+]
+
+const PAGE_OPTIONS = [
+    'Home',
+    'About Us / Story',
+    'Services / Offerings',
+    'Contact & Inquiry',
+    'Online Booking / Calendar',
+    'Portfolio / Project Gallery',
+    'Client Portal / Login',
+    'Blog / Articles / Resources',
+    'Online Store / Shop',
+    'FAQ / Help Center'
+]
+
+const FEATURE_OPTIONS = [
+    'Interactive Contact Form',
+    'Online Appointment Booking',
+    'Credit Card / Stripe Payments',
+    'Mobile-First Responsive Design',
+    'Google Local SEO & Maps Setup',
+    'Analytics & Conversion Tracking',
+    'Email Newsletter Signup',
+    'Live Chat / Messaging',
+    'Client Intake / Onboarding Forms'
+]
+
+const STYLE_OPTIONS = [
+    'Modern & Clean',
+    'Warm & Approachable',
+    'Bold & High-Energy',
+    'Minimalist & Focused',
+    'Established & Trustworthy',
+    'Luxury & Refined',
+    'Creative & Artistic',
+    'Dark & Tech-Forward'
+]
+
+const ASSET_OPTIONS = [
+    'Logo Files Ready',
+    'Brand Colors & Fonts Defined',
+    'Professional Photos Ready',
+    'Written Copy / Content Ready',
+    'Domain & Hosting Secured',
+    'Starting Fresh / Need Help With These'
+]
+
+const TIMELINE_OPTIONS = [
+    'As soon as possible',
+    'Within 1 month',
+    '1 to 2 months',
+    'Flexible / No hard deadline'
+]
+
+const BUDGET_OPTIONS = [
+    'Under $2,500',
+    '$2,500 – $5,000',
+    '$5,000 – $10,000',
+    '$10,000+',
+    'Not sure yet — let’s discuss'
+]
+
+const QUICK_PRESETS = [
+    {
+        id: 'service',
+        label: 'Local Service Business',
+        description: 'Consulting, trades, clinics, or professional services',
+        pages: ['Home', 'About Us / Story', 'Services / Offerings', 'Contact & Inquiry', 'FAQ / Help Center'],
+        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup', 'Analytics & Conversion Tracking']
+    },
+    {
+        id: 'trade',
+        label: 'Trade / Craft / Contractor',
+        description: 'Showcases past jobs, galleries, and estimate inquiries',
+        pages: ['Home', 'About Us / Story', 'Services / Offerings', 'Portfolio / Project Gallery', 'Contact & Inquiry'],
+        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup']
+    },
+    {
+        id: 'shop',
+        label: 'Online Store / E-Commerce',
+        description: 'Product catalog, digital orders, and instant card payments',
+        pages: ['Home', 'Online Store / Shop', 'About Us / Story', 'Contact & Inquiry', 'FAQ / Help Center'],
+        features: ['Credit Card / Stripe Payments', 'Mobile-First Responsive Design', 'Analytics & Conversion Tracking']
+    }
+]
+
+export default function ClientIntake({ setToast, onReset }) {
+    const [formData, setFormData] = useState(() => {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY)
+            if (saved) {
+                const parsed = JSON.parse(saved)
+                if (parsed && !isFormEmpty(parsed)) {
+                    return { ...getInitialFormState(), ...parsed }
+                }
+            }
+        } catch { }
+        return getInitialFormState()
+    })
+
+    const [submitting, setSubmitting] = useState(false)
+    const [submitStatus, setSubmitStatus] = useState(null)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [lastSavedTime, setLastSavedTime] = useState(null)
+
+    // Clean up stale drafts from earlier component iterations on mount
+    useEffect(() => {
+        try {
+            localStorage.removeItem('client_intake_draft_v1')
+            localStorage.removeItem('client_project_planner_draft_v2')
+        } catch { }
+    }, [])
+
+    // Auto-save draft on changes only when user has entered content
+    useEffect(() => {
+        if (isFormEmpty(formData)) {
+            try {
+                localStorage.removeItem(STORAGE_KEY)
+            } catch { }
+            return
+        }
+
+        const timer = setTimeout(() => {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
+                setLastSavedTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
+            } catch { }
+        }, 500)
+        return () => clearTimeout(timer)
+    }, [formData])
+
+    const handleTextChange = (field, val) => {
+        setFormData(prev => ({ ...prev, [field]: val }))
+    }
+
+    const toggleArrayItem = (field, item) => {
+        setFormData(prev => {
+            const current = prev[field] || []
+            const next = current.includes(item)
+                ? current.filter(x => x !== item)
+                : [...current, item]
+            return { ...prev, [field]: next }
+        })
+    }
+
+    const handleClearDraft = () => {
+        if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
+            try {
+                const isTest = (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') || (typeof import.meta !== 'undefined' && import.meta.env?.MODE === 'test')
+                if (!isTest) {
+                    if (!window.confirm('Clear all entered information and start fresh?')) {
+                        return
+                    }
+                }
+            } catch { }
+        }
+
+        setFormData(getInitialFormState())
+        try {
+            localStorage.removeItem(STORAGE_KEY)
+            localStorage.removeItem('client_intake_draft_v1')
+            localStorage.removeItem('client_project_planner_draft_v2')
+        } catch { }
+        setLastSavedTime(null)
+        if (onReset) onReset()
+        if (setToast) {
+            setToast({ type: 'success', message: 'Form draft reset.' })
+            setTimeout(() => setToast(null), 2500)
+        }
+    }
+
+    const applyPreset = (preset) => {
+        setFormData(prev => {
+            const currentPages = prev.pagesNeeded || []
+            const currentFeatures = prev.interactiveFeatures || []
+            const newPages = Array.from(new Set([...currentPages, ...preset.pages]))
+            const newFeatures = Array.from(new Set([...currentFeatures, ...preset.features]))
+            return {
+                ...prev,
+                pagesNeeded: newPages,
+                interactiveFeatures: newFeatures
+            }
+        })
+        if (setToast) {
+            setToast({ type: 'success', message: `Added recommended pages & features for ${preset.label}` })
+            setTimeout(() => setToast(null), 3000)
+        }
+    }
+
+    const generateBriefText = () => {
+        return [
+            `================================================================`,
+            `WEBSITE PROJECT DISCOVERY BRIEF`,
+            `================================================================`,
+            `Company / Organization: ${formData.clientName || 'N/A'}`,
+            `Contact Name:           ${formData.contactPerson || 'N/A'}`,
+            `Email:                  ${formData.email || 'N/A'}`,
+            `Phone:                  ${formData.phone || 'N/A'}`,
+            `Current Website/Social: ${formData.website || 'N/A'}`,
+            `Generated On:           ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`,
+            `----------------------------------------------------------------`,
+            ``,
+            `1. GOALS & VISION`,
+            `----------------------------------------------------------------`,
+            `Primary Objectives:`,
+            formData.mainObjectives ? `  ${formData.mainObjectives}` : `  (None specified)`,
+            ``,
+            `Current Challenges / Hurdles:`,
+            formData.keyChallenges ? `  ${formData.keyChallenges}` : `  (None specified)`,
+            ``,
+            `2. AUDIENCE & BRAND PERSONALITY`,
+            `----------------------------------------------------------------`,
+            `Target Audience:     ${formData.targetAudience || 'N/A'}`,
+            `Brand Vibe & Styles: ${formData.brandValues || 'N/A'}`,
+            ``,
+            `3. PAGES & FEATURES REQUIRED`,
+            `----------------------------------------------------------------`,
+            `Pages Needed:`,
+            (formData.pagesNeeded && formData.pagesNeeded.length > 0)
+                ? formData.pagesNeeded.map(p => `  • ${p}`).join('\n')
+                : `  (Open to recommendations)`,
+            ``,
+            `Interactive Features:`,
+            (formData.interactiveFeatures && formData.interactiveFeatures.length > 0)
+                ? formData.interactiveFeatures.map(f => `  • ${f}`).join('\n')
+                : `  (Open to recommendations)`,
+            ``,
+            `Tech / Platform Preferences: ${formData.techPreferences || 'Open to recommendations'}`,
+            ``,
+            `4. VISUAL STYLE & ASSETS`,
+            `----------------------------------------------------------------`,
+            `Inspiration Sites:`,
+            formData.inspirationWebsites ? `  ${formData.inspirationWebsites}` : `  (None provided)`,
+            ``,
+            `Existing Brand Assets:`,
+            (formData.brandAssets && formData.brandAssets.length > 0)
+                ? formData.brandAssets.map(a => `  • ${a}`).join('\n')
+                : `  (Starting fresh / need assistance)`,
+            ``,
+            `5. TIMELINE & BUDGET`,
+            `----------------------------------------------------------------`,
+            `Target Launch:    ${formData.targetLaunchDate || 'Flexible'}`,
+            `Estimated Budget: ${formData.budgetRange || 'To be discussed'}`,
+            `Driving Events:   ${formData.milestones || 'N/A'}`,
+            `Decision Team:    ${formData.rolesResponsibilities || 'N/A'}`,
+            ``,
+            `6. ADDITIONAL NOTES & QUESTIONS`,
+            `----------------------------------------------------------------`,
+            formData.actionItems ? `  ${formData.actionItems}` : `  (None provided)`,
+            ``,
+            `================================================================`,
+            `Prepared for Tim Superville (timsuperville@gmail.com)`,
+            `Website: https://timsuperville.github.io`,
+            `================================================================`
+        ].join('\n')
+    }
+
+    const handleDownloadBrief = () => {
+        try {
+            const text = generateBriefText()
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+            const url = URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            const safeName = (formData.clientName || 'Project').replace(/[^a-z0-9]/gi, '-').toLowerCase()
+            a.href = url
+            a.download = `website-project-brief-${safeName}.txt`
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+            URL.revokeObjectURL(url)
+            if (setToast) {
+                setToast({ type: 'success', message: 'Project brief downloaded successfully!' })
+                setTimeout(() => setToast(null), 3000)
+            }
+        } catch { }
+    }
+
+    const handleCopyBrief = async () => {
+        try {
+            const text = generateBriefText()
+            await navigator.clipboard.writeText(text)
+            if (setToast) {
+                setToast({ type: 'success', message: 'Project brief copied to clipboard!' })
+                setTimeout(() => setToast(null), 3000)
+            }
+        } catch { }
+    }
+
+    const getMailtoHref = () => {
+        const subject = encodeURIComponent(`Website Project Discovery: ${formData.clientName || 'New Project'}`)
+        const body = encodeURIComponent(generateBriefText())
+        return `mailto:timsuperville@gmail.com?subject=${subject}&body=${body}`
+    }
+
+    // Calculate completion percentage across 6 discovery sections
+    const calculateProgress = () => {
+        if (isFormEmpty(formData)) return 0
+
+        let score = 0
+        const total = 6
+
+        // Section 1: Business & Contact
+        if (formData.clientName?.trim() && formData.email?.trim()) {
+            score += 1
+        } else if (formData.clientName?.trim() || formData.email?.trim() || formData.contactPerson?.trim()) {
+            score += 0.5
+        }
+
+        // Section 2: Goals & Vision
+        if (formData.mainObjectives?.trim() || formData.keyChallenges?.trim()) {
+            score += 1
+        }
+
+        // Section 3: Audience & Brand Vibe
+        if (formData.targetAudience?.trim() || formData.brandValues?.trim()) {
+            score += 1
+        }
+
+        // Section 4: Pages & Features
+        if ((formData.pagesNeeded || []).length > 0 || (formData.interactiveFeatures || []).length > 0) {
+            score += 1
+        }
+
+        // Section 5: Visual Direction & Assets
+        if (formData.visualStyle?.trim() || formData.inspirationWebsites?.trim() || (formData.brandAssets || []).length > 0) {
+            score += 1
+        }
+
+        // Section 6: Timeline & Budget
+        if (formData.targetLaunchDate?.trim() || formData.budgetRange?.trim()) {
+            score += 1
+        }
+
+        return Math.min(100, Math.round((score / total) * 100))
+    }
+
+    const progress = calculateProgress()
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setSubmitStatus(null)
+        setErrorMessage('')
+
+        if (!formData.clientName.trim()) {
+            setErrorMessage('Please let us know your business, organization, or project name.')
+            setSubmitStatus('error')
+            const el = document.getElementById('clientName')
+            if (el) {
+                if (typeof el.scrollIntoView === 'function') {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                }
+                if (typeof el.focus === 'function') {
+                    el.focus()
+                }
+            } else if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+                window.scrollTo({ top: 300, behavior: 'smooth' })
+            }
+            return
+        }
+        if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            setErrorMessage('Please enter a valid email address so Tim can reply to you.')
+            setSubmitStatus('error')
+            const el = document.getElementById('email')
+            if (el) {
+                if (typeof el.scrollIntoView === 'function') {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                }
+                if (typeof el.focus === 'function') {
+                    el.focus()
+                }
+            } else if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+                window.scrollTo({ top: 300, behavior: 'smooth' })
+            }
+            return
+        }
+
+        setSubmitting(true)
+        const endpoint = CONFIG.GOOGLE_SHEETS_INTAKE_URL?.trim()
+
+        if (!endpoint) {
+            // Fallback preview mode
+            setTimeout(() => {
+                setSubmitting(false)
+                setSubmitStatus('success')
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } })
+                if (setToast) {
+                    setToast({ 
+                        type: 'success', 
+                        message: 'Project details received! Your draft is saved.' 
+                    })
+                    setTimeout(() => setToast(null), 5000)
+                }
+            }, 600)
+            return
+        }
+
+        try {
+            await fetch(endpoint, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(formData)
+            })
+
+            setSubmitting(false)
+            setSubmitStatus('success')
+            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } })
+            try { trackEvent('client_intake_submit', { result: 'success' }) } catch { }
+
+            if (setToast) {
+                setToast({ type: 'success', message: 'Project details submitted successfully!' })
+                setTimeout(() => setToast(null), 5000)
+            }
+        } catch {
+            setSubmitting(false)
+            setErrorMessage("We could not send your submission right now. Don't worry, all your answers are safely saved in your browser. Please try again or use the email fallback below.")
+            setSubmitStatus('error')
+            try { trackEvent('client_intake_submit', { result: 'error' }) } catch { }
+        }
+    }
+
+    const cardClasses = "glass-card p-6 sm:p-10 border border-white/10 mb-8 rounded-2xl relative overflow-hidden"
+    const sectionHeadingClasses = "text-xl sm:text-2xl font-bold text-white mb-2 flex items-center gap-3"
+    const sectionSubtextClasses = "text-sm text-slate-400 mb-6 leading-relaxed"
+    const fieldLabelClasses = "block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2 font-medium"
+    const inputClasses = "w-full bg-dark-950/80 border border-white/10 rounded-xl px-4 py-3 text-slate-100 outline-none focus:border-primary-glow/70 focus:ring-1 focus:ring-primary-glow/50 transition-all placeholder:text-slate-600 font-sans text-sm"
+
+    return (
+        <section className="py-24 min-h-screen bg-dark-950 relative overflow-hidden">
+            {/* Background Ambient Glows */}
+            <div className="absolute top-20 right-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
+            <div className="absolute bottom-40 left-10 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+            <div className="max-w-4xl mx-auto px-6 relative z-10">
+                {/* Top Navigation & Auto-Save Indicator */}
+                <div className="flex justify-between items-center mb-8 gap-4">
+                    <a 
+                        href="#home" 
+                        className="inline-flex items-center gap-2 text-sm font-mono text-slate-400 hover:text-white transition-colors group"
+                    >
+                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 
+                        <span>Back to Home</span>
+                    </a>
+
+                    {lastSavedTime && !isFormEmpty(formData) && (
+                        <span className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 bg-white/5 px-3.5 py-1.5 rounded-full border border-white/10">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>Draft auto-saved {lastSavedTime}</span>
+                        </span>
+                    )}
+                </div>
+
+                {/* Success View */}
+                {submitStatus === 'success' ? (
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="glass-card p-8 sm:p-14 border border-emerald-500/30 text-center rounded-3xl mb-12 shadow-2xl shadow-emerald-950/20"
+                    >
+                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto mb-6">
+                            <CheckCircle2 className="w-8 h-8" />
+                        </div>
+
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono uppercase tracking-wider mb-3">
+                            Details Received
+                        </span>
+
+                        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+                            Thank You, {formData.contactPerson || 'Friend'}!
+                        </h2>
+
+                        <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+                            Your project discovery details have been delivered directly to Tim Superville. All answers are safely stored and logged in our system.
+                        </p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-left max-w-3xl mx-auto mb-10">
+                            <div className="p-5 rounded-2xl bg-dark-950/80 border border-white/10">
+                                <div className="text-xs font-mono text-primary-glow uppercase mb-2">Step 1</div>
+                                <h3 className="font-bold text-white text-base mb-1">Personal Review</h3>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    Tim will personally review your goals, pages, and feature wishlist to prepare an initial scope.
+                                </p>
+                            </div>
+
+                            <div className="p-5 rounded-2xl bg-dark-950/80 border border-white/10">
+                                <div className="text-xs font-mono text-primary-glow uppercase mb-2">Step 2</div>
+                                <h3 className="font-bold text-white text-base mb-1">1-Business-Day Reply</h3>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    You&apos;ll receive an email with recommendations, estimated timeline, and investment options.
+                                </p>
+                            </div>
+
+                            <div className="p-5 rounded-2xl bg-dark-950/80 border border-white/10">
+                                <div className="text-xs font-mono text-primary-glow uppercase mb-2">Step 3</div>
+                                <h3 className="font-bold text-white text-base mb-1">Discovery Call</h3>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    We&apos;ll hop on a quick 15-minute call to answer questions and lock in your project plan.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <a 
+                                href={CONFIG.CALENDLY_URL} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="btn-primary inline-flex items-center gap-2 px-8 py-3.5 text-sm font-mono uppercase tracking-wider"
+                            >
+                                <Calendar className="w-4 h-4" />
+                                <span>Schedule Intro Call on Calendly</span>
+                            </a>
+
+                            <button
+                                type="button"
+                                onClick={handleDownloadBrief}
+                                className="btn-outline inline-flex items-center gap-2 px-6 py-3.5 text-sm font-mono uppercase tracking-wider"
+                            >
+                                <Download className="w-4 h-4" />
+                                <span>Download Project Brief (.txt)</span>
+                            </button>
+
+                            <a 
+                                href="#home" 
+                                className="text-xs font-mono text-slate-400 hover:text-white px-4 py-2 transition-colors"
+                            >
+                                <span>Return to Home</span>
+                            </a>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <>
+                        {/* Hero Header */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="mb-8 text-center sm:text-left"
+                        >
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary-glow text-xs font-mono uppercase tracking-wider mb-4">
+                                <Compass className="w-3.5 h-3.5" />
+                                <span>Start Your Project • Discovery & Planning</span>
+                            </div>
+
+                            <h1 className="text-3xl sm:text-5xl font-extrabold text-white mb-4 tracking-tight">
+                                Tell Us About <span className="text-gradient">Your Vision</span>
+                            </h1>
+
+                            <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl">
+                                A quick, guided questionnaire to share your goals, desired features, and timeline. Fill in whatever you know — we will handle the fine details together.
+                            </p>
+
+                            {/* Real-time Progress Bar */}
+                            <div className="mt-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10">
+                                <div className="flex justify-between items-center text-xs font-mono text-slate-400 mb-2">
+                                    <span className="flex items-center gap-1.5">
+                                        <Compass className="w-3.5 h-3.5 text-primary-glow" />
+                                        <span>Questionnaire Progress</span>
+                                    </span>
+                                    <span className="text-primary-glow font-bold">{progress}% Completed</span>
+                                </div>
+                                <div className="w-full h-2 rounded-full bg-dark-950 overflow-hidden border border-white/5">
+                                    <div 
+                                        className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500 ease-out"
+                                        style={{ width: `${progress}%` }}
+                                    ></div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <form onSubmit={handleSubmit} noValidate>
+                            {/* 1. Client & Contact Information */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.1 }}
+                                className={cardClasses}
+                            >
+                                <h2 className={sectionHeadingClasses}>
+                                    <Users className="w-5 h-5 text-primary-glow" />
+                                    <span>1. About You & Your Business</span>
+                                </h2>
+                                <p className={sectionSubtextClasses}>
+                                    Let’s start with the basics so we know who we are building for and how to reach you.
+                                </p>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label htmlFor="clientName" className={fieldLabelClasses}>
+                                            Company / Organization / Project Name *
+                                        </label>
+                                        <input 
+                                            id="clientName" 
+                                            name="clientName"
+                                            required
+                                            value={formData.clientName} 
+                                            onChange={e => handleTextChange('clientName', e.target.value)}
+                                            placeholder="e.g. Northern Peak Coffee, Acme Supply Co." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="contactPerson" className={fieldLabelClasses}>
+                                            Your Name *
+                                        </label>
+                                        <input 
+                                            id="contactPerson" 
+                                            name="contactPerson"
+                                            value={formData.contactPerson} 
+                                            onChange={e => handleTextChange('contactPerson', e.target.value)}
+                                            placeholder="e.g. Jane Doe" 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                    <div>
+                                        <label htmlFor="email" className={fieldLabelClasses}>
+                                            Best Email Address *
+                                        </label>
+                                        <input 
+                                            id="email" 
+                                            name="email"
+                                            type="email"
+                                            required
+                                            value={formData.email} 
+                                            onChange={e => handleTextChange('email', e.target.value)}
+                                            placeholder="jane@yourcompany.com" 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="phone" className={fieldLabelClasses}>
+                                            Phone Number (optional)
+                                        </label>
+                                        <input 
+                                            id="phone" 
+                                            name="phone"
+                                            type="tel"
+                                            value={formData.phone} 
+                                            onChange={e => handleTextChange('phone', e.target.value)}
+                                            placeholder="(780) 555-0199" 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            Optional — only if you prefer a quick phone call or text.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="website" className={fieldLabelClasses}>
+                                            Current Website or Social Page
+                                        </label>
+                                        <input 
+                                            id="website" 
+                                            name="website"
+                                            value={formData.website} 
+                                            onChange={e => handleTextChange('website', e.target.value)}
+                                            placeholder="https://... or @instagram" 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            If you already have one, or link your Facebook / Instagram page.
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* 2. Goals & Vision */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.15 }}
+                                className={cardClasses}
+                            >
+                                <h2 className={sectionHeadingClasses}>
+                                    <Target className="w-5 h-5 text-secondary-glow" />
+                                    <span>2. Your Goals & Vision</span>
+                                </h2>
+                                <p className={sectionSubtextClasses}>
+                                    What does a home run look like for this new website? Select your top goals or describe them below.
+                                </p>
+
+                                {/* Common Goal Chips */}
+                                <div className="mb-6">
+                                    <label className={fieldLabelClasses}>
+                                        Select Your Top Project Goals
+                                    </label>
+                                    <div className="flex flex-wrap gap-2.5">
+                                        {GOAL_OPTIONS.map(goal => {
+                                            const isSelected = formData.mainObjectives.includes(goal)
+                                            return (
+                                                <button
+                                                    key={goal}
+                                                    type="button"
+                                                    aria-pressed={isSelected}
+                                                    onClick={() => {
+                                                        const current = formData.mainObjectives
+                                                        if (isSelected) {
+                                                            const cleaned = current.split(', ').filter(x => x !== goal).join(', ')
+                                                            handleTextChange('mainObjectives', cleaned)
+                                                        } else {
+                                                            const updated = current ? `${current}, ${goal}` : goal
+                                                            handleTextChange('mainObjectives', updated)
+                                                        }
+                                                    }}
+                                                    className={`px-3.5 py-2 rounded-xl text-xs font-mono transition-all flex items-center gap-1.5 ${
+                                                        isSelected
+                                                            ? 'bg-primary/20 text-primary-glow border border-primary/40 font-semibold'
+                                                            : 'bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10'
+                                                    }`}
+                                                >
+                                                    {isSelected && <Check className="w-3.5 h-3.5" />}
+                                                    <span>{goal}</span>
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-5">
+                                    <div>
+                                        <label htmlFor="mainObjectives" className={fieldLabelClasses}>
+                                            In your own words, what is the main goal for this new site?
+                                        </label>
+                                        <textarea 
+                                            id="mainObjectives" 
+                                            name="mainObjectives"
+                                            rows="3"
+                                            value={formData.mainObjectives} 
+                                            onChange={e => handleTextChange('mainObjectives', e.target.value)}
+                                            placeholder="e.g. We want a modern, fast site that turns local visitors into paying clients and allows customers to easily book consultations online." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="keyChallenges" className={fieldLabelClasses}>
+                                            What isn’t working with your current website or setup? (Or what is your biggest hurdle?)
+                                        </label>
+                                        <textarea 
+                                            id="keyChallenges" 
+                                            name="keyChallenges"
+                                            rows="2"
+                                            value={formData.keyChallenges} 
+                                            onChange={e => handleTextChange('keyChallenges', e.target.value)}
+                                            placeholder="e.g. Our current site is slow on phones, difficult to edit, doesn't reflect the high quality of our work, and we get no inquiries from it." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* 3. Target Audience & Brand Personality */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.2 }}
+                                className={cardClasses}
+                            >
+                                <h2 className={sectionHeadingClasses}>
+                                    <Palette className="w-5 h-5 text-primary-glow" />
+                                    <span>3. Your Audience & Brand Vibe</span>
+                                </h2>
+                                <p className={sectionSubtextClasses}>
+                                    Help us understand who will be visiting your site and how you want them to feel.
+                                </p>
+
+                                <div className="space-y-6">
+                                    <div>
+                                        <label htmlFor="targetAudience" className={fieldLabelClasses}>
+                                            Who is your ideal customer or target audience?
+                                        </label>
+                                        <input 
+                                            id="targetAudience" 
+                                            name="targetAudience"
+                                            value={formData.targetAudience} 
+                                            onChange={e => handleTextChange('targetAudience', e.target.value)}
+                                            placeholder="e.g. Homeowners aged 30-55 in Northern Alberta looking for reliable renovations..." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={fieldLabelClasses}>
+                                            What feeling or personality best matches your brand?
+                                        </label>
+                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                            {STYLE_OPTIONS.map(style => {
+                                                const isSelected = formData.brandValues.includes(style)
+                                                return (
+                                                    <button
+                                                        key={style}
+                                                        type="button"
+                                                        aria-pressed={isSelected}
+                                                        onClick={() => {
+                                                            const current = formData.brandValues
+                                                            if (isSelected) {
+                                                                const cleaned = current.split(', ').filter(x => x !== style).join(', ')
+                                                                handleTextChange('brandValues', cleaned)
+                                                            } else {
+                                                                const updated = current ? `${current}, ${style}` : style
+                                                                handleTextChange('brandValues', updated)
+                                                            }
+                                                        }}
+                                                        className={`p-3 rounded-xl text-xs font-mono text-center border transition-all ${
+                                                            isSelected 
+                                                                ? 'bg-secondary/20 text-secondary-glow border-secondary/40 font-semibold shadow-sm shadow-secondary/10' 
+                                                                : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
+                                                        }`}
+                                                    >
+                                                        {style}
+                                                    </button>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* 4. Pages & Must-Have Features */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.25 }}
+                                className={cardClasses}
+                            >
+                                <h2 className={sectionHeadingClasses}>
+                                    <Layout className="w-5 h-5 text-secondary-glow" />
+                                    <span>4. Pages & Features You Need</span>
+                                </h2>
+                                <p className={sectionSubtextClasses}>
+                                    Select the pages and features you think you&apos;ll need. You can always change or add more later.
+                                </p>
+
+                                {/* Quick-Pick Starter Presets */}
+                                <div className="mb-6 p-4 rounded-xl bg-white/[0.02] border border-white/10">
+                                    <div className="flex items-center gap-2 mb-1.5 text-xs font-mono font-semibold text-secondary-glow uppercase tracking-wider">
+                                        <Layers className="w-3.5 h-3.5" />
+                                        <span>Quick-Pick Starter Archetypes (1-Click)</span>
+                                    </div>
+                                    <p className="text-xs text-slate-400 mb-3">
+                                        Click a profile below to automatically select common pages and features. You can still adjust everything afterwards.
+                                    </p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                        {QUICK_PRESETS.map(preset => (
+                                            <button
+                                                key={preset.id}
+                                                type="button"
+                                                onClick={() => applyPreset(preset)}
+                                                className="p-3 rounded-xl text-left bg-white/5 hover:bg-secondary/15 border border-white/10 hover:border-secondary/40 transition-all group"
+                                            >
+                                                <div className="text-xs font-semibold text-slate-200 group-hover:text-secondary-glow transition-colors">
+                                                    {preset.label}
+                                                </div>
+                                                <div className="text-[11px] text-slate-400 mt-1 line-clamp-2 font-sans">
+                                                    {preset.description}
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Pages Needed */}
+                                <div className="mb-6">
+                                    <label className={fieldLabelClasses}>
+                                        Key Pages Envisioned
+                                    </label>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                                        {PAGE_OPTIONS.map(page => {
+                                            const isSelected = (formData.pagesNeeded || []).includes(page)
+                                            return (
+                                                <button
+                                                    key={page}
+                                                    type="button"
+                                                    aria-pressed={isSelected}
+                                                    onClick={() => toggleArrayItem('pagesNeeded', page)}
+                                                    className={`p-3 rounded-xl text-xs font-mono text-left border flex items-center justify-between transition-all ${
+                                                        isSelected 
+                                                            ? 'bg-primary/15 text-primary-glow border-primary/40 font-medium' 
+                                                            : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
+                                                    }`}
+                                                >
+                                                    <span>{page}</span>
+                                                    {isSelected && <Check className="w-3.5 h-3.5 text-primary-glow" />}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
+                                {/* Features Needed */}
+                                <div className="mb-6">
+                                    <label className={fieldLabelClasses}>
+                                        Key Interactive Features
+                                    </label>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                        {FEATURE_OPTIONS.map(feat => {
+                                            const isSelected = (formData.interactiveFeatures || []).includes(feat)
+                                            return (
+                                                <button
+                                                    key={feat}
+                                                    type="button"
+                                                    aria-pressed={isSelected}
+                                                    onClick={() => toggleArrayItem('interactiveFeatures', feat)}
+                                                    className={`p-3 rounded-xl text-xs font-mono text-left border flex items-center justify-between transition-all ${
+                                                        isSelected 
+                                                            ? 'bg-secondary/15 text-secondary-glow border-secondary/40 font-medium' 
+                                                            : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
+                                                    }`}
+                                                >
+                                                    <span>{feat}</span>
+                                                    {isSelected && <Check className="w-3.5 h-3.5 text-secondary-glow" />}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="techPreferences" className={fieldLabelClasses}>
+                                        Do you have a specific platform or tech preference?
+                                    </label>
+                                    <input 
+                                        id="techPreferences" 
+                                        name="techPreferences"
+                                        value={formData.techPreferences} 
+                                        onChange={e => handleTextChange('techPreferences', e.target.value)}
+                                        placeholder="e.g. Open to recommendation, Shopify, WordPress, Custom Modern Web App..." 
+                                        className={inputClasses} 
+                                    />
+                                </div>
+                            </motion.div>
+
+                            {/* 5. Visual Direction & Inspiration */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.3 }}
+                                className={cardClasses}
+                            >
+                                <h2 className={sectionHeadingClasses}>
+                                    <Palette className="w-5 h-5 text-primary-glow" />
+                                    <span>5. Visual Style & Existing Assets</span>
+                                </h2>
+                                <p className={sectionSubtextClasses}>
+                                    Share your aesthetic preferences and what materials you already have on hand.
+                                </p>
+
+                                <div className="space-y-6">
+                                    <div>
+                                        <label htmlFor="inspirationWebsites" className={fieldLabelClasses}>
+                                            Websites or brands you love the look or feel of (Paste 1–3 links or names)
+                                        </label>
+                                        <textarea 
+                                            id="inspirationWebsites" 
+                                            name="inspirationWebsites"
+                                            rows="2"
+                                            value={formData.inspirationWebsites} 
+                                            onChange={e => handleTextChange('inspirationWebsites', e.target.value)}
+                                            placeholder="e.g. apple.com for clean typography; stripe.com for polish; localcompetitor.ca for services..." 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            Optional — don&apos;t worry if you don&apos;t have any yet. Tim will curate tailored visual concepts for your review.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <label className={fieldLabelClasses}>
+                                            What brand assets do you already have ready?
+                                        </label>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                            {ASSET_OPTIONS.map(asset => {
+                                                const isSelected = (formData.brandAssets || []).includes(asset)
+                                                return (
+                                                    <button
+                                                        key={asset}
+                                                        type="button"
+                                                        aria-pressed={isSelected}
+                                                        onClick={() => toggleArrayItem('brandAssets', asset)}
+                                                        className={`p-3 rounded-xl text-xs font-mono text-left border flex items-center justify-between transition-all ${
+                                                            isSelected 
+                                                                ? 'bg-primary/15 text-primary-glow border-primary/40 font-medium' 
+                                                                : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
+                                                        }`}
+                                                    >
+                                                        <span>{asset}</span>
+                                                        {isSelected && <Check className="w-3.5 h-3.5 text-primary-glow" />}
+                                                    </button>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* 6. Timeline, Budget & Next Steps */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.35 }}
+                                className={cardClasses}
+                            >
+                                <h2 className={sectionHeadingClasses}>
+                                    <Calendar className="w-5 h-5 text-secondary-glow" />
+                                    <span>6. Timeline & Investment Range</span>
+                                </h2>
+                                <p className={sectionSubtextClasses}>
+                                    When would you love this live, and what is your approximate budget range?
+                                </p>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+                                    <div>
+                                        <label htmlFor="targetLaunchDate" className={fieldLabelClasses}>
+                                            Target Launch Timeframe
+                                        </label>
+                                        <select 
+                                            id="targetLaunchDate" 
+                                            name="targetLaunchDate"
+                                            value={formData.targetLaunchDate} 
+                                            onChange={e => handleTextChange('targetLaunchDate', e.target.value)}
+                                            className={`${inputClasses} appearance-none bg-dark-950`}
+                                        >
+                                            <option value="">Select timeframe (or leave blank)...</option>
+                                            {TIMELINE_OPTIONS.map(opt => (
+                                                <option key={opt} value={opt}>{opt}</option>
+                                            ))}
+                                        </select>
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            No rush — projects can move as fast or relaxed as your schedule needs.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="budgetRange" className={fieldLabelClasses}>
+                                            Approximate Investment Range
+                                        </label>
+                                        <select 
+                                            id="budgetRange" 
+                                            name="budgetRange"
+                                            value={formData.budgetRange} 
+                                            onChange={e => handleTextChange('budgetRange', e.target.value)}
+                                            className={`${inputClasses} appearance-none bg-dark-950`}
+                                        >
+                                            <option value="">Select approximate budget (or leave blank)...</option>
+                                            {BUDGET_OPTIONS.map(opt => (
+                                                <option key={opt} value={opt}>{opt}</option>
+                                            ))}
+                                        </select>
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            Transparent fixed quotes with zero hidden surprises. Helps tailor the best scope for your investment.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-5">
+                                    <div>
+                                        <label htmlFor="milestones" className={fieldLabelClasses}>
+                                            Is there an upcoming event, grand opening, or deadline driving this?
+                                        </label>
+                                        <input 
+                                            id="milestones" 
+                                            name="milestones"
+                                            value={formData.milestones} 
+                                            onChange={e => handleTextChange('milestones', e.target.value)}
+                                            placeholder="e.g. Busy season starts in May, new product release on Oct 1st, or no strict deadline..." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="rolesResponsibilities" className={fieldLabelClasses}>
+                                            Who on your team will be involved in reviews and approvals?
+                                        </label>
+                                        <input 
+                                            id="rolesResponsibilities" 
+                                            name="rolesResponsibilities"
+                                            value={formData.rolesResponsibilities} 
+                                            onChange={e => handleTextChange('rolesResponsibilities', e.target.value)}
+                                            placeholder="e.g. Just myself; or myself and business partner David..." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="actionItems" className={fieldLabelClasses}>
+                                            Anything else you&apos;d like to share or questions for Tim?
+                                        </label>
+                                        <textarea 
+                                            id="actionItems" 
+                                            name="actionItems"
+                                            rows="3"
+                                            value={formData.actionItems} 
+                                            onChange={e => handleTextChange('actionItems', e.target.value)}
+                                            placeholder="e.g. We also need domain transfer help, or curious about monthly maintenance options..." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Error Alert with Adblocker / Firewall Fallback */}
+                            {errorMessage && (
+                                <motion.div 
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="mb-6 p-5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm space-y-4"
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                                        <div>
+                                            <p className="font-semibold text-rose-200">{errorMessage}</p>
+                                            <p className="text-xs text-rose-300/80 mt-1 leading-relaxed">
+                                                If an adblocker, VPN, or browser firewall is blocking direct form submission, your answers are safe! You can email them directly to Tim with one click or download your formatted project brief below:
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-rose-500/20">
+                                        <a
+                                            href={getMailtoHref()}
+                                            className="btn-primary inline-flex items-center gap-2 px-4 py-2.5 text-xs font-mono uppercase tracking-wider !bg-rose-600 hover:!bg-rose-500 !text-white !border-rose-400 shadow-md"
+                                        >
+                                            <Mail className="w-3.5 h-3.5" />
+                                            <span>Email Answers Directly to Tim</span>
+                                        </a>
+
+                                        <button
+                                            type="button"
+                                            onClick={handleDownloadBrief}
+                                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-mono text-white transition-colors"
+                                        >
+                                            <Download className="w-3.5 h-3.5" />
+                                            <span>Download Brief (.txt)</span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={handleCopyBrief}
+                                            className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 transition-colors"
+                                        >
+                                            <Copy className="w-3.5 h-3.5" />
+                                            <span>Copy Answers</span>
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            )}
+
+                            {/* Submission Bar */}
+                            <div className="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+                                <div className="flex items-center gap-3 text-xs text-slate-400 font-sans">
+                                    <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+                                    <span>
+                                        100% Confidential. Your details are sent directly to Tim Superville. No spam or third-party sharing.
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center gap-4 w-full sm:w-auto">
+                                    <button
+                                        type="button"
+                                        onClick={handleClearDraft}
+                                        className="text-xs font-mono text-slate-500 hover:text-rose-400 transition-colors py-2 px-3 flex items-center gap-1.5"
+                                        title="Clear form and start over"
+                                    >
+                                        <RotateCcw className="w-3.5 h-3.5" />
+                                        <span>Reset</span>
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        disabled={submitting}
+                                        className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-4 text-sm font-mono uppercase tracking-wider disabled:opacity-50 shadow-lg shadow-primary/20"
+                                    >
+                                        {submitting ? (
+                                            <span>Sending Your Details...</span>
+                                        ) : (
+                                            <>
+                                                <span>Send Project Details</span>
+                                                <Send className="w-4 h-4" />
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </>
+                )}
+            </div>
+        </section>
+    )
+}

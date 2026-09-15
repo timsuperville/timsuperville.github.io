@@ -10,6 +10,13 @@ const IntersectionObserverMock = vi.fn(() => ({
 
 vi.stubGlobal('IntersectionObserver', IntersectionObserverMock)
 vi.stubGlobal('scrollTo', vi.fn())
+vi.stubGlobal('confirm', vi.fn(() => true))
+if (typeof window !== 'undefined') {
+    window.confirm = vi.fn(() => true)
+    if (window.HTMLElement) {
+        window.HTMLElement.prototype.scrollIntoView = vi.fn()
+    }
+}
 
 // Mock framer-motion to render children directly
 import React from 'react'
@@ -20,18 +27,26 @@ const motionKeys = new Set([
     'onLayoutAnimationStart', 'onLayoutAnimationComplete', 'layout'
 ])
 
+const componentCache = new Map()
+
 vi.mock('framer-motion', async () => {
     const actual = await vi.importActual('framer-motion')
     return {
         ...actual,
         motion: new Proxy({}, {
-            get: (_target, prop) => ({ children, ...props }) => {
-                const validProps = {}
-                for (const [key, value] of Object.entries(props)) {
-                    if (!motionKeys.has(key)) validProps[key] = value
-                }
+            get: (_target, prop) => {
+                if (componentCache.has(prop)) return componentCache.get(prop)
                 const tag = typeof prop === 'string' && prop.match(/^[a-z]+$/) ? prop : 'div'
-                return React.createElement(tag, validProps, children)
+                const Component = React.forwardRef(({ children, ...props }, ref) => {
+                    const validProps = {}
+                    for (const [key, value] of Object.entries(props)) {
+                        if (!motionKeys.has(key)) validProps[key] = value
+                    }
+                    return React.createElement(tag, { ...validProps, ref }, children)
+                })
+                Component.displayName = `motion.${prop}`
+                componentCache.set(prop, Component)
+                return Component
             }
         }),
         AnimatePresence: ({ children }) => children,

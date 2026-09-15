@@ -3,9 +3,9 @@ import CaseStudyDetail from '../CaseStudyDetail'
 
 describe('CaseStudyDetail', () => {
     it('renders a known case study', () => {
-        render(<CaseStudyDetail id="ecommerce" />)
-        expect(screen.getByText('E-commerce revamp')).toBeInTheDocument()
-        expect(screen.getByText(/30% increase/i)).toBeInTheDocument()
+        render(<CaseStudyDetail id="trade-platform" />)
+        expect(screen.getByText('High-Performance Trade & Local Web Platform')).toBeInTheDocument()
+        expect(screen.getByText(/100\/100/i)).toBeInTheDocument()
     })
 
     it('renders nothing for unknown id', () => {

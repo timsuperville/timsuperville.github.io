@@ -38,9 +38,9 @@ export default function Resume() {
                     {/* Header */}
                     <div className="border-b border-white/10 pb-8 mb-8">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-white mb-3 tracking-tight">Tim Superville</h1>
-                        <p className="text-lg sm:text-xl text-primary-glow font-medium mb-5">Senior Full Stack Engineer & Digital Craftsman</p>
+                        <p className="text-lg sm:text-xl text-primary-glow font-medium mb-5">Full Stack Web Developer & Software Engineer</p>
                         <div className="flex flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm text-slate-400 font-mono">
-                            <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-slate-500" /> San Francisco, CA (Remote)</span>
+                            <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-slate-500" /> Northern Alberta, Canada (Remote)</span>
                             <span className="flex items-center gap-1.5"><Mail className="w-4 h-4 text-slate-500" /> hello@tsuperville.com</span>
                             <span className="flex items-center gap-1.5"><Globe className="w-4 h-4 text-slate-500" /> tsuperville.com</span>
                         </div>

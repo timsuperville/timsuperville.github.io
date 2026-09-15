@@ -4,7 +4,6 @@ import {
     Calculator, 
     Clock, 
     ArrowRight, 
-    Sparkles, 
     Check, 
     Layers, 
     ShoppingCart, 
@@ -50,7 +49,7 @@ const projectTypes = [
 const addOnFeatures = [
     { id: 'auth', label: 'User Authentication & RBAC', price: 1000, days: 5 },
     { id: 'payments', label: 'Stripe Payments / Subscriptions', price: 1200, days: 5 },
-    { id: 'design-system', label: 'Custom Liquid Glass Design System', price: 1500, days: 7 },
+    { id: 'design-system', label: 'Custom UI Component Library', price: 1500, days: 7 },
     { id: 'cms', label: 'CMS / Headless Blog Integration', price: 800, days: 4 },
     { id: 'seo', label: 'Comprehensive Technical SEO & Schema', price: 600, days: 3 },
     { id: 'tests', label: 'Automated Vitest Test Suite (>90%)', price: 900, days: 4 }
@@ -121,13 +120,13 @@ export default function ProjectEstimator({ onSelectEstimate }) {
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/25 text-secondary-glow text-xs font-mono uppercase tracking-wider mb-4">
                         <Calculator className="w-3.5 h-3.5" />
-                        <span>Interactive Scope & Investment Estimator</span>
+                        <span>Transparent Project Estimator</span>
                     </div>
                     <h2 className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight">
                         Scope Your <span className="text-gradient">Project & Timeline</span>
                     </h2>
                     <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-                        Select your architectural requirements below for an instant ballpark investment range and delivery timeline.
+                        Select your project requirements below for an instant ballpark investment range and delivery timeline.
                     </p>
                 </motion.div>
 
@@ -170,7 +169,7 @@ export default function ProjectEstimator({ onSelectEstimate }) {
                         {/* Step 2: Add-on Capabilities */}
                         <div>
                             <label className="block text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4 font-mono">
-                                2. Architecture & Feature Modules
+                                2. Add-on Features & Integrations
                             </label>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {addOnFeatures.map(item => {
@@ -238,7 +237,7 @@ export default function ProjectEstimator({ onSelectEstimate }) {
                                     </div>
                                 </div>
                                 <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20 text-primary-glow">
-                                    <Sparkles className="w-6 h-6" />
+                                    <Calculator className="w-6 h-6" />
                                 </div>
                             </div>
 
@@ -269,7 +268,7 @@ export default function ProjectEstimator({ onSelectEstimate }) {
                             </button>
 
                             <p className="text-[11px] text-slate-500 text-center mt-4">
-                                Estimates are transparent ballparks based on typical sprint velocity. Final proposals tailored to your technical requirements.
+                                All estimates are transparent ballparks to help you plan. Final quotes are confirmed after discussing your exact goals.
                             </p>
                         </div>
                     </div>

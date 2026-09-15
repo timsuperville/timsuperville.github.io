@@ -52,7 +52,7 @@
 }
 
 @layer components {
-  /* Liquid Glass Utilities */
+  /* Glassmorphism & UI Utilities */
   .glass {
     @apply backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] shadow-glass;
   }

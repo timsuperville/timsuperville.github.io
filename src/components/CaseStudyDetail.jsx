@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { ArrowLeft, CheckCircle2, Cpu, Flag, TrendingUp } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Layers, Flag, TrendingUp } from 'lucide-react'
 import { caseStudies } from '../data/caseStudies'
-
+import CodeTerminal from './CodeTerminal'
 
 export default function CaseStudyDetail({ id }) {
     const study = caseStudies.find(s => s.id === id)
@@ -38,15 +38,15 @@ export default function CaseStudyDetail({ id }) {
                     {study.detailTitle}
                 </h1>
 
-                {/* Hero Image */}
-                {study.image && (
-                    <div className="mb-12 rounded-2xl overflow-hidden border border-white/10 bg-dark-900 shadow-2xl relative aspect-[16/9]">
-                        <img
-                            src={study.image}
-                            alt={study.detailTitle}
-                            className="w-full h-full object-cover"
+                {/* Real Code Architecture Terminal */}
+                {study.code && (
+                    <div className="mb-12">
+                        <CodeTerminal
+                            filename={study.filename}
+                            language={study.language}
+                            code={study.code}
+                            maxHeight="380px"
                         />
-                        <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl"></div>
                     </div>
                 )}
 
@@ -65,7 +65,7 @@ export default function CaseStudyDetail({ id }) {
                         <div className="pt-6 md:pt-0 border-t md:border-t-0 md:border-l border-white/10 md:pl-8">
                             <div className="flex items-center gap-2 text-secondary-glow font-semibold mb-3">
                                 <TrendingUp className="w-5 h-5" /> 
-                                <span className="font-mono text-sm uppercase tracking-wider">The Measurable Impact</span>
+                                <span className="font-mono text-sm uppercase tracking-wider">The Results & Impact</span>
                             </div>
                             <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
                                 {study.results}
@@ -77,8 +77,8 @@ export default function CaseStudyDetail({ id }) {
                 {/* What I Did */}
                 <div className="mb-12">
                     <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2.5 text-white">
-                        <Cpu className="w-5 h-5 text-primary-glow" /> 
-                        <span>Engineering Deliverables & Strategy</span>
+                        <Layers className="w-5 h-5 text-primary-glow" /> 
+                        <span>What Was Built & Delivered</span>
                     </h3>
                     <ul className="grid gap-4 md:grid-cols-2">
                         {study.whatIDid.map((item, i) => (

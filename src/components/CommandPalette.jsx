@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
     Search, 
-    Sparkles, 
+    Home, 
     FolderGit2, 
-    Cpu, 
+    Layers, 
     Calculator, 
     FileText, 
     Mail, 
@@ -12,7 +12,8 @@ import {
     ExternalLink, 
     Palette, 
     X,
-    ChevronRight
+    ChevronRight,
+    ClipboardList
 } from 'lucide-react'
 import { CONFIG } from '../config'
 
@@ -84,10 +85,11 @@ export default function CommandPalette({ isOpen, setIsOpen, currentAccent, setCu
         {
             category: 'Navigation',
             items: [
-                { id: 'nav-home', label: 'Go to Overview & Hero', icon: Sparkles, action: () => navigateTo('#home') },
+                { id: 'nav-home', label: 'Go to Home & Overview', icon: Home, action: () => navigateTo('#home') },
                 { id: 'nav-work', label: 'View Recent Work & Projects', icon: FolderGit2, action: () => navigateTo('#portfolio') },
-                { id: 'nav-tech', label: 'Explore Interactive Tech Stack', icon: Cpu, action: () => navigateTo('#tech-stack') },
+                { id: 'nav-tech', label: 'Explore Skills & Technologies', icon: Layers, action: () => navigateTo('#tech-stack') },
                 { id: 'nav-estimator', label: 'Calculate Project Scope & Cost', icon: Calculator, action: () => navigateTo('#estimator') },
+                { id: 'nav-intake', label: 'Open Client Discovery & Intake Form', icon: ClipboardList, action: () => navigateTo('#intake') },
                 { id: 'nav-resume', label: 'View Interactive Resume', icon: FileText, action: () => navigateTo('#resume') },
                 { id: 'nav-contact', label: 'Contact & Inquiry', icon: Mail, action: () => navigateTo('#contact') }
             ]

@@ -27,7 +27,7 @@ export default function Hero() {
                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                     </span>
                     <span className="text-xs sm:text-sm font-mono font-medium text-slate-200 tracking-wide">
-                        Available for Q3/Q4 2026 Engineering & Contracts
+                        Available for New Projects & Freelance Contracts
                     </span>
                 </motion.div>
 
@@ -38,8 +38,8 @@ export default function Hero() {
                     transition={{ duration: 0.7, delay: 0.15 }}
                     className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-[1.1] sm:leading-[1.15]"
                 >
-                    Building <Typewriter text={["digital experiences", "scalable applications", "resilient systems"]} /> <br className="hidden sm:inline" />
-                    that people love.
+                    Building <Typewriter text={["fast websites", "custom web applications", "dependable digital tools"]} /> <br className="hidden sm:inline" />
+                    that work for you.
                 </motion.h1>
 
                 {/* Subtitle */}
@@ -49,7 +49,7 @@ export default function Hero() {
                     transition={{ duration: 0.7, delay: 0.3 }}
                     className="text-base sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-body"
                 >
-                    Senior Full Stack Engineer architecting high-performance web applications, distributed APIs, and accessible interfaces engineered for speed, conversion, and scale.
+                    Based in Northern Alberta, Canada. I build fast, clean, and reliable websites and web applications for businesses that want direct communication, honest timelines, and zero guesswork.
                 </motion.p>
 
                 {/* CTA Actions */}
