@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import Testimonials from '../Testimonials'
+import Testimonials from '../components/Testimonials'
 
 describe('Testimonials / Principles', () => {
     it('renders engineering principles and working standards', () => {

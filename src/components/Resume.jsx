@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Download, Mail, MapPin, Globe, CheckCircle2 } from 'lucide-react'
-import { resume } from '../data/resume'
+import { resume } from '../data'
 
 export default function Resume() {
     return (

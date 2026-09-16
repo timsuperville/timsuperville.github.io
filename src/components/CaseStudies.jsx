@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { trackEvent } from '../analytics'
-import { caseStudies } from '../data/caseStudies'
+import { trackEvent } from '../lib/analytics'
+import { projects } from '../data'
 import { ArrowRight, BookOpen, TrendingUp } from 'lucide-react'
 
 export default function CaseStudies() {
@@ -30,7 +30,7 @@ export default function CaseStudies() {
                 </motion.div>
 
                 <div className="space-y-8">
-                    {caseStudies.map((study, i) => (
+                    {projects.map((study, i) => (
                         <motion.article
                             key={study.id}
                             initial={{ opacity: 0, y: 25 }}

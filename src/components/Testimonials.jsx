@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { ShieldCheck, CheckCircle2, Zap, Terminal, HeartHandshake } from 'lucide-react'
-import { principles } from '../data/testimonials'
+import { principles } from '../data'
 
 const icons = [Terminal, Zap, ShieldCheck, HeartHandshake]
 

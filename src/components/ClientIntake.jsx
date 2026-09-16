@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-    ArrowLeft, 
-    Target, 
-    CheckCircle2, 
-    Send, 
-    Calendar, 
-    ShieldCheck, 
-    Compass, 
-    Layout, 
-    Palette, 
-    Users, 
-    Check, 
+import {
+    ArrowLeft,
+    Target,
+    CheckCircle2,
+    Send,
+    Calendar,
+    ShieldCheck,
+    Compass,
+    Layout,
+    Palette,
+    Users,
+    Check,
     RotateCcw,
     Download,
     Mail,
@@ -21,403 +21,72 @@ import {
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { CONFIG } from '../config'
-import { trackEvent } from '../analytics'
-
-const STORAGE_KEY = 'tim_client_planner_draft_v3'
-
-const getInitialFormState = () => ({
-    clientName: '',
-    contactPerson: '',
-    email: '',
-    phone: '',
-    website: '',
-    mainObjectives: '',
-    keyChallenges: '',
-    targetAudience: '',
-    brandValues: '',
-    pagesNeeded: [],
-    interactiveFeatures: [],
-    techPreferences: '',
-    visualStyle: '',
-    inspirationWebsites: '',
-    brandAssets: [],
-    targetLaunchDate: '',
-    milestones: '',
-    rolesResponsibilities: '',
-    budgetRange: '',
-    actionItems: ''
-})
-
-const isFormEmpty = (data) => {
-    if (!data) return true
-    return !data.clientName?.trim() &&
-        !data.contactPerson?.trim() &&
-        !data.email?.trim() &&
-        !data.phone?.trim() &&
-        !data.website?.trim() &&
-        !data.mainObjectives?.trim() &&
-        !data.keyChallenges?.trim() &&
-        !data.targetAudience?.trim() &&
-        !data.brandValues?.trim() &&
-        (!data.pagesNeeded || data.pagesNeeded.length === 0) &&
-        (!data.interactiveFeatures || data.interactiveFeatures.length === 0) &&
-        !data.techPreferences?.trim() &&
-        !data.visualStyle?.trim() &&
-        !data.inspirationWebsites?.trim() &&
-        (!data.brandAssets || data.brandAssets.length === 0) &&
-        !data.targetLaunchDate?.trim() &&
-        !data.milestones?.trim() &&
-        !data.rolesResponsibilities?.trim() &&
-        !data.budgetRange?.trim() &&
-        !data.actionItems?.trim()
-}
-
-const GOAL_OPTIONS = [
-    'Generate More Client Leads & Calls',
-    'Sell Products Online / E-Commerce',
-    'Modernize Our Outdated Website',
-    'Automate Bookings & Appointments',
-    'Establish Trust & Credibility',
-    'Improve Mobile Experience & Speed',
-    'Rank Higher on Google (Local SEO)',
-    'Showcase Portfolio & Case Studies'
-]
-
-const PAGE_OPTIONS = [
-    'Home',
-    'About Us / Story',
-    'Services / Offerings',
-    'Contact & Inquiry',
-    'Online Booking / Calendar',
-    'Portfolio / Project Gallery',
-    'Client Portal / Login',
-    'Blog / Articles / Resources',
-    'Online Store / Shop',
-    'FAQ / Help Center'
-]
-
-const FEATURE_OPTIONS = [
-    'Interactive Contact Form',
-    'Online Appointment Booking',
-    'Credit Card / Stripe Payments',
-    'Mobile-First Responsive Design',
-    'Google Local SEO & Maps Setup',
-    'Analytics & Conversion Tracking',
-    'Email Newsletter Signup',
-    'Live Chat / Messaging',
-    'Client Intake / Onboarding Forms'
-]
-
-const STYLE_OPTIONS = [
-    'Modern & Clean',
-    'Warm & Approachable',
-    'Bold & High-Energy',
-    'Minimalist & Focused',
-    'Established & Trustworthy',
-    'Luxury & Refined',
-    'Creative & Artistic',
-    'Dark & Tech-Forward'
-]
-
-const ASSET_OPTIONS = [
-    'Logo Files Ready',
-    'Brand Colors & Fonts Defined',
-    'Professional Photos Ready',
-    'Written Copy / Content Ready',
-    'Domain & Hosting Secured',
-    'Starting Fresh / Need Help With These'
-]
-
-const TIMELINE_OPTIONS = [
-    'As soon as possible',
-    'Within 1 month',
-    '1 to 2 months',
-    'Flexible / No hard deadline'
-]
-
-const BUDGET_OPTIONS = [
-    'Under $2,500',
-    '$2,500 – $5,000',
-    '$5,000 – $10,000',
-    '$10,000+',
-    'Not sure yet — let’s discuss'
-]
-
-const QUICK_PRESETS = [
-    {
-        id: 'service',
-        label: 'Local Service Business',
-        description: 'Consulting, trades, clinics, or professional services',
-        pages: ['Home', 'About Us / Story', 'Services / Offerings', 'Contact & Inquiry', 'FAQ / Help Center'],
-        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup', 'Analytics & Conversion Tracking']
-    },
-    {
-        id: 'trade',
-        label: 'Trade / Craft / Contractor',
-        description: 'Showcases past jobs, galleries, and estimate inquiries',
-        pages: ['Home', 'About Us / Story', 'Services / Offerings', 'Portfolio / Project Gallery', 'Contact & Inquiry'],
-        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup']
-    },
-    {
-        id: 'shop',
-        label: 'Online Store / E-Commerce',
-        description: 'Product catalog, digital orders, and instant card payments',
-        pages: ['Home', 'Online Store / Shop', 'About Us / Story', 'Contact & Inquiry', 'FAQ / Help Center'],
-        features: ['Credit Card / Stripe Payments', 'Mobile-First Responsive Design', 'Analytics & Conversion Tracking']
-    }
-]
+import { trackEvent } from '../lib/analytics'
+import {
+    GOAL_OPTIONS,
+    PAGE_OPTIONS,
+    FEATURE_OPTIONS,
+    STYLE_OPTIONS,
+    ASSET_OPTIONS,
+    TIMELINE_OPTIONS,
+    BUDGET_OPTIONS,
+    QUICK_PRESETS
+} from '../constants/intake'
+import { calculateProgress, isFormEmpty, EMAIL_REGEX } from '../utils/form'
+import { downloadBriefTxt, copyBriefToClipboard, getMailtoHref } from '../utils/brief'
+import { useIntakeDraft } from '../hooks/useIntakeDraft'
 
 export default function ClientIntake({ setToast, onReset }) {
-    const [formData, setFormData] = useState(() => {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY)
-            if (saved) {
-                const parsed = JSON.parse(saved)
-                if (parsed && !isFormEmpty(parsed)) {
-                    return { ...getInitialFormState(), ...parsed }
-                }
-            }
-        } catch { }
-        return getInitialFormState()
-    })
+    const {
+        formData,
+        lastSavedTime,
+        handleTextChange,
+        toggleArrayItem,
+        clearDraft,
+        applyPreset
+    } = useIntakeDraft()
 
     const [submitting, setSubmitting] = useState(false)
     const [submitStatus, setSubmitStatus] = useState(null)
     const [errorMessage, setErrorMessage] = useState('')
-    const [lastSavedTime, setLastSavedTime] = useState(null)
 
-    // Clean up stale drafts from earlier component iterations on mount
-    useEffect(() => {
-        try {
-            localStorage.removeItem('client_intake_draft_v1')
-            localStorage.removeItem('client_project_planner_draft_v2')
-        } catch { }
-    }, [])
-
-    // Auto-save draft on changes only when user has entered content
-    useEffect(() => {
-        if (isFormEmpty(formData)) {
-            try {
-                localStorage.removeItem(STORAGE_KEY)
-            } catch { }
-            return
-        }
-
-        const timer = setTimeout(() => {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
-                setLastSavedTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
-            } catch { }
-        }, 500)
-        return () => clearTimeout(timer)
-    }, [formData])
-
-    const handleTextChange = (field, val) => {
-        setFormData(prev => ({ ...prev, [field]: val }))
-    }
-
-    const toggleArrayItem = (field, item) => {
-        setFormData(prev => {
-            const current = prev[field] || []
-            const next = current.includes(item)
-                ? current.filter(x => x !== item)
-                : [...current, item]
-            return { ...prev, [field]: next }
-        })
-    }
+    const progress = calculateProgress(formData)
 
     const handleClearDraft = () => {
-        if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
-            try {
-                const isTest = (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') || (typeof import.meta !== 'undefined' && import.meta.env?.MODE === 'test')
-                if (!isTest) {
-                    if (!window.confirm('Clear all entered information and start fresh?')) {
-                        return
-                    }
+        clearDraft({
+            onReset,
+            onConfirm: () => {
+                if (setToast) {
+                    setToast({ type: 'success', message: 'Form draft reset.' })
+                    setTimeout(() => setToast(null), 2500)
                 }
-            } catch { }
-        }
+            }
+        })
+    }
 
-        setFormData(getInitialFormState())
-        try {
-            localStorage.removeItem(STORAGE_KEY)
-            localStorage.removeItem('client_intake_draft_v1')
-            localStorage.removeItem('client_project_planner_draft_v2')
-        } catch { }
-        setLastSavedTime(null)
-        if (onReset) onReset()
-        if (setToast) {
-            setToast({ type: 'success', message: 'Form draft reset.' })
-            setTimeout(() => setToast(null), 2500)
+    const handleDownloadBrief = () => {
+        const ok = downloadBriefTxt(formData)
+        if (ok && setToast) {
+            setToast({ type: 'success', message: 'Project brief downloaded successfully!' })
+            setTimeout(() => setToast(null), 3000)
         }
     }
 
-    const applyPreset = (preset) => {
-        setFormData(prev => {
-            const currentPages = prev.pagesNeeded || []
-            const currentFeatures = prev.interactiveFeatures || []
-            const newPages = Array.from(new Set([...currentPages, ...preset.pages]))
-            const newFeatures = Array.from(new Set([...currentFeatures, ...preset.features]))
-            return {
-                ...prev,
-                pagesNeeded: newPages,
-                interactiveFeatures: newFeatures
-            }
-        })
+    const handleCopyBrief = async () => {
+        const ok = await copyBriefToClipboard(formData)
+        if (ok && setToast) {
+            setToast({ type: 'success', message: 'Project brief copied to clipboard!' })
+            setTimeout(() => setToast(null), 3000)
+        }
+    }
+
+    const handleApplyPreset = (preset) => {
+        applyPreset(preset)
         if (setToast) {
             setToast({ type: 'success', message: `Added recommended pages & features for ${preset.label}` })
             setTimeout(() => setToast(null), 3000)
         }
     }
-
-    const generateBriefText = () => {
-        return [
-            `================================================================`,
-            `WEBSITE PROJECT DISCOVERY BRIEF`,
-            `================================================================`,
-            `Company / Organization: ${formData.clientName || 'N/A'}`,
-            `Contact Name:           ${formData.contactPerson || 'N/A'}`,
-            `Email:                  ${formData.email || 'N/A'}`,
-            `Phone:                  ${formData.phone || 'N/A'}`,
-            `Current Website/Social: ${formData.website || 'N/A'}`,
-            `Generated On:           ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`,
-            `----------------------------------------------------------------`,
-            ``,
-            `1. GOALS & VISION`,
-            `----------------------------------------------------------------`,
-            `Primary Objectives:`,
-            formData.mainObjectives ? `  ${formData.mainObjectives}` : `  (None specified)`,
-            ``,
-            `Current Challenges / Hurdles:`,
-            formData.keyChallenges ? `  ${formData.keyChallenges}` : `  (None specified)`,
-            ``,
-            `2. AUDIENCE & BRAND PERSONALITY`,
-            `----------------------------------------------------------------`,
-            `Target Audience:     ${formData.targetAudience || 'N/A'}`,
-            `Brand Vibe & Styles: ${formData.brandValues || 'N/A'}`,
-            ``,
-            `3. PAGES & FEATURES REQUIRED`,
-            `----------------------------------------------------------------`,
-            `Pages Needed:`,
-            (formData.pagesNeeded && formData.pagesNeeded.length > 0)
-                ? formData.pagesNeeded.map(p => `  • ${p}`).join('\n')
-                : `  (Open to recommendations)`,
-            ``,
-            `Interactive Features:`,
-            (formData.interactiveFeatures && formData.interactiveFeatures.length > 0)
-                ? formData.interactiveFeatures.map(f => `  • ${f}`).join('\n')
-                : `  (Open to recommendations)`,
-            ``,
-            `Tech / Platform Preferences: ${formData.techPreferences || 'Open to recommendations'}`,
-            ``,
-            `4. VISUAL STYLE & ASSETS`,
-            `----------------------------------------------------------------`,
-            `Inspiration Sites:`,
-            formData.inspirationWebsites ? `  ${formData.inspirationWebsites}` : `  (None provided)`,
-            ``,
-            `Existing Brand Assets:`,
-            (formData.brandAssets && formData.brandAssets.length > 0)
-                ? formData.brandAssets.map(a => `  • ${a}`).join('\n')
-                : `  (Starting fresh / need assistance)`,
-            ``,
-            `5. TIMELINE & BUDGET`,
-            `----------------------------------------------------------------`,
-            `Target Launch:    ${formData.targetLaunchDate || 'Flexible'}`,
-            `Estimated Budget: ${formData.budgetRange || 'To be discussed'}`,
-            `Driving Events:   ${formData.milestones || 'N/A'}`,
-            `Decision Team:    ${formData.rolesResponsibilities || 'N/A'}`,
-            ``,
-            `6. ADDITIONAL NOTES & QUESTIONS`,
-            `----------------------------------------------------------------`,
-            formData.actionItems ? `  ${formData.actionItems}` : `  (None provided)`,
-            ``,
-            `================================================================`,
-            `Prepared for Tim Superville (timsuperville@gmail.com)`,
-            `Website: https://timsuperville.github.io`,
-            `================================================================`
-        ].join('\n')
-    }
-
-    const handleDownloadBrief = () => {
-        try {
-            const text = generateBriefText()
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
-            const url = URL.createObjectURL(blob)
-            const a = document.createElement('a')
-            const safeName = (formData.clientName || 'Project').replace(/[^a-z0-9]/gi, '-').toLowerCase()
-            a.href = url
-            a.download = `website-project-brief-${safeName}.txt`
-            document.body.appendChild(a)
-            a.click()
-            document.body.removeChild(a)
-            URL.revokeObjectURL(url)
-            if (setToast) {
-                setToast({ type: 'success', message: 'Project brief downloaded successfully!' })
-                setTimeout(() => setToast(null), 3000)
-            }
-        } catch { }
-    }
-
-    const handleCopyBrief = async () => {
-        try {
-            const text = generateBriefText()
-            await navigator.clipboard.writeText(text)
-            if (setToast) {
-                setToast({ type: 'success', message: 'Project brief copied to clipboard!' })
-                setTimeout(() => setToast(null), 3000)
-            }
-        } catch { }
-    }
-
-    const getMailtoHref = () => {
-        const subject = encodeURIComponent(`Website Project Discovery: ${formData.clientName || 'New Project'}`)
-        const body = encodeURIComponent(generateBriefText())
-        return `mailto:timsuperville@gmail.com?subject=${subject}&body=${body}`
-    }
-
-    // Calculate completion percentage across 6 discovery sections
-    const calculateProgress = () => {
-        if (isFormEmpty(formData)) return 0
-
-        let score = 0
-        const total = 6
-
-        // Section 1: Business & Contact
-        if (formData.clientName?.trim() && formData.email?.trim()) {
-            score += 1
-        } else if (formData.clientName?.trim() || formData.email?.trim() || formData.contactPerson?.trim()) {
-            score += 0.5
-        }
-
-        // Section 2: Goals & Vision
-        if (formData.mainObjectives?.trim() || formData.keyChallenges?.trim()) {
-            score += 1
-        }
-
-        // Section 3: Audience & Brand Vibe
-        if (formData.targetAudience?.trim() || formData.brandValues?.trim()) {
-            score += 1
-        }
-
-        // Section 4: Pages & Features
-        if ((formData.pagesNeeded || []).length > 0 || (formData.interactiveFeatures || []).length > 0) {
-            score += 1
-        }
-
-        // Section 5: Visual Direction & Assets
-        if (formData.visualStyle?.trim() || formData.inspirationWebsites?.trim() || (formData.brandAssets || []).length > 0) {
-            score += 1
-        }
-
-        // Section 6: Timeline & Budget
-        if (formData.targetLaunchDate?.trim() || formData.budgetRange?.trim()) {
-            score += 1
-        }
-
-        return Math.min(100, Math.round((score / total) * 100))
-    }
-
-    const progress = calculateProgress()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -429,28 +98,20 @@ export default function ClientIntake({ setToast, onReset }) {
             setSubmitStatus('error')
             const el = document.getElementById('clientName')
             if (el) {
-                if (typeof el.scrollIntoView === 'function') {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                }
-                if (typeof el.focus === 'function') {
-                    el.focus()
-                }
+                if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                if (typeof el.focus === 'function') el.focus()
             } else if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
                 window.scrollTo({ top: 300, behavior: 'smooth' })
             }
             return
         }
-        if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        if (!formData.email.trim() || !EMAIL_REGEX.test(formData.email)) {
             setErrorMessage('Please enter a valid email address so Tim can reply to you.')
             setSubmitStatus('error')
             const el = document.getElementById('email')
             if (el) {
-                if (typeof el.scrollIntoView === 'function') {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                }
-                if (typeof el.focus === 'function') {
-                    el.focus()
-                }
+                if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                if (typeof el.focus === 'function') el.focus()
             } else if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
                 window.scrollTo({ top: 300, behavior: 'smooth' })
             }
@@ -461,16 +122,12 @@ export default function ClientIntake({ setToast, onReset }) {
         const endpoint = CONFIG.GOOGLE_SHEETS_INTAKE_URL?.trim()
 
         if (!endpoint) {
-            // Fallback preview mode
             setTimeout(() => {
                 setSubmitting(false)
                 setSubmitStatus('success')
                 confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } })
                 if (setToast) {
-                    setToast({ 
-                        type: 'success', 
-                        message: 'Project details received! Your draft is saved.' 
-                    })
+                    setToast({ type: 'success', message: 'Project details received! Your draft is saved.' })
                     setTimeout(() => setToast(null), 5000)
                 }
             }, 600)
@@ -484,12 +141,10 @@ export default function ClientIntake({ setToast, onReset }) {
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(formData)
             })
-
             setSubmitting(false)
             setSubmitStatus('success')
             confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } })
             try { trackEvent('client_intake_submit', { result: 'success' }) } catch { }
-
             if (setToast) {
                 setToast({ type: 'success', message: 'Project details submitted successfully!' })
                 setTimeout(() => setToast(null), 5000)
@@ -932,7 +587,7 @@ export default function ClientIntake({ setToast, onReset }) {
                                             <button
                                                 key={preset.id}
                                                 type="button"
-                                                onClick={() => applyPreset(preset)}
+                                                onClick={() => handleApplyPreset(preset)}
                                                 className="p-3 rounded-xl text-left bg-white/5 hover:bg-secondary/15 border border-white/10 hover:border-secondary/40 transition-all group"
                                             >
                                                 <div className="text-xs font-semibold text-slate-200 group-hover:text-secondary-glow transition-colors">
@@ -1204,7 +859,7 @@ export default function ClientIntake({ setToast, onReset }) {
 
                                     <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-rose-500/20">
                                         <a
-                                            href={getMailtoHref()}
+                                            href={getMailtoHref(formData)}
                                             className="btn-primary inline-flex items-center gap-2 px-4 py-2.5 text-xs font-mono uppercase tracking-wider !bg-rose-600 hover:!bg-rose-500 !text-white !border-rose-400 shadow-md"
                                         >
                                             <Mail className="w-3.5 h-3.5" />

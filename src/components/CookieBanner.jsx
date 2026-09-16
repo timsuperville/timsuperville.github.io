@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { optIn, optOut, initAnalytics } from './analytics'
+import { optIn, optOut, initAnalytics } from '../lib/analytics'
 import { X, Cookie } from 'lucide-react'
 
 export default function CookieBanner() {

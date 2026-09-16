@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import CommandPalette from '../CommandPalette'
+import CommandPalette from '../components/CommandPalette'
 
 describe('CommandPalette', () => {
     it('renders nothing when closed', () => {

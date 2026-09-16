@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import CaseStudies from '../CaseStudies'
+import CaseStudies from '../components/CaseStudies'
 
 describe('CaseStudies', () => {
     it('renders list of studies', () => {

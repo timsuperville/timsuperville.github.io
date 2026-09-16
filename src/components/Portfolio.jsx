@@ -1,24 +1,29 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
     ArrowRight, 
     TrendingUp, 
     Code2, 
     Search, 
-    LayoutGrid, 
+    GalleryHorizontal, 
     ListFilter, 
     CheckCircle2, 
-    Filter
+    Filter,
+    ChevronLeft,
+    ChevronRight,
+    Play,
+    Pause
 } from 'lucide-react'
-import { projects } from '../data/projects'
+import { projects } from '../data'
+import { PORTFOLIO_CATEGORIES } from '../constants'
 import CodeTerminal from './CodeTerminal'
 
 export default function Portfolio() {
     const [selectedCategory, setSelectedCategory] = useState('All')
     const [searchQuery, setSearchQuery] = useState('')
-    const [viewMode, setViewMode] = useState('grid') // 'grid' | 'table'
+    const [viewMode, setViewMode] = useState('carousel') // 'carousel' | 'table'
 
-    const categories = ['All', 'Full Stack', 'Frontend']
+    const categories = PORTFOLIO_CATEGORIES
 
     // Filter projects based on category and search query
     const filteredProjects = useMemo(() => {
@@ -82,16 +87,16 @@ export default function Portfolio() {
                         {/* View Switcher */}
                         <div className="flex items-center gap-1 p-1 rounded-xl bg-dark-950/60 border border-white/10 backdrop-blur-md">
                             <button
-                                onClick={() => setViewMode('grid')}
+                                onClick={() => setViewMode('carousel')}
                                 className={`p-1.5 rounded-lg transition-colors ${
-                                    viewMode === 'grid' 
+                                    viewMode === 'carousel' 
                                         ? 'bg-primary/20 text-white border border-primary-glow/40' 
                                         : 'text-slate-400 hover:text-white'
                                 }`}
-                                title="Grid View"
-                                aria-label="Switch to Grid View"
+                                title="Showcase Carousel View"
+                                aria-label="Switch to Showcase Carousel View"
                             >
-                                <LayoutGrid className="w-4 h-4" />
+                                <GalleryHorizontal className="w-4 h-4" />
                             </button>
                             <button
                                 onClick={() => setViewMode('table')}
@@ -155,22 +160,13 @@ export default function Portfolio() {
                     </div>
                 )}
 
-                {/* View Mode: Grid View */}
-                {viewMode === 'grid' && (
-                    <motion.div
-                        layout
-                        className="grid gap-8 lg:gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                    >
-                        <AnimatePresence mode="popLayout">
-                            {filteredProjects.map((p) => (
-                                <PortfolioCard key={p.id} project={p} />
-                            ))}
-                        </AnimatePresence>
-                    </motion.div>
+                {/* View Mode: Rotating Showcase Carousel */}
+                {viewMode === 'carousel' && filteredProjects.length > 0 && (
+                    <PortfolioCarousel projects={filteredProjects} />
                 )}
 
                 {/* View Mode: High-Density Table View */}
-                {viewMode === 'table' && (
+                {viewMode === 'table' && filteredProjects.length > 0 && (
                     <div className="glass-card overflow-x-auto border border-white/10 p-0 rounded-2xl">
                         <table className="w-full text-left text-xs font-mono border-collapse">
                             <thead>
@@ -241,15 +237,200 @@ export default function Portfolio() {
     )
 }
 
+function PortfolioCarousel({ projects }) {
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [direction, setDirection] = useState(1)
+    const [isPlaying, setIsPlaying] = useState(true)
+    const [isHovered, setIsHovered] = useState(false)
+    const [progress, setProgress] = useState(0)
+
+    const ROTATION_INTERVAL = 6000 // 6 seconds
+    const TICK = 50 // ms
+
+    // Derive safe index to prevent out-of-bounds rendering without cascading effect renders
+    const safeIndex = currentIndex >= projects.length ? 0 : currentIndex
+
+    const handleNext = useCallback(() => {
+        setDirection(1)
+        setCurrentIndex(prev => ((prev >= projects.length ? 0 : prev) + 1) % projects.length)
+        setProgress(0)
+    }, [projects.length])
+
+    const handlePrev = useCallback(() => {
+        setDirection(-1)
+        setCurrentIndex(prev => ((prev >= projects.length ? 0 : prev) - 1 + projects.length) % projects.length)
+        setProgress(0)
+    }, [projects.length])
+
+    const handleSelect = (idx) => {
+        if (idx === safeIndex) return
+        setDirection(idx > safeIndex ? 1 : -1)
+        setCurrentIndex(idx)
+        setProgress(0)
+    }
+
+    // Auto-rotation timer with progress bar
+    useEffect(() => {
+        if (!isPlaying || isHovered || projects.length <= 1) {
+            return
+        }
+
+        const interval = setInterval(() => {
+            setProgress(prev => {
+                const next = prev + (TICK / ROTATION_INTERVAL) * 100
+                if (next >= 100) {
+                    handleNext()
+                    return 0
+                }
+                return next
+            })
+        }, TICK)
+
+        return () => clearInterval(interval)
+    }, [isPlaying, isHovered, projects.length, handleNext])
+
+    // Keyboard navigation when hovering or focused
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (isHovered && projects.length > 1) {
+                if (e.key === 'ArrowLeft') handlePrev()
+                if (e.key === 'ArrowRight') handleNext()
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [isHovered, projects.length, handlePrev, handleNext])
+
+    if (!projects.length) return null
+
+    const currentProject = projects[safeIndex] || projects[0]
+
+    return (
+        <div 
+            className="flex flex-col items-center w-full max-w-4xl mx-auto"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onFocusCapture={() => setIsHovered(true)}
+            onBlurCapture={() => setIsHovered(false)}
+        >
+            {/* Carousel Control Toolbar */}
+            <div className="flex items-center justify-between w-full mb-4 px-2 sm:px-4">
+                <div className="flex items-center gap-3">
+                    <span className="text-xs font-mono font-bold text-primary-glow">
+                        System {String(safeIndex + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-xs font-mono text-slate-500">/</span>
+                    <span className="text-xs font-mono text-slate-400">
+                        {String(projects.length).padStart(2, '0')}
+                    </span>
+                    {projects.length > 1 && (
+                        <span className="hidden sm:inline-flex items-center gap-1.5 ml-3 text-[11px] font-mono text-slate-500">
+                            <span className={`w-1.5 h-1.5 rounded-full ${isPlaying && !isHovered ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+                            <span>{isHovered ? 'Paused (Reading Code)' : isPlaying ? 'Auto-Rotating' : 'Paused'}</span>
+                        </span>
+                    )}
+                </div>
+
+                {/* Play/Pause & Nav Arrows */}
+                <div className="flex items-center gap-2">
+                    {projects.length > 1 && (
+                        <button
+                            onClick={() => setIsPlaying(!isPlaying)}
+                            className="p-2 rounded-xl bg-dark-950/60 border border-white/10 text-slate-400 hover:text-white hover:border-primary/40 transition-colors"
+                            title={isPlaying ? "Pause auto-rotation" : "Resume auto-rotation"}
+                            aria-label={isPlaying ? "Pause auto-rotation" : "Resume auto-rotation"}
+                        >
+                            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-primary-glow" />}
+                        </button>
+                    )}
+                    <button
+                        onClick={handlePrev}
+                        disabled={projects.length <= 1}
+                        className="p-2 rounded-xl bg-dark-950/60 border border-white/10 text-slate-400 hover:text-white hover:border-primary/40 disabled:opacity-30 disabled:hover:border-white/10 transition-colors"
+                        title="Previous System"
+                        aria-label="Previous System"
+                    >
+                        <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                        onClick={handleNext}
+                        disabled={projects.length <= 1}
+                        className="p-2 rounded-xl bg-dark-950/60 border border-white/10 text-slate-400 hover:text-white hover:border-primary/40 disabled:opacity-30 disabled:hover:border-white/10 transition-colors"
+                        title="Next System"
+                        aria-label="Next System"
+                    >
+                        <ChevronRight className="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+
+            {/* Active Card Showcase with Swipe Gestures */}
+            <div className="relative w-full overflow-hidden rounded-2xl">
+                <AnimatePresence mode="wait" custom={direction}>
+                    <motion.div
+                        key={currentProject.id}
+                        custom={direction}
+                        initial={{ opacity: 0, x: direction * 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: direction * -50 }}
+                        transition={{ duration: 0.35, ease: 'easeOut' }}
+                        drag={projects.length > 1 ? "x" : undefined}
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.2}
+                        onDragEnd={(e, { offset }) => {
+                            if (offset.x < -40 && projects.length > 1) {
+                                handleNext()
+                            } else if (offset.x > 40 && projects.length > 1) {
+                                handlePrev()
+                            }
+                        }}
+                        className="w-full cursor-grab active:cursor-grabbing"
+                    >
+                        <PortfolioCard project={currentProject} />
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+
+            {/* Rotation Countdown Progress Line */}
+            {projects.length > 1 && (
+                <div className="w-full h-1 bg-white/[0.04] rounded-full mt-5 overflow-hidden">
+                    <div 
+                        className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-75"
+                        style={{ width: `${progress}%` }}
+                    />
+                </div>
+            )}
+
+            {/* Interactive System Navigation Thumbnails / Pills */}
+            {projects.length > 1 && (
+                <div className="flex flex-wrap items-center justify-center gap-2 mt-5 w-full">
+                    {projects.map((p, idx) => (
+                        <button
+                            key={p.id}
+                            onClick={() => handleSelect(idx)}
+                            className={`group flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all duration-200 ${
+                                idx === safeIndex
+                                    ? 'bg-primary/20 border border-primary-glow/60 text-white shadow-glow-primary'
+                                    : 'bg-white/[0.02] border border-white/5 text-slate-400 hover:text-white hover:bg-white/[0.05]'
+                            }`}
+                        >
+                            <span className={`w-1.5 h-1.5 rounded-full ${
+                                idx === safeIndex ? 'bg-primary-glow' : 'bg-slate-600 group-hover:bg-slate-400'
+                            }`} />
+                            <span className="hidden sm:inline truncate max-w-[140px]">{p.title}</span>
+                            <span className="sm:hidden">{String(idx + 1).padStart(2, '0')}</span>
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    )
+}
+
 function PortfolioCard({ project }) {
     return (
-        <motion.article
-            layout
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.35 }}
-            className="group glass-card flex flex-col justify-between overflow-hidden p-0 border border-white/10 hover:border-primary/40"
+        <article
+            className="group glass-card flex flex-col justify-between overflow-hidden p-0 border border-white/10 hover:border-primary/40 transition-colors"
         >
             {/* Real Code Architecture Terminal */}
             <div className="p-3 sm:p-4 bg-dark-950/70 border-b border-white/5 relative">
@@ -257,7 +438,7 @@ function PortfolioCard({ project }) {
                     filename={project.filename}
                     language={project.language}
                     code={project.code}
-                    maxHeight="220px"
+                    maxHeight="240px"
                 />
 
                 {/* Metric Badge */}
@@ -279,7 +460,7 @@ function PortfolioCard({ project }) {
                             <span>Architecture</span>
                         </span>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary-glow transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 group-hover:text-primary-glow transition-colors">
                         {project.title}
                     </h3>
                     <p className="text-sm text-slate-400 leading-relaxed mb-6">
@@ -312,6 +493,7 @@ function PortfolioCard({ project }) {
                     </div>
                 </div>
             </div>
-        </motion.article>
+        </article>
     )
 }
+

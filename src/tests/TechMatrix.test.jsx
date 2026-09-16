@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import TechMatrix from '../TechMatrix'
+import TechMatrix from '../components/TechMatrix'
 
 describe('TechMatrix', () => {
     it('renders technical skills and category filters', () => {

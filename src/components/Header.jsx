@@ -3,11 +3,10 @@ import {
     Menu, 
     X, 
     Terminal, 
-    Github, 
-    Linkedin, 
     Command, 
     Palette 
 } from 'lucide-react'
+import { Github, Linkedin } from './SocialIcons'
 
 export default function Header({ onOpenCommandPalette, currentAccent, onCycleAccent }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false)

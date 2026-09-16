@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import ClientIntake from '../ClientIntake'
+import ClientIntake from '../components/ClientIntake'
 
 describe('ClientIntake', () => {
     beforeEach(() => {

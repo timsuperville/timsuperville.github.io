@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Mail, Send, CheckCircle, AlertCircle, Copy, Check } from 'lucide-react'
 import confetti from 'canvas-confetti'
-import { trackEvent } from '../analytics'
+import { trackEvent } from '../lib/analytics'
 import { CONFIG } from '../config'
 
 export default function Contact({ setToast, estimateData }) {

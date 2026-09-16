@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -19,79 +19,23 @@ import ClientIntake from './components/ClientIntake'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
 import CommandPalette from './components/CommandPalette'
-import CookieBanner from './CookieBanner'
+import CookieBanner from './components/CookieBanner'
+import { useRoute } from './hooks/useRoute'
+import { useAccent } from './hooks/useAccent'
+import { ToastProvider } from './context/ToastContext'
+import { useToast } from './hooks/useToast'
 
-export default function App() {
-  const [route, setRoute] = useState(window.location.hash || '#home')
-  const [toast, setToast] = useState(null)
+function AppContent() {
+  const { route, isMainPage, isCaseStudy, isIntake, showNotFound } = useRoute()
+  const { currentAccent, setCurrentAccent, cycleAccent } = useAccent()
+  const { setToast } = useToast()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const [estimateData, setEstimateData] = useState(null)
-  
-  const [currentAccent, setCurrentAccent] = useState(() => {
-    try {
-      return localStorage.getItem('portfolio_accent') || 'cyan'
-    } catch {
-      return 'cyan'
-    }
-  })
-
-  // Sync accent attribute with root document
-  useEffect(() => {
-    document.documentElement.setAttribute('data-accent', currentAccent)
-    try {
-      localStorage.setItem('portfolio_accent', currentAccent)
-    } catch { }
-  }, [currentAccent])
 
   const handleCycleAccent = () => {
-    const accents = ['cyan', 'violet', 'emerald', 'amber']
-    const nextIdx = (accents.indexOf(currentAccent) + 1) % accents.length
-    const next = accents[nextIdx]
-    setCurrentAccent(next)
+    const next = cycleAccent()
     setToast({ type: 'success', message: `Theme accent switched to ${next.toUpperCase()}!` })
-    setTimeout(() => setToast(null), 2500)
   }
-
-  useEffect(() => {
-    const onHash = () => setRoute(window.location.hash || '#home')
-    window.addEventListener('hashchange', onHash)
-    return () => window.removeEventListener('hashchange', onHash)
-  }, [])
-
-  useEffect(() => {
-    if (!route || route === '#home' || route === '') {
-      document.title = 'Tim Superville | Web Developer & Full Stack Engineer'
-      document.querySelector('meta[name="description"]')?.setAttribute(
-        'content', 
-        'Freelance web developer and full stack engineer based in Northern Alberta. Building clean, fast, and dependable websites and web applications.'
-      )
-    } else if (route === '#contact') {
-      document.title = 'Contact & Inquiries — Tim Superville'
-      document.querySelector('meta[name="description"]')?.setAttribute(
-        'content', 
-        'Get in touch with Tim Superville to discuss your website or web application project.'
-      )
-    } else if (route === '#resume') {
-      document.title = 'Interactive Resume — Tim Superville'
-    } else if (route === '#privacy') {
-      document.title = 'Privacy Policy — Tim Superville'
-    } else if (route === '#intake' || route === '#client-intake' || route === '#start-project' || route === '#planner') {
-      document.title = 'Website Project Planner & Discovery — Tim Superville'
-      document.querySelector('meta[name="description"]')?.setAttribute(
-        'content', 
-        'Website project planner and discovery questionnaire. Share your goals, desired features, and timeline with Tim Superville.'
-      )
-    }
-  }, [route])
-
-  // Route logic: identify main single-page navigation vs dedicated views
-  const isMainPage = !route || route === '#home' || route === '#services' || route === '#portfolio'
-    || route === '#case-studies' || route === '#tech-stack' || route === '#estimator' 
-    || route === '#testimonials' || route === '#principles' || route === '#about' || route === '#contact'
-  
-  const isCaseStudy = route.startsWith('#case/')
-  const isIntake = route === '#intake' || route === '#client-intake' || route === '#start-project' || route === '#planner'
-  const showNotFound = !isMainPage && !isCaseStudy && route !== '#resume' && route !== '#privacy' && !isIntake
 
   return (
     <div className="min-h-screen bg-dark-950 text-slate-100 flex flex-col justify-between selection:bg-primary-glow/30 selection:text-white">
@@ -213,18 +157,14 @@ export default function App() {
       {/* Utilities */}
       <CookieBanner />
       <BackToTop />
-
-      {/* Global Toast Notification */}
-      {toast && (
-        <div 
-          className="fixed bottom-6 right-6 z-50 p-4 rounded-xl bg-dark-900 border border-primary/30 text-white shadow-2xl shadow-black/80 flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300 font-mono text-xs"
-          role="status" 
-          aria-live="polite"
-        >
-          <span className="w-2 h-2 rounded-full bg-primary-glow animate-pulse"></span>
-          <span>{toast.message}</span>
-        </div>
-      )}
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <ToastProvider>
+      <AppContent />
+    </ToastProvider>
   )
 }

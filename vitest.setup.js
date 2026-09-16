@@ -24,7 +24,9 @@ import React from 'react'
 const motionKeys = new Set([
     'initial', 'animate', 'transition', 'whileInView', 'whileHover', 'whileTap',
     'viewport', 'variants', 'exit', 'custom', 'onAnimationStart', 'onAnimationComplete',
-    'onLayoutAnimationStart', 'onLayoutAnimationComplete', 'layout'
+    'onLayoutAnimationStart', 'onLayoutAnimationComplete', 'layout',
+    'drag', 'dragConstraints', 'dragElastic', 'dragDirectionLock', 'dragMomentum',
+    'dragPropagation', 'dragSnapToOrigin', 'dragTransition', 'onDrag', 'onDragStart', 'onDragEnd'
 ])
 
 const componentCache = new Map()

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Calendar, Calculator, ChevronDown } from 'lucide-react'
-import { CONFIG } from '../config'
-import { trackEvent } from '../analytics'
+import { ArrowRight, Calculator, ChevronDown } from 'lucide-react'
+// import { CONFIG } from '../config'
+// import { trackEvent } from '../lib/analytics'
 
 export default function Hero() {
     return (
@@ -73,7 +73,7 @@ export default function Hero() {
                         <Calculator className="w-4 h-4 text-secondary-glow" />
                         <span>Estimate Your Project</span>
                     </a>
-                    <a
+                    {/* <a
                         href={CONFIG.CALENDLY_URL}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -82,7 +82,7 @@ export default function Hero() {
                     >
                         <Calendar className="w-4 h-4 text-primary-glow" />
                         <span>Book 15m Call</span>
-                    </a>
+                    </a> */}
                 </motion.div>
 
                 {/* Proof Metrics Band */}
@@ -153,9 +153,9 @@ function Typewriter({ text }) {
     }, [subIndex, index, reverse, text])
 
     return (
-        <span className="text-gradient inline-block min-w-[280px] sm:min-w-[340px]">
-            {text[index].substring(0, subIndex)}
-            <span className="animate-pulse text-primary-glow">|</span>
+        <span className="inline-block min-w-[280px] sm:min-w-[340px] text-left">
+            <span className="text-gradient">{text[index].substring(0, subIndex)}</span>
+            <span className="inline-block w-[3px] h-[0.85em] bg-primary-glow ml-1 animate-pulse align-middle rounded-full" />
         </span>
     )
 }

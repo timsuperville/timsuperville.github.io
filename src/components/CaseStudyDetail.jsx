@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { ArrowLeft, CheckCircle2, Layers, Flag, TrendingUp } from 'lucide-react'
-import { caseStudies } from '../data/caseStudies'
+import { projects } from '../data'
 import CodeTerminal from './CodeTerminal'
 
 export default function CaseStudyDetail({ id }) {
-    const study = caseStudies.find(s => s.id === id)
+    const study = projects.find(s => s.id === id)
 
     useEffect(() => {
         if (study) {
@@ -31,7 +31,7 @@ export default function CaseStudyDetail({ id }) {
                 </a>
 
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary-glow text-xs font-mono uppercase tracking-wider mb-4">
-                    <span>{study.category}</span>
+                    <span>{study.detailCategory || study.category}</span>
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl font-extrabold mb-8 text-white tracking-tight leading-tight">

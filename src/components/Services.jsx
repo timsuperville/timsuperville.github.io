@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Code2, Gauge, CreditCard, Activity, CheckCircle2, ArrowRight } from 'lucide-react'
-import { services } from '../data/services'
+import { services } from '../data'
 
 const getIcon = (id) => {
     switch (id) {

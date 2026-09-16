@@ -2,10 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './styles.css'
-import { initAnalytics, hasConsent } from './analytics'
-import CookieBanner from './CookieBanner'
-
-
+import { initAnalytics, hasConsent } from './lib/analytics'
 
 // Analytics: consent-first. Only initialize analytics when user has given consent.
 if (hasConsent()) {
@@ -14,9 +11,6 @@ if (hasConsent()) {
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <>
-      <App />
-      <CookieBanner />
-    </>
+    <App />
   </React.StrictMode>
 )

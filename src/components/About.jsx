@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Github, Linkedin, FileText, User } from 'lucide-react'
+import { FileText, User } from 'lucide-react'
+import { Github, Linkedin } from './SocialIcons'
 
 export default function About() {
     const techStack = [

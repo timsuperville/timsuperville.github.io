@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Github, Linkedin, Mail, Clock } from 'lucide-react'
-import { isOptedOut, optIn, optOut } from '../analytics'
+import { Mail, Clock } from 'lucide-react'
+import { Github, Linkedin } from './SocialIcons'
+import { isOptedOut, optIn, optOut } from '../lib/analytics'
 
 export default function Footer() {
     const [optedOut, setOptedOut] = useState(isOptedOut())

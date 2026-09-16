@@ -1,3 +1,5 @@
+// ─── Engineering Principles & Standards ──────────────────────────────────────
+
 export const principles = [
     {
         title: "Direct Senior Engineering Access",
@@ -32,6 +34,3 @@ export const principles = [
         metricLabel: "Compliance"
     }
 ]
-
-// Fallback export for any legacy imports
-export const testimonials = principles

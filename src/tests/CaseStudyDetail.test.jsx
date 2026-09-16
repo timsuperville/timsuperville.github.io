@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import CaseStudyDetail from '../CaseStudyDetail'
+import CaseStudyDetail from '../components/CaseStudyDetail'
 
 describe('CaseStudyDetail', () => {
     it('renders a known case study', () => {

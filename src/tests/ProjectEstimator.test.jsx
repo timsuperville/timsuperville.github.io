@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import ProjectEstimator from '../ProjectEstimator'
+import ProjectEstimator from '../components/ProjectEstimator'
 
 describe('ProjectEstimator', () => {
     it('renders project foundation types and default estimate', () => {
