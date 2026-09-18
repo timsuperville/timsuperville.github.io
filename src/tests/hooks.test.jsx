@@ -84,4 +84,23 @@ describe('hooks/useRoute', () => {
 
         expect(screen.getByTestId('is-case').textContent).toBe('yes')
     })
+
+    it('identifies Highwater draft route and syncs document title', () => {
+        render(<TestRouteComponent />)
+
+        act(() => {
+            window.location.hash = '#highwater'
+            window.dispatchEvent(new HashChangeEvent('hashchange'))
+        })
+
+        expect(document.title).toContain('Highwater Counselling Company')
+
+        act(() => {
+            window.location.hash = '#highwater-v2'
+            window.dispatchEvent(new HashChangeEvent('hashchange'))
+        })
+
+        expect(document.title).toContain('Draft 2')
+    })
 })
+

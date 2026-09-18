@@ -171,7 +171,7 @@ export default function ClientIntake({ setToast, onReset }) {
 
             <div className="max-w-4xl mx-auto px-6 relative z-10">
                 {/* Top Navigation & Auto-Save Indicator */}
-                <div className="flex justify-between items-center mb-8 gap-4">
+                <div className="flex justify-between items-center mb-8 gap-4 flex-wrap">
                     <a 
                         href="#home" 
                         className="inline-flex items-center gap-2 text-sm font-mono text-slate-400 hover:text-white transition-colors group"
@@ -180,12 +180,22 @@ export default function ClientIntake({ setToast, onReset }) {
                         <span>Back to Home</span>
                     </a>
 
-                    {lastSavedTime && !isFormEmpty(formData) && (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 bg-white/5 px-3.5 py-1.5 rounded-full border border-white/10">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span>Draft auto-saved {lastSavedTime}</span>
-                        </span>
-                    )}
+                    <div className="flex items-center gap-3">
+                        <a 
+                            href="#highwater" 
+                            className="inline-flex items-center gap-1.5 text-xs font-mono text-amber-400/90 hover:text-amber-300 bg-amber-400/10 px-3 py-1.5 rounded-full border border-amber-400/20 transition-colors"
+                        >
+                            <span>View Highwater Draft</span>
+                            <span className="text-[10px]">→</span>
+                        </a>
+
+                        {lastSavedTime && !isFormEmpty(formData) && (
+                            <span className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 bg-white/5 px-3.5 py-1.5 rounded-full border border-white/10">
+                                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span>Draft auto-saved {lastSavedTime}</span>
+                            </span>
+                        )}
+                    </div>
                 </div>
 
                 {/* Success View */}

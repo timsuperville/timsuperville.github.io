@@ -90,6 +90,7 @@ export default function CommandPalette({ isOpen, setIsOpen, currentAccent, setCu
                 { id: 'nav-tech', label: 'Explore Skills & Technologies', icon: Layers, action: () => navigateTo('#tech-stack') },
                 { id: 'nav-estimator', label: 'Calculate Project Scope & Cost', icon: Calculator, action: () => navigateTo('#estimator') },
                 { id: 'nav-intake', label: 'Open Client Discovery & Intake Form', icon: ClipboardList, action: () => navigateTo('#intake') },
+                { id: 'nav-highwater', label: 'Client Draft: Highwater Counselling Company', badge: 'Wembley, AB', icon: ExternalLink, action: () => navigateTo('#highwater') },
                 { id: 'nav-resume', label: 'View Interactive Resume', icon: FileText, action: () => navigateTo('#resume') },
                 { id: 'nav-contact', label: 'Contact & Inquiry', icon: Mail, action: () => navigateTo('#contact') }
             ]

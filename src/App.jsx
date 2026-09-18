@@ -16,6 +16,8 @@ import NotFound from './components/NotFound'
 import Resume from './components/Resume'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import ClientIntake from './components/ClientIntake'
+import HighwaterDraft from './components/highwater/HighwaterDraft'
+import HighwaterDraftV2 from './components/highwater/v2/HighwaterDraftV2'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
 import CommandPalette from './components/CommandPalette'
@@ -26,7 +28,7 @@ import { ToastProvider } from './context/ToastContext'
 import { useToast } from './hooks/useToast'
 
 function AppContent() {
-  const { route, isMainPage, isCaseStudy, isIntake, showNotFound } = useRoute()
+  const { route, isMainPage, isCaseStudy, isIntake, isHighwater, isHighwaterV2, isAnyHighwater, showNotFound } = useRoute()
   const { currentAccent, setCurrentAccent, cycleAccent } = useAccent()
   const { setToast } = useToast()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
@@ -49,7 +51,7 @@ function AppContent() {
         Skip to main content
       </a>
 
-      {!showNotFound && (
+      {!showNotFound && !isAnyHighwater && (
         <Header 
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
           currentAccent={currentAccent}
@@ -128,6 +130,30 @@ function AppContent() {
               </motion.div>
             )}
 
+            {isHighwater && (
+              <motion.div
+                key="highwater-draft-view"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <HighwaterDraft />
+              </motion.div>
+            )}
+
+            {isHighwaterV2 && (
+              <motion.div
+                key="highwater-v2-draft-view"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <HighwaterDraftV2 />
+              </motion.div>
+            )}
+
             {showNotFound && (
               <motion.div
                 key="not-found-view"
@@ -143,7 +169,7 @@ function AppContent() {
         </React.Suspense>
       </main>
 
-      {!showNotFound && <Footer />}
+      {!showNotFound && !isAnyHighwater && <Footer />}
 
       {/* Global Command Palette */}
       <CommandPalette 
