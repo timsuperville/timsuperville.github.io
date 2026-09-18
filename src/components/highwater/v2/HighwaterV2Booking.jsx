@@ -208,18 +208,31 @@ export default function HighwaterV2Booking() {
         </div>
 
         {/* 24/7 Crisis Support Notice Bar */}
-        <div className="bg-[#FAF4EB] rounded-2xl p-5 border border-[#E9DFCE] text-xs text-[#5D4E33] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <PhoneCall className="w-5 h-5 text-[#9C7F48] flex-shrink-0" />
+        <div className="bg-[#FAF4EB] rounded-2xl p-4 sm:p-5 border border-[#E9DFCE] text-xs text-[#5D4E33] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-start sm:items-center gap-3">
+            <PhoneCall className="w-5 h-5 text-[#9C7F48] flex-shrink-0 mt-0.5 sm:mt-0" />
             <div>
               <strong className="block text-[#433722]">Emergency & Regional Crisis Resources:</strong>
-              <span>If you are in immediate crisis or experiencing thoughts of self-harm, please reach out right away.</span>
+              <span className="text-[#68563A]">If you are in immediate crisis or experiencing thoughts of self-harm, please reach out right away.</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs font-bold text-[#8C6D33] whitespace-nowrap">
-            <a href="tel:18773032642" className="underline hover:text-[#5B441B]">AHS Mental Health: 1-877-303-2642</a>
-            <span>•</span>
-            <a href="tel:988" className="underline hover:text-[#5B441B]">National Suicide Crisis: 988</a>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-semibold text-[#8C6D33] w-full md:w-auto">
+            <a 
+              href="tel:18773032642" 
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F0E6D6] hover:bg-[#E5D7C0] text-[#5B441B] transition-colors focus:outline-none focus:ring-2 focus:ring-[#9C7F48]"
+              aria-label="Call Alberta Mental Health Help Line at 1-877-303-2642"
+            >
+              <PhoneCall className="w-3.5 h-3.5 text-[#9C7F48] flex-shrink-0" />
+              <span>AHS Mental Health: 1-877-303-2642</span>
+            </a>
+            <a 
+              href="tel:988" 
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F0E6D6] hover:bg-[#E5D7C0] text-[#5B441B] transition-colors focus:outline-none focus:ring-2 focus:ring-[#9C7F48]"
+              aria-label="Call National Suicide Crisis Helpline at 988"
+            >
+              <PhoneCall className="w-3.5 h-3.5 text-[#9C7F48] flex-shrink-0" />
+              <span>National Suicide Crisis: 988</span>
+            </a>
           </div>
         </div>
 

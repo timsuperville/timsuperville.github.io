@@ -45,14 +45,20 @@ export default function HighwaterDraftV2() {
             <HighwaterLogo className="w-10 h-10" />
             <div>
               <strong className="block text-[#16333B] text-sm">Highwater Counselling Company</strong>
-              <span>Wembley, Alberta • Derek Patten, Founder</span>
+              <span className="flex flex-wrap items-center gap-x-1.5 text-[11px] sm:text-xs">
+                <span>Wembley, Alberta</span>
+                <span className="hidden sm:inline" aria-hidden="true">•</span>
+                <span>Derek Patten, Founder</span>
+              </span>
             </div>
           </div>
 
           <div className="text-center sm:text-right space-y-1">
             <p>© {new Date().getFullYear()} Highwater Counselling Company. All rights reserved.</p>
-            <p className="text-[11px] text-[#7A969E]">
-              Private Practice Client Portal • Online Scheduling
+            <p className="text-[11px] text-[#7A969E] flex flex-wrap items-center justify-center sm:justify-end gap-x-1.5">
+              <span>Private Practice Client Portal</span>
+              <span className="hidden sm:inline" aria-hidden="true">•</span>
+              <span>Online Scheduling</span>
             </p>
           </div>
         </div>

@@ -79,4 +79,16 @@ describe('HighwaterDraftV2 Component', () => {
     expect(screen.getByText(/Inquiry Received/i)).toBeInTheDocument()
     expect(screen.getByText(/Derek Patten will respond to your message shortly/i)).toBeInTheDocument()
   })
+
+  it('renders accessible, tap-friendly regional crisis emergency numbers with tel: links', () => {
+    render(<HighwaterDraftV2 />)
+
+    const ahsLink = screen.getByRole('link', { name: /Call Alberta Mental Health Help Line at 1-877-303-2642/i })
+    expect(ahsLink).toBeInTheDocument()
+    expect(ahsLink).toHaveAttribute('href', 'tel:18773032642')
+
+    const suicideLineLink = screen.getByRole('link', { name: /Call National Suicide Crisis Helpline at 988/i })
+    expect(suicideLineLink).toBeInTheDocument()
+    expect(suicideLineLink).toHaveAttribute('href', 'tel:988')
+  })
 })

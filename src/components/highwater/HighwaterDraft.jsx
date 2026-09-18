@@ -780,7 +780,11 @@ export default function HighwaterDraft() {
       {/* ─── Emergency & Crisis Support Notice (Warm Grounded Banner) ─────────── */}
       <div className="bg-[#EFE9DD] border-b border-[#DCD3C3] py-4 text-center px-4 text-xs text-[#524430]">
         <p className="max-w-3xl mx-auto leading-relaxed">
-          <strong>Immediate Crisis Support Notice:</strong> Highwater Counselling Company does not operate as a 24/7 emergency clinic. If you or someone you know is in immediate crisis, please call <strong>911</strong> or the <strong>Alberta Mental Health Help Line: 1-877-303-2642</strong> (24/7, toll-free) or dial <strong>988</strong> (Suicide Crisis Helpline).
+          <strong>Immediate Crisis Support Notice:</strong> Highwater Counselling Company does not operate as a 24/7 emergency clinic. If you or someone you know is in immediate crisis, please call{' '}
+          <a href="tel:911" className="font-bold underline hover:text-[#1A3841]">911</a> or the{' '}
+          <strong>Alberta Mental Health Help Line:</strong>{' '}
+          <a href="tel:18773032642" className="font-bold underline hover:text-[#1A3841] whitespace-nowrap">1-877-303-2642</a> (24/7, toll-free) or dial{' '}
+          <a href="tel:988" className="font-bold underline hover:text-[#1A3841] whitespace-nowrap">988</a> (Suicide Crisis Helpline).
         </p>
       </div>
 
