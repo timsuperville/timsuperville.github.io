@@ -20,6 +20,7 @@ export const generateBriefText = (formData) => {
         `Contact Email:          ${formData.email || 'N/A'}`,
         `Public/Practice Email:  ${formData.practiceEmail || 'Same as contact'}`,
         `Phone:                  ${formData.phone || 'N/A'}`,
+        `Location/Service Area:  ${formData.location || 'N/A'}`,
         `Current Website/Social: ${formData.website || 'N/A'}`,
         `Generated On:           ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`,
         `----------------------------------------------------------------`,
@@ -34,15 +35,19 @@ export const generateBriefText = (formData) => {
         ``,
         `2. AUDIENCE & BRAND PERSONALITY`,
         `----------------------------------------------------------------`,
-        `Target Audience:     ${formData.targetAudience || 'N/A'}`,
-        `Brand Vibe & Styles: ${formData.brandValues || 'N/A'}`,
-        `Motto / Scripture:   ${formData.brandMotto || 'N/A'}`,
+        `Target Audience:       ${formData.targetAudience || 'N/A'}`,
+        `Brand Vibe & Styles:   ${formData.brandValues || 'N/A'}`,
+        `Colors / Aesthetics:   ${formData.brandColorsNotes || 'N/A'}`,
+        `Motto / Scripture:     ${formData.brandMotto || 'N/A'}`,
         ``,
         `3. PAGES & FEATURES REQUIRED`,
         `----------------------------------------------------------------`,
         `Pages Needed:`,
-        (formData.pagesNeeded && formData.pagesNeeded.length > 0)
-            ? formData.pagesNeeded.map(p => `  • ${p}`).join('\n')
+        ((formData.pagesNeeded && formData.pagesNeeded.length > 0) || formData.otherPages)
+            ? [
+                ...(formData.pagesNeeded || []).map(p => `  • ${p}`),
+                ...(formData.otherPages ? [`  • Additional Pages: ${formData.otherPages}`] : [])
+              ].join('\n')
             : `  (Open to recommendations)`,
         ``,
         `Interactive Features:`,
@@ -51,8 +56,11 @@ export const generateBriefText = (formData) => {
             : `  (Open to recommendations)`,
         ``,
         `Integrations & Tools:`,
-        (formData.integrations && formData.integrations.length > 0)
-            ? formData.integrations.map(i => `  • ${i}`).join('\n')
+        ((formData.integrations && formData.integrations.length > 0) || formData.otherIntegrations)
+            ? [
+                ...(formData.integrations || []).map(i => `  • ${i}`),
+                ...(formData.otherIntegrations ? [`  • Other Software: ${formData.otherIntegrations}`] : [])
+              ].join('\n')
             : `  (None specified)`,
         ``,
         `Tech / Platform Preferences: ${formData.techPreferences || 'Open to recommendations'}`,

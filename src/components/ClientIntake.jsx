@@ -439,6 +439,23 @@ export default function ClientIntake({ setToast, onReset }) {
                                             If you already have one, or link your Facebook / Instagram page.
                                         </p>
                                     </div>
+
+                                    <div className="sm:col-span-2">
+                                        <label htmlFor="location" className={fieldLabelClasses}>
+                                            City, Region, or Service Area (optional)
+                                        </label>
+                                        <input 
+                                            id="location" 
+                                            name="location"
+                                            value={formData.location} 
+                                            onChange={e => handleTextChange('location', e.target.value)}
+                                            placeholder="e.g. Wembley & Grande Prairie, AB, or Calgary & Online, or Greater Vancouver..." 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            Helps configure local SEO, Google Maps verification, and client service territory.
+                                        </p>
+                                    </div>
                                 </div>
                             </motion.div>
 
@@ -608,6 +625,23 @@ export default function ClientIntake({ setToast, onReset }) {
                                             A guiding scripture, philosophy, or mission quote that anchors your brand voice.
                                         </p>
                                     </div>
+
+                                    <div>
+                                        <label htmlFor="brandColorsNotes" className={fieldLabelClasses}>
+                                            Preferred Colors, Themes, or Aesthetic Notes (optional)
+                                        </label>
+                                        <input 
+                                            id="brandColorsNotes" 
+                                            name="brandColorsNotes"
+                                            value={formData.brandColorsNotes} 
+                                            onChange={e => handleTextChange('brandColorsNotes', e.target.value)}
+                                            placeholder="e.g. Forest greens, warm stone neutrals, alpine tones, or specific brand hex codes..." 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            Any favorite color palette ideas, moods, or existing brand guidelines.
+                                        </p>
+                                    </div>
                                 </div>
                             </motion.div>
 
@@ -680,6 +714,19 @@ export default function ClientIntake({ setToast, onReset }) {
                                             )
                                         })}
                                     </div>
+                                    <div className="mt-3">
+                                        <label htmlFor="otherPages" className="block text-xs font-mono text-slate-400 mb-1.5">
+                                            Other Specific Pages or Sections Needed (optional)
+                                        </label>
+                                        <input 
+                                            id="otherPages" 
+                                            name="otherPages"
+                                            value={formData.otherPages} 
+                                            onChange={e => handleTextChange('otherPages', e.target.value)}
+                                            placeholder="e.g. Insurance & Direct Billing, Careers / Hiring, Patient Resources, Case Studies..." 
+                                            className={inputClasses} 
+                                        />
+                                    </div>
                                 </div>
 
                                 {/* Features Needed */}
@@ -710,13 +757,13 @@ export default function ClientIntake({ setToast, onReset }) {
                                     </div>
                                 </div>
 
-                                {/* Third-Party Tools & Clinical Integrations */}
+                                {/* Third-Party Tools & Integrations */}
                                 <div className="mb-6">
                                     <label className={fieldLabelClasses}>
-                                        Third-Party Tools & Clinical Integrations
+                                        Third-Party Tools &amp; Integrations
                                     </label>
                                     <p className="text-xs text-slate-400 mb-2.5">
-                                        Select any existing practice management, booking, or external tools to integrate.
+                                        Select any scheduling software, payment processors, local maps, or external apps to connect.
                                     </p>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                         {INTEGRATION_OPTIONS.map(tool => {
@@ -738,6 +785,19 @@ export default function ClientIntake({ setToast, onReset }) {
                                                 </button>
                                             )
                                         })}
+                                    </div>
+                                    <div className="mt-3">
+                                        <label htmlFor="otherIntegrations" className="block text-xs font-mono text-slate-400 mb-1.5">
+                                            Other Tools, Apps, or Software to Connect (optional)
+                                        </label>
+                                        <input 
+                                            id="otherIntegrations" 
+                                            name="otherIntegrations"
+                                            value={formData.otherIntegrations} 
+                                            onChange={e => handleTextChange('otherIntegrations', e.target.value)}
+                                            placeholder="e.g. Jobber, QuickBooks, Mindbody, Fresha, Cliniko, HubSpot, etc." 
+                                            className={inputClasses} 
+                                        />
                                     </div>
                                 </div>
 

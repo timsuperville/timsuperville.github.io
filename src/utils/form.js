@@ -9,15 +9,19 @@ export const getInitialFormState = () => ({
     email: '',
     practiceEmail: '',
     phone: '',
+    location: '',
     website: '',
     mainObjectives: '',
     keyChallenges: '',
     targetAudience: '',
     brandValues: '',
     brandMotto: '',
+    brandColorsNotes: '',
     pagesNeeded: [],
+    otherPages: '',
     interactiveFeatures: [],
     integrations: [],
+    otherIntegrations: '',
     techPreferences: '',
     visualStyle: '',
     inspirationWebsites: '',
@@ -41,15 +45,19 @@ export const isFormEmpty = (data) => {
         !data.email?.trim() &&
         !data.practiceEmail?.trim() &&
         !data.phone?.trim() &&
+        !data.location?.trim() &&
         !data.website?.trim() &&
         !data.mainObjectives?.trim() &&
         !data.keyChallenges?.trim() &&
         !data.targetAudience?.trim() &&
         !data.brandValues?.trim() &&
         !data.brandMotto?.trim() &&
+        !data.brandColorsNotes?.trim() &&
         (!data.pagesNeeded || data.pagesNeeded.length === 0) &&
+        !data.otherPages?.trim() &&
         (!data.interactiveFeatures || data.interactiveFeatures.length === 0) &&
         (!data.integrations || data.integrations.length === 0) &&
+        !data.otherIntegrations?.trim() &&
         !data.techPreferences?.trim() &&
         !data.visualStyle?.trim() &&
         !data.inspirationWebsites?.trim() &&
@@ -85,12 +93,12 @@ export const calculateProgress = (formData) => {
     }
 
     // Section 3: Audience & Brand Vibe
-    if (formData.targetAudience?.trim() || formData.brandValues?.trim() || formData.brandMotto?.trim()) {
+    if (formData.targetAudience?.trim() || formData.brandValues?.trim() || formData.brandMotto?.trim() || formData.brandColorsNotes?.trim()) {
         score += 1
     }
 
     // Section 4: Pages, Features & Integrations
-    if ((formData.pagesNeeded || []).length > 0 || (formData.interactiveFeatures || []).length > 0 || (formData.integrations || []).length > 0) {
+    if ((formData.pagesNeeded || []).length > 0 || formData.otherPages?.trim() || (formData.interactiveFeatures || []).length > 0 || (formData.integrations || []).length > 0 || formData.otherIntegrations?.trim()) {
         score += 1
     }
 

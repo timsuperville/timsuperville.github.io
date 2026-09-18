@@ -103,10 +103,12 @@ export function useIntakeDraft() {
         setFormData(prev => {
             const currentPages = prev.pagesNeeded || []
             const currentFeatures = prev.interactiveFeatures || []
+            const currentIntegrations = prev.integrations || []
             return {
                 ...prev,
-                pagesNeeded: Array.from(new Set([...currentPages, ...preset.pages])),
-                interactiveFeatures: Array.from(new Set([...currentFeatures, ...preset.features]))
+                pagesNeeded: Array.from(new Set([...currentPages, ...(preset.pages || [])])),
+                interactiveFeatures: Array.from(new Set([...currentFeatures, ...(preset.features || [])])),
+                integrations: Array.from(new Set([...currentIntegrations, ...(preset.integrations || [])]))
             }
         })
     }

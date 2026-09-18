@@ -108,20 +108,23 @@ export const QUICK_PRESETS = [
         label: 'Local Service Business',
         description: 'Consulting, trades, clinics, or professional services',
         pages: ['Home', 'About Us / Story', 'Services / Offerings', 'Contact & Inquiry', 'FAQ / Help Center'],
-        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup', 'Analytics & Conversion Tracking']
+        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup', 'Analytics & Conversion Tracking'],
+        integrations: ['Google Business Profile & Maps Embed', 'Calendly / Acuity Scheduling']
     },
     {
         id: 'trade',
         label: 'Trade / Craft / Contractor',
         description: 'Showcases past jobs, galleries, and estimate inquiries',
         pages: ['Home', 'About Us / Story', 'Services / Offerings', 'Portfolio / Project Gallery', 'Contact & Inquiry'],
-        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup']
+        features: ['Interactive Contact Form', 'Mobile-First Responsive Design', 'Google Local SEO & Maps Setup'],
+        integrations: ['Google Business Profile & Maps Embed']
     },
     {
         id: 'shop',
         label: 'Online Store / E-Commerce',
         description: 'Product catalog, digital orders, and instant card payments',
         pages: ['Home', 'Online Store / Shop', 'About Us / Story', 'Contact & Inquiry', 'FAQ / Help Center'],
-        features: ['Credit Card / Stripe Payments', 'Mobile-First Responsive Design', 'Analytics & Conversion Tracking']
+        features: ['Credit Card / Stripe Payments', 'Mobile-First Responsive Design', 'Analytics & Conversion Tracking'],
+        integrations: ['Stripe / Square POS Payments', 'Mailchimp / Email Marketing']
     }
 ]
