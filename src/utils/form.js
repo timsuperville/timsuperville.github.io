@@ -7,19 +7,23 @@ export const getInitialFormState = () => ({
     clientName: '',
     contactPerson: '',
     email: '',
+    practiceEmail: '',
     phone: '',
     website: '',
     mainObjectives: '',
     keyChallenges: '',
     targetAudience: '',
     brandValues: '',
+    brandMotto: '',
     pagesNeeded: [],
     interactiveFeatures: [],
+    integrations: [],
     techPreferences: '',
     visualStyle: '',
     inspirationWebsites: '',
     brandAssets: [],
     targetLaunchDate: '',
+    targetLaunchExact: '',
     milestones: '',
     rolesResponsibilities: '',
     budgetRange: '',
@@ -35,19 +39,23 @@ export const isFormEmpty = (data) => {
     return !data.clientName?.trim() &&
         !data.contactPerson?.trim() &&
         !data.email?.trim() &&
+        !data.practiceEmail?.trim() &&
         !data.phone?.trim() &&
         !data.website?.trim() &&
         !data.mainObjectives?.trim() &&
         !data.keyChallenges?.trim() &&
         !data.targetAudience?.trim() &&
         !data.brandValues?.trim() &&
+        !data.brandMotto?.trim() &&
         (!data.pagesNeeded || data.pagesNeeded.length === 0) &&
         (!data.interactiveFeatures || data.interactiveFeatures.length === 0) &&
+        (!data.integrations || data.integrations.length === 0) &&
         !data.techPreferences?.trim() &&
         !data.visualStyle?.trim() &&
         !data.inspirationWebsites?.trim() &&
         (!data.brandAssets || data.brandAssets.length === 0) &&
         !data.targetLaunchDate?.trim() &&
+        !data.targetLaunchExact?.trim() &&
         !data.milestones?.trim() &&
         !data.rolesResponsibilities?.trim() &&
         !data.budgetRange?.trim() &&
@@ -77,12 +85,12 @@ export const calculateProgress = (formData) => {
     }
 
     // Section 3: Audience & Brand Vibe
-    if (formData.targetAudience?.trim() || formData.brandValues?.trim()) {
+    if (formData.targetAudience?.trim() || formData.brandValues?.trim() || formData.brandMotto?.trim()) {
         score += 1
     }
 
-    // Section 4: Pages & Features
-    if ((formData.pagesNeeded || []).length > 0 || (formData.interactiveFeatures || []).length > 0) {
+    // Section 4: Pages, Features & Integrations
+    if ((formData.pagesNeeded || []).length > 0 || (formData.interactiveFeatures || []).length > 0 || (formData.integrations || []).length > 0) {
         score += 1
     }
 
@@ -92,7 +100,7 @@ export const calculateProgress = (formData) => {
     }
 
     // Section 6: Timeline & Budget
-    if (formData.targetLaunchDate?.trim() || formData.budgetRange?.trim()) {
+    if (formData.targetLaunchDate?.trim() || formData.targetLaunchExact?.trim() || formData.budgetRange?.trim()) {
         score += 1
     }
 

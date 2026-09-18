@@ -106,4 +106,24 @@ describe('ClientIntake', () => {
         expect(screen.getByRole('button', { name: /Download Brief \(\.txt\)/i })).toBeInTheDocument()
         expect(screen.getByRole('button', { name: /Copy Answers/i })).toBeInTheDocument()
     })
+
+    it('toggles third-party integration selection chips', () => {
+        render(<ClientIntake setToast={() => {}} />)
+
+        const janeBtn = screen.getByRole('button', { name: /Jane App \(Clinical EHR & Booking\)/i })
+        expect(janeBtn).toHaveAttribute('aria-pressed', 'false')
+
+        fireEvent.click(janeBtn)
+        expect(janeBtn).toHaveAttribute('aria-pressed', 'true')
+    })
+
+    it('appends note text when tapping quick note chips', () => {
+        render(<ClientIntake setToast={() => {}} />)
+
+        const photoChip = screen.getByRole('button', { name: /\+ Need Photos \/ Headshots/i })
+        fireEvent.click(photoChip)
+
+        const actionTextarea = screen.getByLabelText(/Anything else you'd like to share or questions for Tim\?/i)
+        expect(actionTextarea.value).toContain('Need professional photos / headshots.')
+    })
 })

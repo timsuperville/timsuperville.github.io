@@ -17,7 +17,8 @@ import {
     Mail,
     AlertCircle,
     Copy,
-    Layers
+    Layers,
+    Sparkles
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { CONFIG } from '../config'
@@ -26,6 +27,8 @@ import {
     GOAL_OPTIONS,
     PAGE_OPTIONS,
     FEATURE_OPTIONS,
+    INTEGRATION_OPTIONS,
+    NOTE_QUICK_CHIPS,
     STYLE_OPTIONS,
     ASSET_OPTIONS,
     TIMELINE_OPTIONS,
@@ -362,10 +365,10 @@ export default function ClientIntake({ setToast, onReset }) {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                                     <div>
                                         <label htmlFor="email" className={fieldLabelClasses}>
-                                            Best Email Address *
+                                            Primary Contact Email *
                                         </label>
                                         <input 
                                             id="email" 
@@ -374,11 +377,34 @@ export default function ClientIntake({ setToast, onReset }) {
                                             required
                                             value={formData.email} 
                                             onChange={e => handleTextChange('email', e.target.value)}
-                                            placeholder="jane@yourcompany.com" 
+                                            placeholder="your-name@gmail.com" 
                                             className={inputClasses} 
                                         />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            Where Tim should reply to your project discovery brief.
+                                        </p>
                                     </div>
 
+                                    <div>
+                                        <label htmlFor="practiceEmail" className={fieldLabelClasses}>
+                                            Public / Practice Notification Email (optional)
+                                        </label>
+                                        <input 
+                                            id="practiceEmail" 
+                                            name="practiceEmail"
+                                            type="email"
+                                            value={formData.practiceEmail} 
+                                            onChange={e => handleTextChange('practiceEmail', e.target.value)}
+                                            placeholder="e.g. info@practice.com or company@gmail.com" 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            If the public contact email on the website is different from your personal email.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
                                         <label htmlFor="phone" className={fieldLabelClasses}>
                                             Phone Number (optional)
@@ -565,6 +591,23 @@ export default function ClientIntake({ setToast, onReset }) {
                                             })}
                                         </div>
                                     </div>
+
+                                    <div>
+                                        <label htmlFor="brandMotto" className={fieldLabelClasses}>
+                                            Brand Tagline, Scripture, or Core Motto (optional)
+                                        </label>
+                                        <input 
+                                            id="brandMotto" 
+                                            name="brandMotto"
+                                            value={formData.brandMotto} 
+                                            onChange={e => handleTextChange('brandMotto', e.target.value)}
+                                            placeholder='e.g. Psalm 61:2 "Lead me to the rock that is higher than I", or "Crafted with Integrity"' 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            A guiding scripture, philosophy, or mission quote that anchors your brand voice.
+                                        </p>
+                                    </div>
                                 </div>
                             </motion.div>
 
@@ -667,6 +710,37 @@ export default function ClientIntake({ setToast, onReset }) {
                                     </div>
                                 </div>
 
+                                {/* Third-Party Tools & Clinical Integrations */}
+                                <div className="mb-6">
+                                    <label className={fieldLabelClasses}>
+                                        Third-Party Tools & Clinical Integrations
+                                    </label>
+                                    <p className="text-xs text-slate-400 mb-2.5">
+                                        Select any existing practice management, booking, or external tools to integrate.
+                                    </p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                        {INTEGRATION_OPTIONS.map(tool => {
+                                            const isSelected = (formData.integrations || []).includes(tool)
+                                            return (
+                                                <button
+                                                    key={tool}
+                                                    type="button"
+                                                    aria-pressed={isSelected}
+                                                    onClick={() => toggleArrayItem('integrations', tool)}
+                                                    className={`p-3 rounded-xl text-xs font-mono text-left border flex items-center justify-between transition-all ${
+                                                        isSelected 
+                                                            ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 font-medium' 
+                                                            : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
+                                                    }`}
+                                                >
+                                                    <span>{tool}</span>
+                                                    {isSelected && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
                                 <div>
                                     <label htmlFor="techPreferences" className={fieldLabelClasses}>
                                         Do you have a specific platform or tech preference?
@@ -760,10 +834,10 @@ export default function ClientIntake({ setToast, onReset }) {
                                     When would you love this live, and what is your approximate budget range?
                                 </p>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-6">
                                     <div>
                                         <label htmlFor="targetLaunchDate" className={fieldLabelClasses}>
-                                            Target Launch Timeframe
+                                            Target Launch Window
                                         </label>
                                         <select 
                                             id="targetLaunchDate" 
@@ -778,7 +852,24 @@ export default function ClientIntake({ setToast, onReset }) {
                                             ))}
                                         </select>
                                         <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
-                                            No rush — projects can move as fast or relaxed as your schedule needs.
+                                            General timeframe expectation.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="targetLaunchExact" className={fieldLabelClasses}>
+                                            Exact Target Date (optional)
+                                        </label>
+                                        <input 
+                                            id="targetLaunchExact" 
+                                            name="targetLaunchExact"
+                                            value={formData.targetLaunchExact} 
+                                            onChange={e => handleTextChange('targetLaunchExact', e.target.value)}
+                                            placeholder="e.g. October 1st, 2026" 
+                                            className={inputClasses} 
+                                        />
+                                        <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
+                                            If driven by an exact calendar deadline.
                                         </p>
                                     </div>
 
@@ -799,7 +890,7 @@ export default function ClientIntake({ setToast, onReset }) {
                                             ))}
                                         </select>
                                         <p className="mt-1.5 text-[11px] text-slate-500 font-sans">
-                                            Transparent fixed quotes with zero hidden surprises. Helps tailor the best scope for your investment.
+                                            Fixed quotes with zero hidden surprises.
                                         </p>
                                     </div>
                                 </div>
@@ -837,10 +928,35 @@ export default function ClientIntake({ setToast, onReset }) {
                                         <label htmlFor="actionItems" className={fieldLabelClasses}>
                                             Anything else you&apos;d like to share or questions for Tim?
                                         </label>
+
+                                        {/* Quick-Insert Note Chips (1-Click Appends) */}
+                                        <div className="mb-3 mt-1.5">
+                                            <div className="text-[11px] font-mono text-slate-400 mb-1.5 flex items-center gap-1.5">
+                                                <Sparkles className="w-3 h-3 text-secondary-glow" />
+                                                <span>Quick Note Additions (1-Click Tap to Append):</span>
+                                            </div>
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {NOTE_QUICK_CHIPS.map((chip, idx) => (
+                                                    <button
+                                                        key={idx}
+                                                        type="button"
+                                                        onClick={() => {
+                                                            const current = formData.actionItems ? formData.actionItems.trim() : ''
+                                                            const next = current ? `${current}\n• ${chip.text}` : `• ${chip.text}`
+                                                            handleTextChange('actionItems', next)
+                                                        }}
+                                                        className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-secondary/20 border border-white/10 hover:border-secondary/40 text-[11px] font-mono text-slate-300 hover:text-white transition-all shadow-2xs"
+                                                    >
+                                                        {chip.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
                                         <textarea 
                                             id="actionItems" 
                                             name="actionItems"
-                                            rows="3"
+                                            rows="4"
                                             value={formData.actionItems} 
                                             onChange={e => handleTextChange('actionItems', e.target.value)}
                                             placeholder="e.g. We also need domain transfer help, or curious about monthly maintenance options..." 

@@ -17,7 +17,8 @@ export const generateBriefText = (formData) => {
         `================================================================`,
         `Company / Organization: ${formData.clientName || 'N/A'}`,
         `Contact Name:           ${formData.contactPerson || 'N/A'}`,
-        `Email:                  ${formData.email || 'N/A'}`,
+        `Contact Email:          ${formData.email || 'N/A'}`,
+        `Public/Practice Email:  ${formData.practiceEmail || 'Same as contact'}`,
         `Phone:                  ${formData.phone || 'N/A'}`,
         `Current Website/Social: ${formData.website || 'N/A'}`,
         `Generated On:           ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`,
@@ -35,6 +36,7 @@ export const generateBriefText = (formData) => {
         `----------------------------------------------------------------`,
         `Target Audience:     ${formData.targetAudience || 'N/A'}`,
         `Brand Vibe & Styles: ${formData.brandValues || 'N/A'}`,
+        `Motto / Scripture:   ${formData.brandMotto || 'N/A'}`,
         ``,
         `3. PAGES & FEATURES REQUIRED`,
         `----------------------------------------------------------------`,
@@ -47,6 +49,11 @@ export const generateBriefText = (formData) => {
         (formData.interactiveFeatures && formData.interactiveFeatures.length > 0)
             ? formData.interactiveFeatures.map(f => `  • ${f}`).join('\n')
             : `  (Open to recommendations)`,
+        ``,
+        `Integrations & Tools:`,
+        (formData.integrations && formData.integrations.length > 0)
+            ? formData.integrations.map(i => `  • ${i}`).join('\n')
+            : `  (None specified)`,
         ``,
         `Tech / Platform Preferences: ${formData.techPreferences || 'Open to recommendations'}`,
         ``,
@@ -62,7 +69,7 @@ export const generateBriefText = (formData) => {
         ``,
         `5. TIMELINE & BUDGET`,
         `----------------------------------------------------------------`,
-        `Target Launch:    ${formData.targetLaunchDate || 'Flexible'}`,
+        `Target Launch:    ${formData.targetLaunchExact ? `${formData.targetLaunchExact} (${formData.targetLaunchDate || 'Target'})` : (formData.targetLaunchDate || 'Flexible')}`,
         `Estimated Budget: ${formData.budgetRange || 'To be discussed'}`,
         `Driving Events:   ${formData.milestones || 'N/A'}`,
         `Decision Team:    ${formData.rolesResponsibilities || 'N/A'}`,

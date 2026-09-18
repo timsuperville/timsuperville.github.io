@@ -41,6 +41,28 @@ export const FEATURE_OPTIONS = [
     'Client Intake / Onboarding Forms'
 ]
 
+export const INTEGRATION_OPTIONS = [
+    'Jane App (Clinical EHR & Booking)',
+    'SimplePractice / Practice Better',
+    'Google Business Profile & Maps Embed',
+    'Calendly / Acuity Scheduling',
+    'Stripe / Square POS Payments',
+    'Mailchimp / Email Marketing',
+    'Social Feeds & Instagram Gallery',
+    'Domain Transfer & DNS Setup'
+]
+
+export const NOTE_QUICK_CHIPS = [
+    { label: '+ Need Photos / Headshots', text: 'Need professional photos / headshots.' },
+    { label: '+ Need Logo / Brand Refresh', text: 'Needs logo design or brand asset refresh.' },
+    { label: '+ Hard Launch Deadline', text: 'Firm launch deadline: ' },
+    { label: '+ Jane App Connection', text: 'Requires Jane App client portal integration.' },
+    { label: '+ Google Maps Setup', text: 'Needs Google Business Profile and live Maps embed.' },
+    { label: '+ Domain / DNS Help', text: 'Needs domain connection & DNS configuration help.' },
+    { label: '+ Research FAQ Topics', text: 'Research and draft FAQ section for client inquiries.' },
+    { label: '+ Scripture / Motto Anchor', text: 'Scriptural / Motto anchor: ' }
+]
+
 export const STYLE_OPTIONS = [
     'Modern & Clean',
     'Warm & Approachable',
@@ -56,7 +78,10 @@ export const ASSET_OPTIONS = [
     'Logo Files Ready',
     'Brand Colors & Fonts Defined',
     'Professional Photos Ready',
+    'Need Professional / Stock Photos',
+    'Need Logo Refresh or Redesign',
     'Written Copy / Content Ready',
+    'Need Copywriting / Content Help',
     'Domain & Hosting Secured',
     'Starting Fresh / Need Help With These'
 ]
