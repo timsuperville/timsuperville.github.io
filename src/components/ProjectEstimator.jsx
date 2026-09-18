@@ -8,8 +8,12 @@ import {
     Layers, 
     ShoppingCart, 
     Globe, 
-    Gauge
+    Gauge,
+    Building2,
+    ClipboardList,
+    Sparkles
 } from 'lucide-react'
+import { STORAGE_KEY } from '../constants/intake'
 
 const projectTypes = [
     {
@@ -19,6 +23,14 @@ const projectTypes = [
         baseWeeks: 4,
         icon: Layers,
         desc: 'Interactive dashboard, user accounts, database, and custom API integration.'
+    },
+    {
+        id: 'practice-hub',
+        title: 'Clinic, Practice & Service Hub',
+        basePrice: 3200,
+        baseWeeks: 2,
+        icon: Building2,
+        desc: 'Online booking integration (Jane/Calendly), Google Maps embed, service showcases, and patient intake.'
     },
     {
         id: 'ecommerce',
@@ -47,17 +59,20 @@ const projectTypes = [
 ]
 
 const addOnFeatures = [
+    { id: 'booking', label: 'Online Booking & Client Scheduling', price: 800, days: 4 },
+    { id: 'local-seo', label: 'Google Maps & Local SEO Setup', price: 500, days: 3 },
+    { id: 'intake-forms', label: 'Interactive Client Intake Engine', price: 700, days: 4 },
     { id: 'auth', label: 'User Authentication & RBAC', price: 1000, days: 5 },
     { id: 'payments', label: 'Stripe Payments / Subscriptions', price: 1200, days: 5 },
-    { id: 'design-system', label: 'Custom UI Component Library', price: 1500, days: 7 },
     { id: 'cms', label: 'CMS / Headless Blog Integration', price: 800, days: 4 },
     { id: 'seo', label: 'Comprehensive Technical SEO & Schema', price: 600, days: 3 },
+    { id: 'design-system', label: 'Custom UI Component Library', price: 1500, days: 7 },
     { id: 'tests', label: 'Automated Vitest Test Suite (>90%)', price: 900, days: 4 }
 ]
 
 export default function ProjectEstimator({ onSelectEstimate }) {
     const [selectedType, setSelectedType] = useState('web-app')
-    const [selectedAddons, setSelectedAddons] = useState(['auth', 'payments', 'seo'])
+    const [selectedAddons, setSelectedAddons] = useState(['booking', 'local-seo', 'seo'])
     const [timelinePreference, setTimelinePreference] = useState('standard') // 'fast' | 'standard' | 'relaxed'
 
     const toggleAddon = (id) => {
@@ -66,14 +81,16 @@ export default function ProjectEstimator({ onSelectEstimate }) {
         )
     }
 
-    const { totalLow, totalHigh, totalWeeks } = useMemo(() => {
+    const { totalLow, totalHigh, totalWeeks, selectedTypeObj, selectedAddonObjs } = useMemo(() => {
         const typeObj = projectTypes.find(t => t.id === selectedType) || projectTypes[0]
         let price = typeObj.basePrice
         let days = typeObj.baseWeeks * 5
 
+        const addonObjs = []
         selectedAddons.forEach(addonId => {
             const add = addOnFeatures.find(a => a.id === addonId)
             if (add) {
+                addonObjs.push(add)
                 price += add.price
                 days += add.days
             }
@@ -91,12 +108,18 @@ export default function ProjectEstimator({ onSelectEstimate }) {
         const low = Math.round(price * 0.9)
         const high = Math.round(price * 1.15)
 
-        return { totalLow: low, totalHigh: high, totalWeeks: weeks }
+        return { 
+            totalLow: low, 
+            totalHigh: high, 
+            totalWeeks: weeks,
+            selectedTypeObj: typeObj,
+            selectedAddonObjs: addonObjs
+        }
     }, [selectedType, selectedAddons, timelinePreference])
 
     const handleApplyEstimate = () => {
         const typeObj = projectTypes.find(t => t.id === selectedType)
-        const summary = `${typeObj?.title} with ${selectedAddons.length} features (~$${totalLow.toLocaleString()}–$${totalHigh.toLocaleString()})`
+        const summary = `${typeObj?.title} with ${selectedAddons.length} features (~$${totalLow.toLocaleString()}–$${totalHigh.toLocaleString()} CAD)`
         
         if (onSelectEstimate) {
             onSelectEstimate({
@@ -107,6 +130,36 @@ export default function ProjectEstimator({ onSelectEstimate }) {
         }
         
         window.location.hash = '#contact'
+    }
+
+    const handleHandoffToIntake = () => {
+        try {
+            const typeObj = projectTypes.find(t => t.id === selectedType)
+            const budgetStr = totalHigh <= 2500 ? 'Under $2,500' : totalHigh <= 5000 ? '$2,500 – $5,000' : totalHigh <= 10000 ? '$5,000 – $10,000' : '$10,000+'
+            const saved = localStorage.getItem(STORAGE_KEY)
+            let existing = saved ? JSON.parse(saved) : {}
+
+            const featureMap = {
+                booking: 'Online Appointment Booking',
+                'local-seo': 'Google Local SEO & Maps Setup',
+                'intake-forms': 'Client Intake / Onboarding Forms',
+                payments: 'Credit Card / Stripe Payments',
+                seo: 'Google Local SEO & Maps Setup'
+            }
+            const mappedFeatures = selectedAddons.map(a => featureMap[a]).filter(Boolean)
+            const currentFeatures = existing.interactiveFeatures || []
+            const combinedFeatures = Array.from(new Set([...currentFeatures, ...mappedFeatures]))
+
+            existing = {
+                ...existing,
+                budgetRange: budgetStr,
+                interactiveFeatures: combinedFeatures,
+                actionItems: existing.actionItems 
+                    ? `${existing.actionItems}\n• Scope from Estimator: ${typeObj?.title} (~$${totalLow.toLocaleString()}–$${totalHigh.toLocaleString()} CAD, ~${totalWeeks} wks)`
+                    : `• Scope from Estimator: ${typeObj?.title} (~$${totalLow.toLocaleString()}–$${totalHigh.toLocaleString()} CAD, ~${totalWeeks} wks)`
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(existing))
+        } catch { }
     }
 
     return (
@@ -231,8 +284,13 @@ export default function ProjectEstimator({ onSelectEstimate }) {
                         <div className="glass-card p-6 sm:p-8 sticky top-28 border border-primary/20 bg-dark-950/80">
                             <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
                                 <div>
-                                    <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">Estimated Investment</div>
-                                    <div className="text-3xl sm:text-4xl font-extrabold text-white mt-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">Estimated Investment</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/25">
+                                            CAD
+                                        </span>
+                                    </div>
+                                    <div className="text-3xl sm:text-4xl font-extrabold text-white">
                                         ${totalLow.toLocaleString()} <span className="text-xl font-normal text-slate-400">–</span> ${totalHigh.toLocaleString()}
                                     </div>
                                 </div>
@@ -241,7 +299,7 @@ export default function ProjectEstimator({ onSelectEstimate }) {
                                 </div>
                             </div>
 
-                            <div className="space-y-4 mb-8">
+                            <div className="space-y-3 mb-6">
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="flex items-center gap-2 text-slate-300">
                                         <Clock className="w-4 h-4 text-primary-glow" />
@@ -259,16 +317,45 @@ export default function ProjectEstimator({ onSelectEstimate }) {
                                 </div>
                             </div>
 
-                            <button
-                                onClick={handleApplyEstimate}
-                                className="w-full btn-primary flex items-center justify-center gap-2 py-3.5 text-base group"
-                            >
-                                <span>Lock In This Scope</span>
-                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </button>
+                            {/* Itemized Scope Breakdown */}
+                            <div className="py-4 border-y border-white/10 mb-6 space-y-2">
+                                <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                    <Sparkles className="w-3 h-3 text-secondary-glow" />
+                                    <span>Selected Scope Breakdown:</span>
+                                </div>
+                                <div className="flex items-center justify-between text-xs text-slate-200">
+                                    <span className="truncate max-w-[210px]">• {selectedTypeObj?.title}</span>
+                                    <span className="font-mono text-slate-400">${selectedTypeObj?.basePrice.toLocaleString()}</span>
+                                </div>
+                                {selectedAddonObjs.map(addon => (
+                                    <div key={addon.id} className="flex items-center justify-between text-xs text-slate-300">
+                                        <span className="truncate max-w-[210px]">• {addon.label}</span>
+                                        <span className="font-mono text-slate-400">+${addon.price.toLocaleString()}</span>
+                                    </div>
+                                ))}
+                            </div>
 
-                            <p className="text-[11px] text-slate-500 text-center mt-4">
-                                All estimates are transparent ballparks to help you plan. Final quotes are confirmed after discussing your exact goals.
+                            <div className="space-y-2.5">
+                                <button
+                                    onClick={handleApplyEstimate}
+                                    className="w-full btn-primary flex items-center justify-center gap-2 py-3.5 text-sm sm:text-base group shadow-md shadow-primary/20"
+                                >
+                                    <span>Lock In This Scope</span>
+                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </button>
+
+                                <a
+                                    href="#client-intake"
+                                    onClick={handleHandoffToIntake}
+                                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/5 hover:bg-secondary/15 border border-white/10 hover:border-secondary/30 text-xs font-mono text-slate-300 hover:text-white transition-all group"
+                                >
+                                    <ClipboardList className="w-4 h-4 text-secondary-glow" />
+                                    <span>Transfer to Discovery Questionnaire ↗</span>
+                                </a>
+                            </div>
+
+                            <p className="text-[11px] text-slate-500 text-center mt-4 leading-relaxed font-sans">
+                                All quotes in CAD (USD accepted for US clients). Fixed milestone pricing with zero hidden fees confirmed before kickoff.
                             </p>
                         </div>
                     </div>

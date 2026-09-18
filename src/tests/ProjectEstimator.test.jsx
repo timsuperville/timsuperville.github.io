@@ -24,4 +24,10 @@ describe('ProjectEstimator', () => {
         expect(selected).not.toBeNull()
         expect(selected.type).toBe('web-app')
     })
+
+    it('renders Clinic, Practice & Service Hub foundation and discovery transfer action', () => {
+        render(<ProjectEstimator onSelectEstimate={() => {}} />)
+        expect(screen.getByText('Clinic, Practice & Service Hub')).toBeInTheDocument()
+        expect(screen.getByRole('link', { name: /Transfer to Discovery Questionnaire/i })).toHaveAttribute('href', '#client-intake')
+    })
 })
