@@ -32,7 +32,7 @@ export default function HighwaterV2InsuranceFAQ() {
           </div>
 
           <p className="text-xs sm:text-sm text-[#3E5C64] leading-relaxed mb-6">
-            Private therapy is not funded under provincial Alberta Health Services (AHS) medicare. However, most Canadian extended health benefit and employee insurance plans provide reimbursement for clinical counselling provided by practitioners registered with the <strong>Canadian Professional Counsellors Association (CPCA)</strong>. Derek Patten is an MPCC(P) in good standing, and itemized professional receipts with his registration numbers are provided immediately after each session for straightforward claim submission.
+            Private therapy is not funded under provincial Alberta Health Services (AHS) medicare. However, most Canadian extended health benefit and employee insurance plans provide reimbursement for clinical counselling provided by practitioners registered with the <strong>Canadian Professional Counsellors Association (CPCA)</strong>. Derek Patten is an RPC <em>prov.</em> in good standing, and itemized professional receipts with his registration numbers are provided immediately after each session for straightforward claim submission.
           </p>
 
           <div>

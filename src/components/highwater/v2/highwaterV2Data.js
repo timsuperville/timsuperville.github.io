@@ -1,5 +1,5 @@
 // ─── Highwater Counselling Company (Draft 2) Data ─────────────────────────────
-// Authenticated practice information for Derek Patten, MPCC(P).
+// Authenticated practice information for Derek Patten, RPC prov.
 
 export const PRACTICE_META = {
   name: "Highwater Counselling Company",
@@ -12,10 +12,11 @@ export const PRACTICE_META = {
     counsellor: {
       name: "Derek Patten",
       role: "Founder & Clinical Counsellor",
-      credentials: "MPCC(P), Registered with CPCA",
-      credentialsFull: "Master Practitioner in Clinical Counselling (Provisional) — Canadian Professional Counsellors Association",
-      focus: "Practical Tools, Men's Mental Health, Couples & Family Resilience, Postmodern & Values-Based Care",
-      image: "/images/derek-patten.jpg",
+      credentials: "RPC prov., Registered with CPCA",
+      credentialsFull: "Registered Professional Counsellor (Provisional) — Canadian Professional Counsellors Association",
+      focus: "Practical Tools, Men's Mental Health, Couples & Family Resilience, Addictions Support, Postmodern & Values-Based Care",
+      image: "/images/derek-patten-dog.jpg",
+      alternateImage: "/images/derek-patten-coffee.jpg",
       quote: "A space to open up without pressure to perform or pretend. Seeking support is a sign of being human, not a sign of weakness."
     }
   },
@@ -180,7 +181,7 @@ export const INSURANCE_PROVIDERS = [
 export const FAQS_LIST = [
   {
     q: "What are Derek Patten's professional credentials and registration?",
-    a: "Derek Patten is a Master Practitioner in Clinical Counselling (Provisional) — MPCC(P) — registered in good standing with the Canadian Professional Counsellors Association (CPCA). He provides collaborative, evidence-informed clinical counselling adhered to strict Canadian ethical and privacy standards."
+    a: "Derek Patten is a Registered Professional Counsellor (Provisional) — RPC prov. — registered in good standing with the Canadian Professional Counsellors Association (CPCA). He provides collaborative, evidence-informed clinical counselling adhered to strict Canadian ethical and privacy standards."
   },
   {
     q: "Do I need a doctor's referral to book with Derek?",
@@ -188,7 +189,7 @@ export const FAQS_LIST = [
   },
   {
     q: "Are counselling services covered under Alberta Health Services (AHS) or private insurance?",
-    a: "Private counselling is not funded under provincial AHS medicare. However, most Canadian extended health benefit plans and private insurance policies reimburse clinical counselling provided by CPCA-registered practitioners (MPCC/RPC). Detailed official receipts containing Derek's professional registration numbers are issued immediately following every session for seamless submission to your provider."
+    a: "Private counselling is not funded under provincial AHS medicare. However, most Canadian extended health benefit plans and private insurance policies reimburse clinical counselling provided by CPCA-registered practitioners (RPC). Detailed official receipts containing Derek's professional registration numbers are issued immediately following every session for seamless submission to your provider."
   },
   {
     q: "What is Derek's approach, and what can I expect in the first session?",

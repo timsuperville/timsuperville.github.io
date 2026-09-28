@@ -19,7 +19,7 @@ export default function HighwaterV2About() {
 
             <div className="space-y-4 text-sm sm:text-base text-[#3E5C64] leading-relaxed">
               <p>
-                Highwater Counselling Company was founded by <strong>Derek Patten</strong>, MPCC(P), with a singular mission: to provide a grounded, non-clinical environment where real struggles can be examined without pretense. When life feels flooded by challenges—relational breakdowns, burnout, or demanding life transitions—having a safe space to regain your footing makes all the difference.
+                Highwater Counselling Company was founded by <strong>Derek Patten</strong>, RPC <em>prov.</em>, with a singular mission: to provide a grounded, non-clinical environment where real struggles can be examined without pretense. When life feels flooded by challenges—relational breakdowns, burnout, or demanding life transitions—having a safe space to regain your footing makes all the difference.
               </p>
               
               {/* Signature Quote Callout */}
@@ -28,7 +28,7 @@ export default function HighwaterV2About() {
                   “A space to open up without pressure to perform or pretend. Seeking support is a sign of being human, not a sign of weakness.”
                 </p>
                 <span className="block text-xs font-mono font-bold text-[#8F7440] uppercase tracking-wider mt-1.5">
-                  — Derek Patten, MPCC(P) • Founder & Counsellor
+                  — Derek Patten, RPC <em>prov.</em> • Founder & Counsellor
                 </span>
               </div>
 
@@ -84,7 +84,7 @@ export default function HighwaterV2About() {
                 </div>
                 <h3 className="text-xl font-bold text-[#16333B]">Derek Patten</h3>
                 <span className="text-xs font-semibold text-[#3C6E7C] block mb-1">
-                  Master Practitioner in Clinical Counselling (Provisional) — MPCC(P)
+                  Registered Professional Counsellor (Provisional) — RPC <em>prov.</em>
                 </span>
                 <p className="text-xs text-[#4F6C74] mt-1">
                   Specializing in men&apos;s mental health, practical stress resolution, narrative therapy, couples restoration, and family resilience in Wembley, Alberta.

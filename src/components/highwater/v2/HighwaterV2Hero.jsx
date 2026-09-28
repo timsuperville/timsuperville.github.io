@@ -26,7 +26,7 @@ export default function HighwaterV2Hero() {
             </h1>
 
             <p className="text-base sm:text-lg text-[#324F57] leading-relaxed max-w-2xl mb-6">
-              A private therapy practice founded by <strong>Derek Patten</strong>, MPCC(P). Providing practical tools, postmodern narrative guidance, and faith-integrated counselling for men, couples, and families navigating burnout, chronic stress, or relational challenges—available in-office, virtually, and through on-site support.
+              A private therapy practice founded by <strong>Derek Patten</strong>, RPC <em>prov.</em> Providing practical tools and postmodern narrative guidance for men, couples, and families navigating burnout, chronic stress, addictions or relational challenges—available in-office, virtually, and through on-site support.
             </p>
 
             {/* Scriptural Anchor Box (Psalm 61:2) */}
@@ -94,7 +94,7 @@ export default function HighwaterV2Hero() {
                 <div className="overflow-hidden rounded-2xl bg-[#EDF3F5] border border-[#D6E4E7]">
                   <img 
                     src={PRACTICE_META.founders.counsellor.image} 
-                    alt="Derek Patten, MPCC(P) - Clinical Counsellor and Founder of Highwater Counselling Company" 
+                    alt="Derek Patten, RPC prov. - Clinical Counsellor and Founder of Highwater Counselling Company" 
                     className="w-full h-80 sm:h-[350px] object-cover object-top"
                   />
                 </div>
@@ -102,7 +102,7 @@ export default function HighwaterV2Hero() {
                 {/* Grounded Founder Badge (Cleanly positioned below photo to avoid face/collar blockage) */}
                 <div className="mt-3 px-3.5 py-3 rounded-xl bg-[#FAF8F5] border border-[#DCE7E9] flex items-center justify-between">
                   <div>
-                    <strong className="block text-sm sm:text-base font-bold text-[#16333B]">Derek Patten, MPCC(P)</strong>
+                    <strong className="block text-sm sm:text-base font-bold text-[#16333B]">Derek Patten, RPC <em>prov.</em></strong>
                     <span className="text-xs text-[#3C6F7D] font-medium">Founder & Counsellor • CPCA</span>
                   </div>
                   <span className="text-[10px] uppercase font-mono px-2.5 py-1 rounded-md bg-[#E8F2F4] text-[#1E4B56] font-bold border border-[#CCE0E5]">
