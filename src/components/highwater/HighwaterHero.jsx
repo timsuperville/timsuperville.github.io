@@ -1,6 +1,6 @@
 import React from 'react'
 import { Calendar, ArrowRight, ShieldCheck, Heart, MapPin } from 'lucide-react'
-import { PRACTICE_META } from './highwaterV2Data'
+import { PRACTICE_META } from './highwaterData'
 
 export default function HighwaterV2Hero() {
   return (
@@ -17,7 +17,7 @@ export default function HighwaterV2Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Empathy-First Narrative & Scriptural Anchor */}
-          <div className="lg:col-span-7 text-left">
+          <div className="lg:col-span-7 flex flex-col items-center sm:text-center lg:text-left">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#16333B] leading-[1.12] mb-6">
               When Life’s Waters Rise, <br />
               <span className="font-serif italic font-normal text-[#275966]">
@@ -103,11 +103,8 @@ export default function HighwaterV2Hero() {
                 <div className="mt-3 px-3.5 py-3 rounded-xl bg-[#FAF8F5] border border-[#DCE7E9] flex items-center justify-between">
                   <div>
                     <strong className="block text-sm sm:text-base font-bold text-[#16333B]">Derek Patten, RPC <em>prov.</em></strong>
-                    <span className="text-xs text-[#3C6F7D] font-medium">Founder & Counsellor • CPCA</span>
+                    <span className="text-xs text-[#3C6F7D] font-medium">Founder & Counsellor</span>
                   </div>
-                  <span className="text-[10px] uppercase font-mono px-2.5 py-1 rounded-md bg-[#E8F2F4] text-[#1E4B56] font-bold border border-[#CCE0E5]">
-                    Wembley, AB
-                  </span>
                 </div>
               </div>
 

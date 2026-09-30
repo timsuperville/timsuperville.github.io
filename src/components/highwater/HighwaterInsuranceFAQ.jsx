@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, ShieldCheck } from 'lucide-react'
-import { INSURANCE_PROVIDERS, FAQS_LIST } from './highwaterV2Data'
+import { INSURANCE_PROVIDERS, FAQS_LIST } from './highwaterData'
 
 export default function HighwaterV2InsuranceFAQ() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null)

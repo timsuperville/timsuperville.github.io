@@ -1,6 +1,6 @@
 import React from 'react'
 import { ShieldCheck, HeartHandshake, Compass } from 'lucide-react'
-import { JOURNEY_STEPS } from './highwaterV2Data'
+import { JOURNEY_STEPS } from './highwaterData'
 
 const STEP_ICONS = {
   shield: ShieldCheck,

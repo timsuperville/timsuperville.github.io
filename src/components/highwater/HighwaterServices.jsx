@@ -1,10 +1,9 @@
 import React from 'react'
-import { Calendar, ArrowRight, Compass, Anchor, Layers, Users, LifeBuoy, Building2 } from 'lucide-react'
-import { SERVICES_LIST } from './highwaterV2Data'
+import { Calendar, ArrowRight, Compass, Layers, Users, LifeBuoy, Building2 } from 'lucide-react'
+import { SERVICES_LIST } from './highwaterData'
 
 const SERVICE_ICONS = {
   'mens-health': Compass,
-  'faith-values': Anchor,
   'postmodern-narrative': Layers,
   'couples-relationship': Users,
   'family-addiction': LifeBuoy,

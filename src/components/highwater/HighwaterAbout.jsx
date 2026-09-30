@@ -35,9 +35,6 @@ export default function HighwaterV2About() {
               <p>
                 Derek&apos;s counselling style is straightforward, judgment-free, and client-centred. Rather than simply offering a passive sympathetic ear, his practice focuses on <strong>actionable, practical tools</strong> that equip you for the real-world demands of daily life, work stress, and the silent weight of providing for a family.
               </p>
-              <p>
-                Working through a <em>postmodern and narrative framework</em>, Derek believes you are the foremost expert in your own lived experience. For clients who value their Christian faith or spiritual convictions, our <em>Faith & Values-Based Counselling</em> honors your worldview as an enduring foundation for resilience and renewal.
-              </p>
             </div>
 
             {/* Practice Pillars */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, ExternalLink, Check, Mail, PhoneCall } from 'lucide-react'
-import { PRACTICE_META } from './highwaterV2Data'
+import { PRACTICE_META } from './highwaterData'
 
 export default function HighwaterV2Booking() {
   const [inquirySubmitted, setInquirySubmitted] = useState(false)
@@ -9,7 +9,7 @@ export default function HighwaterV2Booking() {
     name: '',
     email: '',
     phone: '',
-    interest: 'Faith & Values-Based Counselling',
+    interest: '',
     format: 'In-Person (Wembley, AB)',
     message: ''
   })
@@ -213,7 +213,7 @@ export default function HighwaterV2Booking() {
             <PhoneCall className="w-5 h-5 text-[#9C7F48] flex-shrink-0 mt-0.5 sm:mt-0" />
             <div>
               <strong className="block text-[#433722]">Emergency & Regional Crisis Resources:</strong>
-              <span className="text-[#68563A]">If you are in immediate crisis or experiencing thoughts of self-harm, please reach out right away.</span>
+              <span className="text-[#68563A]">If you are in immediate mental health crisis or experiencing thoughts of self-harm, please reach out to a crisis line or emergency services right away.</span>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-semibold text-[#8C6D33] w-full md:w-auto">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Calendar, Menu, X } from 'lucide-react'
-import HighwaterLogo from '../HighwaterLogo'
+import HighwaterLogo from './HighwaterLogo'
 
 export default function HighwaterV2Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -34,34 +34,14 @@ export default function HighwaterV2Nav() {
         aria-label="Client Draft Preview Banner" 
         className="bg-[#1C363D] text-xs text-slate-100 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-sm border-b border-[#284952]"
       >
-        <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#D4E8EC] text-[#14323A] font-bold uppercase text-[10px] tracking-wider">
-            Draft 2 Active
-          </span>
-          <span className="text-slate-200">
-            <strong>Highwater Counselling Company</strong> — Derek Patten (Wembley, AB)
-          </span>
-        </div>
 
         {/* Live Draft Switcher Pills */}
         <div className="flex items-center gap-2">
-          <span className="text-slate-400 text-[11px] hidden sm:inline">Compare Concept:</span>
-          <div className="inline-flex rounded-lg bg-[#142A30] p-0.5 border border-[#2B4B54] text-xs">
-            <a 
-              href="#highwater" 
-              className="px-2.5 py-1 rounded-md text-slate-300 hover:text-white transition-colors"
-            >
-              Draft 1 (Linen Classic)
-            </a>
-            <span className="px-2.5 py-1 rounded-md bg-[#254C57] text-white font-semibold shadow-xs">
-              Draft 2 (Alpine Haven)
-            </span>
-          </div>
           <a 
-            href="#client-intake" 
+            href="/" 
             className="text-[#B5DBE4] hover:text-white underline underline-offset-2 ml-2 text-[11px]"
           >
-            Intake Hub
+            Exit
           </a>
         </div>
       </aside>

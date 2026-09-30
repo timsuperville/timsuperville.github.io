@@ -17,7 +17,6 @@ import Resume from './components/Resume'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import ClientIntake from './components/ClientIntake'
 import HighwaterDraft from './components/highwater/HighwaterDraft'
-import HighwaterDraftV2 from './components/highwater/v2/HighwaterDraftV2'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
 import CommandPalette from './components/CommandPalette'
@@ -150,7 +149,7 @@ function AppContent() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <HighwaterDraftV2 />
+                <HighwaterDraft />
               </motion.div>
             )}
 

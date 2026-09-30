@@ -105,15 +105,15 @@ export const SELECTOR_OPTIONS = [
     recommendedService: "Family & Youth Addiction Support",
     sessionFormat: "Individual or family consultation"
   },
-  {
-    id: "faith-values",
-    label: "I Want My Faith & Worldview Integrated",
-    category: "Faith & Values",
-    quote: "Your spiritual convictions are not an afterthought; they are an enduring source of strength and renewal.",
-    approach: "Derek provides grounded biblical and values-aligned therapy that respects your faith journey, without pretense or judgment.",
-    recommendedService: "Faith & Values-Based Counselling",
-    sessionFormat: "Individual or couples session"
-  }
+  // {
+  //   id: "faith-values",
+  //   label: "I Want My Faith & Worldview Integrated",
+  //   category: "Faith & Values",
+  //   quote: "Your spiritual convictions are not an afterthought; they are an enduring source of strength and renewal.",
+  //   approach: "Derek provides grounded biblical and values-aligned therapy that respects your faith journey, without pretense or judgment.",
+  //   recommendedService: "Faith & Values-Based Counselling",
+  //   sessionFormat: "Individual or couples session"
+  // }
 ]
 
 // ─── Core Services (6 Offerings) ──────────────────────────────────────────────
@@ -125,14 +125,6 @@ export const SERVICES_LIST = [
     description: "A candid, practical space to confront burnout, occupational stress, anxiety, fatherhood, and relationship strain without the pressure to perform or pretend.",
     target: "Men in demanding careers, leadership, and family life seeking practical tools",
     tags: ["No Posturing", "Stress & Burnout", "Actionable Tools", "Fatherhood"]
-  },
-  {
-    id: "faith-values",
-    subtitle: "Spiritual Integration",
-    title: "Faith & Values-Based Counselling",
-    description: "Anchoring clinical practice in personal worldview. We honor spiritual convictions as vital foundations for healing, meaning, and emotional renewal.",
-    target: "Individuals, couples, and leaders desiring values-aligned guidance",
-    tags: ["Biblical Grounding", "Worldview Alignment", "Spiritual Resilience"]
   },
   {
     id: "postmodern-narrative",
@@ -184,12 +176,12 @@ export const FAQS_LIST = [
     a: "Derek Patten is a Registered Professional Counsellor (Provisional) — RPC prov. — registered in good standing with the Canadian Professional Counsellors Association (CPCA). He provides collaborative, evidence-informed clinical counselling adhered to strict Canadian ethical and privacy standards."
   },
   {
-    q: "Do I need a doctor's referral to book with Derek?",
-    a: "No referral is required. Highwater Counselling operates as an independent private practice; you, your partner, or your family can self-refer and schedule directly online at your convenience."
-  },
-  {
     q: "Are counselling services covered under Alberta Health Services (AHS) or private insurance?",
     a: "Private counselling is not funded under provincial AHS medicare. However, most Canadian extended health benefit plans and private insurance policies reimburse clinical counselling provided by CPCA-registered practitioners (RPC). Detailed official receipts containing Derek's professional registration numbers are issued immediately following every session for seamless submission to your provider."
+  },
+  {
+    q: "Do I need a doctor's referral to book with Derek?",
+    a: "No referral is required. Highwater Counselling operates as an independent private practice; you, your partner, or your family can self-refer and schedule directly online at your convenience."
   },
   {
     q: "What is Derek's approach, and what can I expect in the first session?",

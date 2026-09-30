@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Calendar, Check } from 'lucide-react'
-import { SELECTOR_OPTIONS } from './highwaterV2Data'
+import { SELECTOR_OPTIONS } from './highwaterData'
 
 export default function HighwaterV2Selector() {
   const [activeOptionId, setActiveOptionId] = useState(SELECTOR_OPTIONS[0].id)
