@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "smoke": "node ./scripts/smoke-check.js",
+    "deploy:cloudflare": "node scripts/deploy_to_cloudflare.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint ."

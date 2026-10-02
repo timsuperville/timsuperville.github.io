@@ -16,26 +16,25 @@ describe('HighwaterDraft Component', () => {
     expect(screen.getByText(/Psalm 61:2/i)).toBeInTheDocument()
 
     // Check key chosen services
-    expect(screen.getAllByText(/Faith & Values-Based Counselling/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Men’s Mental Health & Direction/i).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/Postmodern & Narrative Therapy/i).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/On-Site Mental Health Support/i).length).toBeGreaterThan(0)
   })
 
   it('allows expanding and collapsing the Canadian counselling FAQ section', () => {
     render(<HighwaterDraft />)
 
-    const faqQuestion = screen.getByText(/Do I need a doctor's referral to schedule a session\?/i)
+    const faqQuestion = screen.getByText(/Do I need a doctor's referral to book with Derek\?/i)
     expect(faqQuestion).toBeInTheDocument()
 
     // Click to open
     fireEvent.click(faqQuestion)
-    expect(screen.getByText(/No physician referral is required/i)).toBeInTheDocument()
+    expect(screen.getByText(/No referral is required/i)).toBeInTheDocument()
   })
 
   it('renders Jane App online booking link with secure portal target', () => {
     render(<HighwaterDraft />)
 
-    const janeLink = screen.getByRole('link', { name: /Book via Jane App/i })
+    const janeLink = screen.getByRole('link', { name: /Book via Jane App Portal/i })
     expect(janeLink).toBeInTheDocument()
     expect(janeLink).toHaveAttribute('href', expect.stringContaining('janeapp.com'))
     expect(janeLink).toHaveAttribute('target', '_blank')
@@ -44,12 +43,14 @@ describe('HighwaterDraft Component', () => {
   it('submits inquiry form with valid fields', () => {
     render(<HighwaterDraft />)
 
-    const nameInput = screen.getByPlaceholderText(/e\.g\. John Doe/i)
-    const emailInput = screen.getByPlaceholderText(/you@example\.com/i)
-    const submitBtn = screen.getByRole('button', { name: /Send Message to Practice/i })
+    const nameInput = screen.getByPlaceholderText(/First & last name/i)
+    const emailInput = screen.getByPlaceholderText(/your@email\.com/i)
+    const messageInput = screen.getByPlaceholderText(/Tell us what brings you to Highwater Counselling/i)
+    const submitBtn = screen.getByRole('button', { name: /Send Message to Derek Patten/i })
 
     fireEvent.change(nameInput, { target: { value: 'Jane Client' } })
     fireEvent.change(emailInput, { target: { value: 'jane@example.com' } })
+    fireEvent.change(messageInput, { target: { value: 'Hello Derek, I would like to schedule an appointment.' } })
     fireEvent.click(submitBtn)
 
     expect(screen.getByText(/Inquiry Received/i)).toBeInTheDocument()

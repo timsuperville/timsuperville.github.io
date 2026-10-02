@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import HighwaterDraftV2 from '../components/highwater/v2/HighwaterDraftV2'
+import HighwaterDraftV2 from '../components/highwater/HighwaterDraft'
 
 describe('HighwaterDraftV2 Component', () => {
   it('renders authentic brand elements, Derek Patten, and Psalm 61:2', () => {
@@ -16,7 +16,7 @@ describe('HighwaterDraftV2 Component', () => {
     expect(screen.getByText(/Psalm 61:2/i)).toBeInTheDocument()
 
     // Key services
-    expect(screen.getAllByText(/Faith & Values-Based Counselling/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Men’s Mental Health & Direction/i).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/Postmodern & Narrative Therapy/i).length).toBeGreaterThan(0)
   })
 

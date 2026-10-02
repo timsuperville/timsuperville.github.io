@@ -44,7 +44,14 @@ There is a small dev-only overlay that captures calls to `trackEvent` into `wind
 
 ## CI / Deployment
 
-The GitHub Actions workflow installs devDependencies to ensure Tailwind/PostCSS are present before building. The workflow publishes `docs/` to GitHub Pages.
+- **Cloudflare Pages Deployment**:
+  ```bash
+  npm run deploy:cloudflare
+  ```
+  Deploys the static production bundle to Cloudflare Pages project `timsuperville-portfolio`, attaches `tsuperville.com` and `www.tsuperville.com`, and synchronizes DNS CNAME records.
+
+- **GitHub Pages (Legacy / Backup)**:
+  The GitHub Actions workflow publishes `docs/` to GitHub Pages.
 
 ## Next steps you can take
 
