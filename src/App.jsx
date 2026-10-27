@@ -33,6 +33,23 @@ function AppContent() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const [estimateData, setEstimateData] = useState(null)
 
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('billing') === 'success') {
+      setToast({
+        type: 'success',
+        message: 'Payment confirmed! Highwater Counselling hosting & maintenance is now active.'
+      })
+      window.history.replaceState({}, document.title, window.location.pathname)
+    } else if (params.get('billing') === 'cancelled') {
+      setToast({
+        type: 'info',
+        message: 'Billing checkout was cancelled. You can resume at any time.'
+      })
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+  }, [setToast])
+
   const handleCycleAccent = () => {
     const next = cycleAccent()
     setToast({ type: 'success', message: `Theme accent switched to ${next.toUpperCase()}!` })
