@@ -67,6 +67,7 @@ function check(tool, ti) {
     [/\b(cat|type|less|more|head|tail|bat|Get-Content|gc)\b[^|;&]*(^|[\s'"/\\])\.env(\.local|\.[\w-]+\.local)?(?=$|[\s'"])/i, 'Printing .env files would expose secrets to the transcript.'],
     [/\b(cat|type|Get-Content)\b[^|;&]*\.(key|pem)\b/i, 'Printing key files would expose secrets.'],
     [/\bterraform\b[^|;&]*\bdestroy\b/, 'terraform destroy is never run by the agent.'],
+    [/\bgit(\s+-[cC]\s+("[^"]*"|'[^']*'|\S+))*\s+worktree\s+remove\b/, 'On Windows, git worktree remove follows node_modules links and can empty the linked repo (it wiped uni-manager-shared). Use: node <workspace>/.claude/scripts/remove-worktree.mjs <path>'],
   ];
   for (const [re, reason] of deny) if (re.test(c)) return { decision: 'deny', reason };
 
@@ -86,6 +87,17 @@ function check(tool, ti) {
     [/\bstripe\b[^|;&]*\b(post|delete|trigger)\b|api\.stripe\.com/i, 'Stripe mutation — confirm and prefer test mode.'],
     [/\b(mongosh|mongo)\b|deleteMany\(\s*\{\s*\}\s*\)|dropDatabase|drop\(\)/, 'Direct database operation — confirm environment and scope.'],
   ];
-  for (const [re, reason] of ask) if (re.test(c)) return { decision: 'ask', reason };
+  // Autonomy policy (CLAUDE.md, 2026-10-31): a plain push of a named feature/*
+  // branch is pre-approved. Force, delete, main/master and bare `git push` still ask.
+  const isFeaturePush =
+    /\bgit\b[^|;&]*\bpush\b/.test(c) &&
+    /\bfeature\/[\w./-]+/.test(c) &&
+    !/\b(main|master)\b/.test(c) &&
+    !/(--force|--delete|\s-[a-z]*[fd]\b|\s\+\S|\s:\S)/.test(c);
+
+  for (const [re, reason] of ask) {
+    if (isFeaturePush && reason === 'Confirm git push.') continue;
+    if (re.test(c)) return { decision: 'ask', reason };
+  }
   return null;
 }
